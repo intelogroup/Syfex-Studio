@@ -60,7 +60,7 @@ export const Navbar = () => {
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-xl font-bold hover:gradient-text transition-colors duration-200"
+              className="text-xl font-bold gradient-text transition-colors duration-200"
               whileHover={{ scale: 1.1 }}
               onClick={(e) => {
                 if (link.href.startsWith('#')) {
