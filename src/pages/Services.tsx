@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Code, Palette, Laptop, CheckCircle2, ArrowRight, Layers, PenTool, Globe, Cpu, Smartphone, ShieldCheck, Headphones } from "lucide-react";
+import { Code, Palette, Laptop, CheckCircle2, ArrowRight, Layers, PenTool, Globe, Cpu, Smartphone, ShieldCheck, Headphones, Users } from "lucide-react";
 import { useState } from "react";
 
 const Services = () => {
