@@ -46,7 +46,12 @@ export const Navbar = () => {
       transition={{ duration: 0.3 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-background/80 backdrop-blur-sm"
+      style={{
+        background: isHovered 
+          ? `radial-gradient(circle 100px at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.1), transparent 100%)`
+          : 'transparent'
+      }}
+      className="fixed top-0 left-0 w-full z-50 px-6 py-4 backdrop-blur-sm"
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-center">
         <div className="flex items-center space-x-12">
