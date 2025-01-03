@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Calendar, Upload } from "lucide-react";
 
 export const ContactSection = () => {
   return (
@@ -22,6 +23,15 @@ export const ContactSection = () => {
             Ready to bring your vision to life? We're here to help transform your ideas into reality. 
             Tell us about your project, and let's create something amazing together.
           </p>
+          <Button 
+            variant="secondary" 
+            size="lg"
+            className="mt-4"
+            onClick={() => window.open('https://calendly.com', '_blank')}
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            Book a Discovery Call
+          </Button>
         </motion.div>
         
         <motion.div
@@ -91,6 +101,24 @@ export const ContactSection = () => {
                     placeholder="Tell us about your project goals, requirements, and timeline..." 
                     className="bg-muted/50 border-primary/10 focus:border-primary/30 min-h-[150px]"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">Project Files (Optional)</label>
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-primary/10 bg-muted/50 hover:bg-muted/70 transition-colors">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-8 h-8 mb-3 text-muted-foreground" />
+                        <p className="mb-2 text-sm text-muted-foreground">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          PDF, DOC, Images (MAX. 10MB)
+                        </p>
+                      </div>
+                      <input type="file" className="hidden" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" />
+                    </label>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

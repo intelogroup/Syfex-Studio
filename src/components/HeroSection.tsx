@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Calendar } from "lucide-react";
 
 export const HeroSection = () => {
   return (
@@ -33,6 +34,13 @@ export const HeroSection = () => {
           >
             Start Your Project
           </a>
+          <button
+            onClick={() => window.open('https://calendly.com', '_blank')}
+            className="inline-flex items-center px-8 py-3 rounded-full bg-secondary/80 text-secondary-foreground hover:bg-secondary/60 transition-colors text-lg font-medium"
+          >
+            <Calendar className="mr-2 h-5 w-5" />
+            Book a Call
+          </button>
         </motion.div>
       </div>
     </section>
