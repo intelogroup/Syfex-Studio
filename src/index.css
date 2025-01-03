@@ -64,7 +64,7 @@
   mask-composite: exclude;
   background-size: 200% auto;
   animation: gradient 8s linear infinite;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 @keyframes gradient {
