@@ -2,6 +2,7 @@ import { Code, Palette, Laptop, CheckCircle2, ArrowRight, Layers, PenTool, Globe
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
 
 export const ServicesSection = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -62,6 +63,11 @@ export const ServicesSection = () => {
       secondaryIcon: Cpu,
     },
   ];
+
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="services" className="py-32 relative overflow-hidden">
@@ -133,6 +139,16 @@ export const ServicesSection = () => {
                           ))}
                         </ul>
                       </div>
+                      <Button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToContact();
+                        }}
+                        className="w-full mt-4"
+                        variant="secondary"
+                      >
+                        Request Service
+                      </Button>
                     </div>
                   </motion.div>
                 </CardContent>
