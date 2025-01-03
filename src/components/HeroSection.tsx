@@ -29,7 +29,7 @@ export const HeroSection = () => {
         >
           <a 
             href="#contact" 
-            className="inline-flex items-center px-8 py-3 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition-all text-lg font-medium"
+            className="inline-flex items-center px-8 py-3 rounded-full bg-[#1A1F2C] text-primary-foreground hover:bg-[#2A2F3C] transition-all text-lg font-medium"
           >
             Start Your Project
           </a>
