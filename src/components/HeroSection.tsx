@@ -32,7 +32,7 @@ export const HeroSection = () => {
             href="#contact" 
             className="inline-flex items-center px-8 py-3 rounded-full bg-background border-2 border-primary/20 gradient-border-new text-primary-foreground hover:bg-accent/10 transition-colors text-lg font-medium relative overflow-hidden group"
           >
-            Start Your Project
+            <span className="gradient-text">Start Your Project</span>
           </a>
           <button
             onClick={() => window.open('https://calendly.com', '_blank')}
