@@ -1,22 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY <= lastScrollY || currentScrollY < 100);
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  const lightSize = 150; // Adjustable light radius in pixels
 
   useEffect(() => {
     const nav = navRef.current;
@@ -27,33 +14,40 @@ export const Navbar = () => {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      nav.style.setProperty('--cursor-x', `${x}px`);
-      nav.style.setProperty('--cursor-y', `${y}px`);
+      // Update CSS custom properties for the light position
+      nav.style.setProperty('--light-x', `${x}px`);
+      nav.style.setProperty('--light-y', `${y}px`);
+    };
+
+    const handleMouseLeave = () => {
+      // Move light off-screen when mouse leaves
+      nav.style.setProperty('--light-x', '-999px');
+      nav.style.setProperty('--light-y', '-999px');
     };
 
     nav.addEventListener('mousemove', handleMouseMove);
-    return () => nav.removeEventListener('mousemove', handleMouseMove);
+    nav.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      nav.removeEventListener('mousemove', handleMouseMove);
+      nav.removeEventListener('mouseleave', handleMouseLeave);
+    };
   }, []);
 
   return (
     <motion.div
       ref={navRef}
       initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: isVisible ? (isHovered ? 1 : 0) : 0, 
-        y: isVisible ? 0 : -100 
-      }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="fixed top-0 left-0 w-full z-50 px-6 py-4"
       style={{
-        background: isHovered 
-          ? `radial-gradient(circle 100px at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.1), transparent 100%)`
-          : 'transparent'
-      }}
-      className="fixed top-0 left-0 w-full z-50 px-6 py-4 backdrop-blur-sm"
+        '--light-size': `${lightSize}px`,
+        maskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
+        WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
+      } as React.CSSProperties}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-center">
+      <nav className="max-w-7xl mx-auto flex items-center justify-center backdrop-blur-sm">
         <div className="flex items-center space-x-12">
           {[
             { href: "/", label: "Home" },
