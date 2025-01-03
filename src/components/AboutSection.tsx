@@ -39,35 +39,9 @@ export const AboutSection = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-6">About Us</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            We are a passionate team of creators, innovators, and problem solvers dedicated to crafting exceptional digital experiences.
+            We are a passionate team dedicated to crafting exceptional digital experiences.
           </p>
         </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-3xl font-bold gradient-text mb-4">Our Story</h3>
-            <p className="text-muted-foreground">
-              Founded with a vision to transform digital landscapes, we've grown into a dynamic studio that combines creativity with technical excellence. Our journey is marked by continuous innovation and a commitment to delivering exceptional results.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-3xl font-bold gradient-text mb-4">Our Mission</h3>
-            <p className="text-muted-foreground">
-              To empower businesses through innovative digital solutions that drive growth, enhance user experience, and create lasting impact. We strive to be at the forefront of technological advancement while maintaining our commitment to quality and client satisfaction.
-            </p>
-          </motion.div>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
