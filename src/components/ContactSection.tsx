@@ -49,7 +49,7 @@ export const ContactSection = () => {
                   placeholder="Tell us about your project" 
                   className="bg-muted/50 border-primary/10 focus:border-primary/30 min-h-[150px]"
                 />
-                <Button className="w-full bg-primary hover:opacity-90 text-primary-foreground">
+                <Button className="w-full bg-[#1A1F2C] hover:bg-[#2A2F3C] text-primary-foreground">
                   Send Message
                 </Button>
               </form>
