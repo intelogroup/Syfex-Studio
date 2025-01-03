@@ -32,26 +32,21 @@ export const Navbar = () => {
         WebkitMaskImage: 'radial-gradient(circle 100px at var(--cursor-x, 0) var(--cursor-y, 0), black 20%, transparent 80%)'
       }}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        <motion.a
-          href="/"
-          className="text-2xl font-bold gradient-text"
-          whileHover={{ scale: 1.05 }}
-        >
-          Syfex Studio
-        </motion.a>
-        
-        <div className="flex items-center space-x-8">
+      <nav className="max-w-7xl mx-auto flex items-center justify-center">
+        <div className="flex items-center space-x-12">
           {[
             { href: "#", label: "Home" },
+            { href: "#about", label: "About" },
             { href: "#services", label: "Services" },
             { href: "#projects", label: "Projects" },
+            { href: "#portfolio", label: "Portfolio" },
+            { href: "#blog", label: "Blog" },
             { href: "#contact", label: "Contact" }
           ].map((link) => (
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-foreground/90 hover:text-primary transition-colors duration-200"
+              className="text-xl font-bold text-foreground/90 hover:text-primary transition-colors duration-200"
               whileHover={{ scale: 1.1 }}
             >
               {link.label}
