@@ -30,7 +30,7 @@ export const HeroSection = () => {
         >
           <a 
             href="#contact" 
-            className="inline-flex items-center px-8 py-3 rounded-full bg-primary/80 text-primary-foreground hover:bg-primary/60 transition-colors text-lg font-medium"
+            className="inline-flex items-center px-8 py-3 rounded-full bg-transparent border-2 border-transparent gradient-border text-primary-foreground hover:border-opacity-80 transition-colors text-lg font-medium relative overflow-hidden group"
           >
             Start Your Project
           </a>
