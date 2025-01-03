@@ -40,7 +40,7 @@ export const Navbar = () => {
       ref={navRef}
       initial={{ opacity: 0 }}
       animate={{ 
-        opacity: isVisible ? (isHovered ? 1 : 0.1) : 0, 
+        opacity: isVisible ? (isHovered ? 1 : 0) : 0, 
         y: isVisible ? 0 : -100 
       }}
       transition={{ duration: 0.3 }}
@@ -61,7 +61,7 @@ export const Navbar = () => {
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-xl font-bold text-foreground/90 hover:text-primary transition-colors duration-200"
+              className="text-xl font-bold hover:gradient-text transition-colors duration-200"
               whileHover={{ scale: 1.1 }}
               onClick={(e) => {
                 if (link.href.startsWith('#')) {
