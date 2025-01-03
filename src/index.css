@@ -43,28 +43,34 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
 }
 
-.gradient-border {
+.gradient-border-new {
   position: relative;
-  border: none;
 }
 
-.gradient-border::before {
+.gradient-border-new::before {
   content: '';
   position: absolute;
-  inset: -3px;
-  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--primary)));
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
   border-radius: 9999px;
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  background-size: 200% auto;
-  animation: gradient 8s linear infinite;
+  z-index: -1;
   opacity: 1;
+  animation: gradient 8s linear infinite;
+}
+
+.gradient-border-new::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  background: hsl(var(--background));
+  border-radius: 9999px;
+  z-index: -1;
 }
 
 @keyframes gradient {
