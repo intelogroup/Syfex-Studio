@@ -1,8 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsVisible(currentScrollY <= lastScrollY || currentScrollY < 100);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   useEffect(() => {
     const nav = navRef.current;
@@ -25,7 +38,8 @@ export const Navbar = () => {
     <motion.div
       ref={navRef}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -100 }}
+      transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-transparent"
       style={{
         maskImage: 'radial-gradient(circle 100px at var(--cursor-x, 0) var(--cursor-y, 0), black 20%, transparent 80%)',
@@ -35,9 +49,9 @@ export const Navbar = () => {
       <nav className="max-w-7xl mx-auto flex items-center justify-center">
         <div className="flex items-center space-x-12">
           {[
-            { href: "#", label: "Home" },
-            { href: "#about", label: "About" },
-            { href: "#services", label: "Services" },
+            { href: "/", label: "Home" },
+            { href: "/about", label: "About" },
+            { href: "/services", label: "Services" },
             { href: "#projects", label: "Projects" },
             { href: "#portfolio", label: "Portfolio" },
             { href: "#blog", label: "Blog" },
