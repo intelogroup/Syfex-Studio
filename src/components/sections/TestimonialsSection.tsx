@@ -1,39 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { LoadingSpinner } from "../ui/loading-spinner";
+import { AlertCircle, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Users, Star, Quote, AlertCircle, RefreshCw } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/hooks/use-toast";
-
-const TestimonialSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {[1, 2, 3, 4].map((item) => (
-      <Card key={item} className="h-full bg-black/40 backdrop-blur-sm border-primary/10">
-        <CardContent className="p-6">
-          <div className="flex justify-between items-start mb-4">
-            <Skeleton className="w-10 h-10 rounded" />
-            <Skeleton className="w-24 h-5" />
-          </div>
-          <Skeleton className="h-20 w-full mb-6" />
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div>
-                <Skeleton className="h-5 w-32 mb-2" />
-                <Skeleton className="h-4 w-24" />
-              </div>
-            </div>
-            <Skeleton className="w-6 h-6" />
-          </div>
-        </CardContent>
-      </Card>
-    ))}
-  </div>
-);
+import { TestimonialCard } from "../testimonials/TestimonialCard";
+import { TestimonialSkeleton } from "../testimonials/TestimonialSkeleton";
 
 export const TestimonialsSection = () => {
   const { data: testimonials, isLoading, error, refetch } = useQuery({
@@ -134,47 +106,11 @@ export const TestimonialsSection = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials?.map((testimonial, index) => (
-              <motion.div
+              <TestimonialCard 
                 key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="h-full bg-black/40 backdrop-blur-sm border-primary/10 hover:border-primary/30 transition-all duration-300 group">
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <Quote className="w-10 h-10 text-primary opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="flex">
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-5 h-5 text-yellow-500 fill-yellow-500"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground mb-6 italic">"{testimonial.feedback}"</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-12 w-12 border-2 border-primary/20">
-                          <AvatarImage 
-                            src={testimonial.avatar} 
-                            alt={`${testimonial.name}'s profile picture`}
-                            loading="lazy"
-                          />
-                          <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <h3 className="font-semibold text-lg">{testimonial.name}</h3>
-                          <p className="text-sm text-muted-foreground">{testimonial.position}</p>
-                        </div>
-                      </div>
-                      <Users className="w-6 h-6 text-secondary/60" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                testimonial={testimonial}
+                index={index}
+              />
             ))}
           </div>
         )}
