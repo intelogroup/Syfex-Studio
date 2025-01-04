@@ -15,9 +15,9 @@ export const ExpertiseList = ({ content, onSave, onDelete }: ExpertiseListProps)
         if (!item?.id) return null;
         
         const metadata = item.metadata || {};
-        const tech = metadata.tech || [];
+        const tech = Array.isArray(metadata.tech) ? metadata.tech : [];
         const details = metadata.details || {};
-        const benefits = details.benefits || [];
+        const benefits = Array.isArray(details.benefits) ? details.benefits : [];
         
         return (
           <Card key={item.id}>

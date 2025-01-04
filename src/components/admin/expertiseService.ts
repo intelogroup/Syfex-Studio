@@ -20,10 +20,13 @@ export const createExpertise = async () => {
         }
       }
     })
-    .select()
+    .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error('Create expertise error:', error);
+    throw error;
+  }
   return data;
 };
 
@@ -45,7 +48,10 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
     })
     .eq('id', id);
 
-  if (error) throw error;
+  if (error) {
+    console.error('Update expertise error:', error);
+    throw error;
+  }
 };
 
 export const deleteExpertise = async (id: string) => {
@@ -54,5 +60,8 @@ export const deleteExpertise = async (id: string) => {
     .delete()
     .eq('id', id);
 
-  if (error) throw error;
+  if (error) {
+    console.error('Delete expertise error:', error);
+    throw error;
+  }
 };

@@ -12,7 +12,10 @@ export const useContent = (type: string, locale: string = 'en') => {
         .eq('type', type)
         .eq('locale', locale);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Content fetch error:', error);
+        throw error;
+      }
       return data;
     },
   });
@@ -26,7 +29,7 @@ export const useContentMutation = () => {
       const { data, error } = await supabase
         .from('content')
         .upsert({ id, ...content })
-        .select()
+        .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
         .single();
 
       if (error) throw error;
@@ -40,6 +43,7 @@ export const useContentMutation = () => {
       });
     },
     onError: (error: any) => {
+      console.error('Content mutation error:', error);
       toast({
         variant: "destructive",
         title: "Error",
