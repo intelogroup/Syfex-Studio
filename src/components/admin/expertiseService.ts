@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ExpertiseItem } from "../expertise/types";
 
 export const createExpertise = async () => {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('content')
     .insert({
       type: 'expertise',
@@ -18,11 +18,12 @@ export const createExpertise = async () => {
           image: '/placeholder.svg'
         }
       }
-    });
+    })
+    .select()
+    .single();
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
+  return data;
 };
 
 export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) => {
@@ -41,9 +42,12 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
         }
       }
     })
-    .eq('id', id);
+    .eq('id', id)
+    .select()
+    .single();
 
   if (error) {
+    console.error('Update error:', error);
     throw error;
   }
 };
@@ -52,9 +56,12 @@ export const deleteExpertise = async (id: string) => {
   const { error } = await supabase
     .from('content')
     .delete()
-    .eq('id', id);
+    .eq('id', id)
+    .select()
+    .single();
 
   if (error) {
+    console.error('Delete error:', error);
     throw error;
   }
 };
