@@ -1,15 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../ui/loading-spinner";
-import { toast } from "@/hooks/use-toast";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const PortfolioSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {[1, 2].map((item) => (
+      <div key={item} className="bg-black/40 rounded-lg overflow-hidden">
+        <Skeleton className="w-full h-48" />
+        <div className="p-4">
+          <Skeleton className="h-6 w-3/4 mb-2" />
+          <Skeleton className="h-4 w-1/2" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export const PortfolioSection = () => {
   const { data: portfolioItems, isLoading, error, refetch } = useQuery({
     queryKey: ['portfolio'],
     queryFn: async () => {
-      // Simulated API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       return [
         {
@@ -54,14 +67,22 @@ export const PortfolioSection = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-background to-background" />
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {isLoading ? (
-          <LoadingSpinner />
+          <>
+            <h2 className="text-4xl font-bold gradient-text mb-6">Our Portfolio</h2>
+            <PortfolioSkeleton />
+          </>
         ) : (
           <>
             <h2 className="text-4xl font-bold gradient-text mb-6">Our Portfolio</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {portfolioItems?.map(item => (
                 <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <img src={item.image} alt={item.title} className="w-full h-48 object-cover" />
+                  <img 
+                    src={item.image} 
+                    alt={`${item.title} project showcase`} 
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
                   <div className="p-4">
                     <h3 className="text-xl font-semibold">{item.title}</h3>
                     <p className="text-muted-foreground">{item.description}</p>
