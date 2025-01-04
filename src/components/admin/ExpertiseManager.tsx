@@ -21,7 +21,8 @@ export const ExpertiseManager = () => {
       setNewCard(false);
       toast({
         title: "Success",
-        description: "New expertise card has been created"
+        description: "New expertise card has been created",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error creating expertise:', error);
@@ -39,7 +40,8 @@ export const ExpertiseManager = () => {
       updateContent();
       toast({
         title: "Success",
-        description: "Expertise card has been updated"
+        description: "Expertise card has been updated",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error updating expertise:', error);
@@ -57,7 +59,8 @@ export const ExpertiseManager = () => {
       updateContent();
       toast({
         title: "Success",
-        description: "Expertise card has been deleted"
+        description: "Expertise card has been deleted",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error deleting expertise:', error);
@@ -102,35 +105,39 @@ export const ExpertiseManager = () => {
       {Array.isArray(content) && content.map((item: any) => {
         if (!item?.id) return null;
         
-        return (
-          <Card key={item.id}>
-            <CardHeader>
-              <CardTitle>{item.title || 'Untitled'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ExpertiseForm
-                item={{
-                  id: item.id,
-                  title: item.title || '',
-                  description: item.description || '',
-                  tech: Array.isArray(JSON.parse(item.metadata?.tech || '[]')) 
-                    ? JSON.parse(item.metadata?.tech || '[]') 
-                    : [],
-                  icon: item.metadata?.icon || '',
-                  details: {
-                    longDescription: item.metadata?.details?.longDescription || '',
-                    benefits: Array.isArray(JSON.parse(item.metadata?.details?.benefits || '[]'))
-                      ? JSON.parse(item.metadata?.details?.benefits || '[]')
-                      : [],
-                    image: item.metadata?.details?.image || '/placeholder.svg'
-                  }
-                }}
-                onSave={handleSave}
-                onDelete={handleDelete}
-              />
-            </CardContent>
-          </Card>
-        );
+        try {
+          const tech = JSON.parse(item.metadata?.tech || '[]');
+          const benefits = JSON.parse(item.metadata?.details?.benefits || '[]');
+          
+          return (
+            <Card key={item.id}>
+              <CardHeader>
+                <CardTitle>{item.title || 'Untitled'}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ExpertiseForm
+                  item={{
+                    id: item.id,
+                    title: item.title || '',
+                    description: item.description || '',
+                    tech: Array.isArray(tech) ? tech : [],
+                    icon: item.metadata?.icon || '',
+                    details: {
+                      longDescription: item.metadata?.details?.longDescription || '',
+                      benefits: Array.isArray(benefits) ? benefits : [],
+                      image: item.metadata?.details?.image || '/placeholder.svg'
+                    }
+                  }}
+                  onSave={handleSave}
+                  onDelete={handleDelete}
+                />
+              </CardContent>
+            </Card>
+          );
+        } catch (error) {
+          console.error('Error parsing item data:', error);
+          return null;
+        }
       })}
     </div>
   );

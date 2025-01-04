@@ -1,6 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
 import { ExpertiseItem } from "../expertise/types";
-import { toast } from "@/hooks/use-toast";
 
 export const createExpertise = async () => {
   const { error } = await supabase
@@ -22,18 +21,8 @@ export const createExpertise = async () => {
     });
 
   if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error creating content",
-      description: error.message,
-    });
     throw error;
   }
-
-  toast({
-    title: "Content created",
-    description: "New expertise card has been created.",
-  });
 };
 
 export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) => {
@@ -55,18 +44,8 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
     .eq('id', id);
 
   if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error updating content",
-      description: error.message,
-    });
     throw error;
   }
-
-  toast({
-    title: "Content updated",
-    description: "The expertise card has been updated successfully.",
-  });
 };
 
 export const deleteExpertise = async (id: string) => {
@@ -76,16 +55,6 @@ export const deleteExpertise = async (id: string) => {
     .eq('id', id);
 
   if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error deleting content",
-      description: error.message,
-    });
     throw error;
   }
-
-  toast({
-    title: "Content deleted",
-    description: "The expertise card has been deleted successfully.",
-  });
 };
