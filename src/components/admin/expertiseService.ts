@@ -52,7 +52,8 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
           }
         }
       })
-      .eq('id', id);
+      .eq('id', id)
+      .select('id, title, description, metadata, type, key, locale');
 
     if (error) {
       console.error('Update expertise error:', error);
@@ -69,7 +70,8 @@ export const deleteExpertise = async (id: string) => {
     const { error } = await supabase
       .from('content')
       .delete()
-      .eq('id', id);
+      .eq('id', id)
+      .select('id');
 
     if (error) {
       console.error('Delete expertise error:', error);
