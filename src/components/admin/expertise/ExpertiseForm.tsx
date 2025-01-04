@@ -11,6 +11,7 @@ import { expertiseSchema } from "./schema";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { cn } from "@/lib/utils";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
@@ -83,10 +84,10 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
               disabled={isLoading}
             >
               {isLoading ? (
-                <>
-                  <LoadingSpinner className="mr-2 h-4 w-4" />
-                  Saving...
-                </>
+                <div className="flex items-center">
+                  <LoadingSpinner />
+                  <span className="ml-2">Saving...</span>
+                </div>
               ) : (
                 'Save Changes'
               )}

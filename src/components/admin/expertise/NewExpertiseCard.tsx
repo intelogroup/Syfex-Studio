@@ -50,10 +50,10 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <>
-                      <LoadingSpinner className="mr-2 h-4 w-4" />
-                      Creating...
-                    </>
+                    <div className="flex items-center">
+                      <LoadingSpinner />
+                      <span className="ml-2">Creating...</span>
+                    </div>
                   ) : (
                     'Create Card'
                   )}
