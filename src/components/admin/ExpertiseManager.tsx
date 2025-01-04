@@ -16,8 +16,8 @@ export const ExpertiseManager = () => {
 
   const handleCreate = async () => {
     try {
-      await createExpertise();
-      mutate();
+      const newExpertise = await createExpertise();
+      mutate(['content', 'expertise']);
       setNewCard(false);
       toast({
         title: "Success",
@@ -35,7 +35,7 @@ export const ExpertiseManager = () => {
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
       await updateExpertise(id, data);
-      mutate();
+      mutate(['content', 'expertise']);
       toast({
         title: "Success",
         description: "Expertise card has been updated",
@@ -52,7 +52,7 @@ export const ExpertiseManager = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteExpertise(id);
-      mutate();
+      mutate(['content', 'expertise']);
       toast({
         title: "Success",
         description: "Expertise card has been deleted",

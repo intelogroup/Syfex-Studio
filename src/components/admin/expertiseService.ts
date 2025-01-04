@@ -13,7 +13,7 @@ export const createExpertise = async () => {
         tech: [],
         icon: 'code',
         details: {
-          longDescription: 'Long description here',
+          longDescription: '',
           benefits: [],
           image: '/placeholder.svg'
         }
