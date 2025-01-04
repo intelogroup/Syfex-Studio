@@ -27,7 +27,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto glowing"
           >
             Crafting Digital Experiences with Purpose
           </motion.p>
