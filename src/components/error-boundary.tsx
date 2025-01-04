@@ -3,6 +3,7 @@ import { AlertTriangle, RefreshCcw } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { trackError } from "@/utils/analytics";
 
 interface Props {
   children: ReactNode;
@@ -26,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    trackError(error, errorInfo.componentStack);
     this.setState({ errorInfo });
     toast({
       variant: "destructive",
@@ -41,11 +42,9 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   private handleReportError = () => {
-    // In a real app, this would send the error to your error tracking service
-    console.log("Error details:", {
-      error: this.state.error,
-      errorInfo: this.state.errorInfo,
-    });
+    if (this.state.error) {
+      trackError(this.state.error, this.state.errorInfo?.componentStack);
+    }
     toast({
       title: "Error Reported",
       description: "Thank you for helping us improve our application.",
