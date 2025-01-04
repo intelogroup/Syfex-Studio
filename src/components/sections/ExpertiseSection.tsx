@@ -4,16 +4,12 @@ import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { ExpertiseCard } from "../expertise/ExpertiseCard";
 import { container, item } from "../expertise/expertiseAnimations";
-import { mockExpertiseData } from "../expertise/expertiseData";
+import { fetchExpertiseContent } from "../expertise/api";
 
 export const ExpertiseSection = () => {
   const { data: expertise, isLoading, error } = useQuery({
     queryKey: ['expertise'],
-    queryFn: async () => {
-      // Simulated API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      return mockExpertiseData;
-    }
+    queryFn: fetchExpertiseContent
   });
 
   if (error) {

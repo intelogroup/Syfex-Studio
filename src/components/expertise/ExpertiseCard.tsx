@@ -5,17 +5,14 @@ import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect } from "react";
+import { ExpertiseDetails } from "./types";
 
 interface ExpertiseCardProps {
   title: string;
   description: string;
   tech: string[];
   icon: string;
-  details: {
-    longDescription: string;
-    benefits: string[];
-    image: string;
-  };
+  details: ExpertiseDetails;
 }
 
 const getIcon = (iconName: string) => {
