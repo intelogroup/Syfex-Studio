@@ -8,7 +8,7 @@ export const useContent = (type: string, locale: string = 'en') => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('content')
-        .select()
+        .select('id, title, description, metadata, type, key, locale')
         .eq('type', type)
         .eq('locale', locale);
 

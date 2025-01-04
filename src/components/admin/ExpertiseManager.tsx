@@ -60,10 +60,8 @@ export const ExpertiseManager = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteExpertise(id);
-      // Immediately update the UI by removing the deleted item
       mutate(['content', 'expertise'], (oldData: any) => 
-        oldData?.filter((item: any) => item.id !== id) || [], 
-        { revalidate: false }
+        oldData?.filter((item: any) => item.id !== id)
       );
       toast({
         title: "Success",
