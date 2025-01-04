@@ -60,9 +60,7 @@ export const ExpertiseManager = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteExpertise(id);
-      mutate(['content', 'expertise'], (oldData: any) => 
-        oldData?.filter((item: any) => item.id !== id)
-      );
+      mutate(['content', 'expertise']);
       toast({
         title: "Success",
         description: "Expertise card has been deleted",
