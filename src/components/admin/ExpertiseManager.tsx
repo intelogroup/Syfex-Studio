@@ -21,14 +21,15 @@ export const ExpertiseManager = () => {
       setNewCard(false);
       toast({
         title: "Success",
-        description: "New expertise card has been created"
+        description: "New expertise card has been created",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error creating expertise:', error);
       toast({
-        variant: "destructive",
         title: "Error",
-        description: "Failed to create expertise card"
+        description: "Failed to create expertise card",
+        variant: "destructive",
       });
     }
   };
@@ -39,14 +40,15 @@ export const ExpertiseManager = () => {
       updateContent();
       toast({
         title: "Success",
-        description: "Expertise card has been updated"
+        description: "Expertise card has been updated",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error updating expertise:', error);
       toast({
-        variant: "destructive",
         title: "Error",
-        description: "Failed to update expertise card"
+        description: "Failed to update expertise card",
+        variant: "destructive",
       });
     }
   };
@@ -57,14 +59,15 @@ export const ExpertiseManager = () => {
       updateContent();
       toast({
         title: "Success",
-        description: "Expertise card has been deleted"
+        description: "Expertise card has been deleted",
+        variant: "default",
       });
     } catch (error) {
       console.error('Error deleting expertise:', error);
       toast({
-        variant: "destructive",
         title: "Error",
-        description: "Failed to delete expertise card"
+        description: "Failed to delete expertise card",
+        variant: "destructive",
       });
     }
   };
