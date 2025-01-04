@@ -3,11 +3,13 @@ import { LoadingSpinner } from "../ui/loading-spinner";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, Star, Quote } from "lucide-react";
+import { Users, Star, Quote, AlertCircle, RefreshCw } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 
 export const TestimonialsSection = () => {
-  const { data: testimonials, isLoading, error } = useQuery({
+  const { data: testimonials, isLoading, error, refetch } = useQuery({
     queryKey: ['testimonials'],
     queryFn: async () => {
       // Simulated API call
@@ -46,15 +48,40 @@ export const TestimonialsSection = () => {
           avatar: "https://images.unsplash.com/photo-1501286353178-1ec871214838?w=150&h=150&fit=crop"
         },
       ];
+    },
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error loading testimonials",
+        description: error instanceof Error ? error.message : "Please try again later.",
+      });
     }
   });
 
   if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error loading testimonials",
-      description: "Please try again later.",
-    });
+    return (
+      <section className="py-32 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4">
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error Loading Testimonials</AlertTitle>
+            <AlertDescription>
+              We couldn't load the testimonials at this time. Please try again later.
+            </AlertDescription>
+          </Alert>
+          <Button 
+            onClick={() => refetch()} 
+            variant="outline" 
+            className="w-full"
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Retry Loading
+          </Button>
+        </div>
+      </section>
+    );
   }
 
   return (

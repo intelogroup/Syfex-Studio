@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { toast } from "@/hooks/use-toast";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 
 export const PortfolioSection = () => {
-  const { data: portfolioItems, isLoading, error } = useQuery({
+  const { data: portfolioItems, isLoading, error, refetch } = useQuery({
     queryKey: ['portfolio'],
     queryFn: async () => {
       // Simulated API call
@@ -22,15 +25,28 @@ export const PortfolioSection = () => {
           image: "/placeholder.svg"
         }
       ];
-    }
+    },
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
   if (error) {
-    toast({
-      variant: "destructive",
-      title: "Error loading portfolio",
-      description: "Please try again later.",
-    });
+    return (
+      <section className="py-32 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4">
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              Failed to load portfolio items. Please try again later.
+            </AlertDescription>
+          </Alert>
+          <Button onClick={() => refetch()} variant="outline" className="w-full">
+            Retry Loading
+          </Button>
+        </div>
+      </section>
+    );
   }
 
   return (
