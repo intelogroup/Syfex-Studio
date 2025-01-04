@@ -39,14 +39,7 @@ const Auth = () => {
         navigate("/auth");
       }
 
-      if (event === "USER_DELETED") {
-        toast({
-          variant: "destructive",
-          title: "Account deleted",
-          description: "Your account has been successfully deleted.",
-        });
-        navigate("/auth");
-      }
+      // Remove the USER_DELETED case as it's not a valid AuthChangeEvent
     });
 
     return () => {
