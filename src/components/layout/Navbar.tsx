@@ -53,7 +53,7 @@ export const Navbar = () => {
             { href: "/", label: "Home" },
             { href: "#about", label: "About" },
             { href: "#services", label: "Services" },
-            { href: "#projects", label: "Projects" },
+            { href: "#expertise", label: "Expertise" },
             { href: "#portfolio", label: "Portfolio" },
             { href: "#contact", label: "Contact" }
           ].map((link) => (

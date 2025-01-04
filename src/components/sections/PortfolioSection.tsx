@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const PortfolioSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {[1, 2].map((item) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[1, 2, 3].map((item) => (
       <Card key={item} className="bg-card/50 backdrop-blur-sm border-muted">
         <CardHeader>
           <Skeleton className="h-6 w-3/4" />
@@ -40,6 +40,30 @@ export const PortfolioSection = () => {
           title: "Web Applications",
           description: "Responsive and scalable web experiences",
           image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          id: 3,
+          title: "Brand Design",
+          description: "Creating memorable brand identities",
+          image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          id: 4,
+          title: "UI/UX Design",
+          description: "Intuitive user interfaces and experiences",
+          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          id: 5,
+          title: "AI Integration",
+          description: "Smart solutions powered by artificial intelligence",
+          image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          id: 6,
+          title: "Digital Marketing",
+          description: "Comprehensive digital marketing campaigns",
+          image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=800&q=80"
         }
       ];
     },
@@ -74,9 +98,9 @@ export const PortfolioSection = () => {
         {isLoading ? (
           <PortfolioSkeleton />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolioItems?.map(item => (
-              <Card key={item.id} className="bg-card/50 backdrop-blur-sm border-muted overflow-hidden">
+              <Card key={item.id} className="bg-card/50 backdrop-blur-sm border-muted hover:border-primary/50 transition-colors duration-300 overflow-hidden">
                 <CardHeader>
                   <CardTitle>{item.title}</CardTitle>
                 </CardHeader>
