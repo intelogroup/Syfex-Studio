@@ -51,12 +51,14 @@ export const TestimonialsSection = () => {
     },
     retry: 2,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error loading testimonials",
-        description: error instanceof Error ? error.message : "Please try again later.",
-      });
+    meta: {
+      onError: (error: Error) => {
+        toast({
+          variant: "destructive",
+          title: "Error loading testimonials",
+          description: error.message || "Please try again later.",
+        });
+      }
     }
   });
 
