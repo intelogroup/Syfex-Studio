@@ -14,16 +14,30 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
     throw error;
   }
 
-  return (data as ContentResponse[]).map(item => ({
-    id: item.id,
-    title: item.title || '',
-    description: item.description || '',
-    tech: JSON.parse(item.metadata.tech),
-    icon: item.metadata.icon,
-    details: {
-      longDescription: item.metadata.details.longDescription,
-      benefits: JSON.parse(item.metadata.details.benefits),
-      image: item.metadata.details.image
-    }
-  }));
+  if (!data) return [];
+
+  return data.map(item => {
+    const metadata = item.metadata as {
+      tech: string;
+      icon: string;
+      details: {
+        longDescription: string;
+        benefits: string;
+        image: string;
+      };
+    };
+
+    return {
+      id: item.id,
+      title: item.title || '',
+      description: item.description || '',
+      tech: JSON.parse(metadata.tech),
+      icon: metadata.icon,
+      details: {
+        longDescription: metadata.details.longDescription,
+        benefits: JSON.parse(metadata.details.benefits),
+        image: metadata.details.image
+      }
+    };
+  });
 };
