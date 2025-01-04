@@ -13,7 +13,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="floating space-y-24"
+          className="floating space-y-16 md:space-y-24"
         >
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto -mt-8"
           >
             Crafting Digital Experiences with Purpose
           </motion.p>
@@ -35,7 +35,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-x-4 pt-12"
+            className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 pt-8"
           >
             <a 
               href="#contact" 
