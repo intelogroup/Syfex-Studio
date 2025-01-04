@@ -26,7 +26,7 @@ export const useContentMutation = () => {
       const { data, error } = await supabase
         .from('content')
         .upsert({ id, ...content })
-        .select('id, title, description, metadata, type, key')
+        .select('id, title, description, metadata, type, key, locale')
         .single();
 
       if (error) throw error;

@@ -17,9 +17,10 @@ export const createExpertise = async () => {
           benefits: [],
           image: '/placeholder.svg'
         }
-      }
+      },
+      locale: 'en'
     })
-    .select('id, title, description, metadata, type, key')
+    .select('id, title, description, metadata, type, key, locale')
     .single();
 
   if (error) throw error;
@@ -42,9 +43,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
         }
       }
     })
-    .eq('id', id)
-    .select('id, title, description, metadata, type, key')
-    .single();
+    .eq('id', id);
 
   if (error) throw error;
 };
@@ -53,9 +52,7 @@ export const deleteExpertise = async (id: string) => {
   const { error } = await supabase
     .from('content')
     .delete()
-    .eq('id', id)
-    .select('id')
-    .single();
+    .eq('id', id);
 
   if (error) throw error;
 };
