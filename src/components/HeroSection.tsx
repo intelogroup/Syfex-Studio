@@ -3,23 +3,23 @@ import { Calendar, Sparkles } from "lucide-react";
 
 export const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-start justify-center p-4 relative overflow-hidden">
+    <section className="min-h-screen flex items-start justify-center p-4 relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background" />
       <div className="absolute inset-0 bg-grid opacity-30" />
       <div className="absolute inset-0 bg-dots opacity-40" />
       
-      <div className="max-w-6xl mx-auto text-center relative z-50 pt-32">
+      <div className="max-w-6xl mx-auto text-center relative z-[100] pt-24">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="floating space-y-16"
+          className="floating space-y-24"
         >
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-bold gradient-text tracking-tight text-glow relative z-50"
+            className="text-6xl md:text-8xl font-bold gradient-text tracking-tight text-glow relative z-[100]"
           >
             Syfex Studio
           </motion.h1>
@@ -35,7 +35,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-x-4 pt-8"
+            className="space-x-4 pt-12"
           >
             <a 
               href="#contact" 
@@ -56,7 +56,7 @@ export const HeroSection = () => {
       </div>
 
       {/* Animated background elements */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none z-[90]">
         {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
