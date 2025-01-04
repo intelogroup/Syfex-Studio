@@ -8,7 +8,7 @@ export const useContent = (type: string, locale: string = 'en') => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('content')
-        .select('*')
+        .select()
         .eq('type', type)
         .eq('locale', locale);
 
@@ -16,7 +16,7 @@ export const useContent = (type: string, locale: string = 'en') => {
         console.error('Content fetch error:', error);
         throw error;
       }
-      return data;
+      return data || [];
     },
   });
 };
@@ -26,14 +26,26 @@ export const useContentMutation = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...content }: any) => {
-      const { data, error } = await supabase
-        .from('content')
-        .upsert({ id, ...content })
-        .select('*')
-        .single();
+      if (id) {
+        const { data, error } = await supabase
+          .from('content')
+          .update(content)
+          .eq('id', id)
+          .select()
+          .single();
 
-      if (error) throw error;
-      return data;
+        if (error) throw error;
+        return data;
+      } else {
+        const { data, error } = await supabase
+          .from('content')
+          .insert(content)
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['content'] });
@@ -47,7 +59,7 @@ export const useContentMutation = () => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message,
+        description: error.message || "Failed to update content",
       });
     },
   });

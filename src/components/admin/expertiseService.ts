@@ -20,7 +20,7 @@ export const createExpertise = async () => {
         }
       }
     })
-    .select('*')
+    .select()
     .single();
 
   if (error) {

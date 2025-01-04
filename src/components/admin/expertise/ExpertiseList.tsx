@@ -19,25 +19,27 @@ export const ExpertiseList = ({ content, onSave, onDelete }: ExpertiseListProps)
         const details = metadata.details || {};
         const benefits = Array.isArray(details.benefits) ? details.benefits : [];
         
+        const expertiseItem: ExpertiseItem = {
+          id: item.id,
+          title: item.title || '',
+          description: item.description || '',
+          tech: tech,
+          icon: metadata.icon || 'code',
+          details: {
+            longDescription: details.longDescription || '',
+            benefits: benefits,
+            image: details.image || '/placeholder.svg'
+          }
+        };
+        
         return (
           <Card key={item.id}>
             <CardHeader>
-              <CardTitle>{item.title || 'Untitled'}</CardTitle>
+              <CardTitle>{expertiseItem.title || 'Untitled'}</CardTitle>
             </CardHeader>
             <CardContent>
               <ExpertiseForm
-                item={{
-                  id: item.id,
-                  title: item.title || '',
-                  description: item.description || '',
-                  tech: tech,
-                  icon: metadata.icon || 'code',
-                  details: {
-                    longDescription: details.longDescription || '',
-                    benefits: benefits,
-                    image: details.image || '/placeholder.svg'
-                  }
-                }}
+                item={expertiseItem}
                 onSave={onSave}
                 onDelete={onDelete}
               />
