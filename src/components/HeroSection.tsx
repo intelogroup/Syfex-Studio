@@ -7,7 +7,6 @@ export const HeroSection = () => {
       {/* Background layers with lower z-index */}
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background" />
       <div className="absolute inset-0 z-[2] bg-grid opacity-30" />
-      <div className="absolute inset-0 z-[3] bg-dots opacity-40" />
       
       <div className="max-w-6xl mx-auto text-center relative z-[100] pt-24">
         <motion.div
@@ -56,9 +55,9 @@ export const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Animated background elements with lower z-index */}
-      <div className="absolute inset-0 pointer-events-none z-[4]">
-        {[...Array(5)].map((_, i) => (
+      {/* Simplified background particles with lower z-index */}
+      <div className="absolute inset-0 pointer-events-none z-[3]">
+        {[...Array(3)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-primary/30 rounded-full"
