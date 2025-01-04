@@ -8,7 +8,7 @@ export const HeroSection = () => {
       <div className="absolute inset-0 bg-grid opacity-30" />
       <div className="absolute inset-0 bg-dots opacity-40" />
       
-      <div className="max-w-6xl mx-auto text-center relative z-10">
+      <div className="max-w-6xl mx-auto text-center relative z-50">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-bold mb-6 gradient-text tracking-tight text-glow"
+            className="text-6xl md:text-8xl font-bold mb-6 gradient-text tracking-tight text-glow relative z-50"
           >
             Syfex Studio
           </motion.h1>
