@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Code2, Database, Globe, Laptop, Smartphone, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 
+// Define animation variants separately from data
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -130,21 +131,21 @@ export const ExpertiseSection = () => {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {expertise?.map((item) => (
-              <motion.div key={item.id} variants={item}>
+            {expertise?.map((expertiseItem) => (
+              <motion.div key={expertiseItem.id} variants={item}>
                 <Card className="bg-card/50 backdrop-blur-sm border-muted hover:border-primary/50 transition-colors duration-300">
                   <CardHeader>
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                        {getIcon(item.icon)}
+                        {getIcon(expertiseItem.icon)}
                       </div>
-                      <CardTitle className="text-xl">{item.title}</CardTitle>
+                      <CardTitle className="text-xl">{expertiseItem.title}</CardTitle>
                     </div>
-                    <CardDescription className="mt-3">{item.description}</CardDescription>
+                    <CardDescription className="mt-3">{expertiseItem.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {item.tech.map((tech) => (
+                      {expertiseItem.tech.map((tech) => (
                         <Badge key={tech} variant="secondary" className="bg-secondary/10">
                           {tech}
                         </Badge>
