@@ -7,28 +7,28 @@ export const PortfolioSection = () => {
     {
       title: "E-Commerce Platform",
       description: "A modern e-commerce solution with real-time inventory management",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=E-Commerce",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2400&q=80",
       tags: ["React", "Node.js", "MongoDB", "AWS"],
       link: "#"
     },
     {
       title: "Healthcare App",
       description: "Mobile application for patient care management",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Healthcare",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2400&q=80",
       tags: ["React Native", "Firebase", "HIPAA Compliant"],
       link: "#"
     },
     {
       title: "Financial Dashboard",
       description: "Real-time financial data visualization platform",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Finance",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2400&q=80",
       tags: ["Vue.js", "D3.js", "Python", "Docker"],
       link: "#"
     },
     {
       title: "Social Network",
       description: "Community platform with real-time messaging",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Social",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2400&q=80",
       tags: ["Next.js", "GraphQL", "PostgreSQL"],
       link: "#"
     }
