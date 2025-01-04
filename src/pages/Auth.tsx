@@ -30,6 +30,15 @@ const Auth = () => {
         navigate("/");
       }
 
+      if (event === "SIGNED_OUT") {
+        toast({
+          variant: "default",
+          title: "Signed out",
+          description: "You have been signed out successfully.",
+        });
+        navigate("/auth");
+      }
+
       if (event === "USER_DELETED") {
         toast({
           variant: "destructive",
@@ -72,24 +81,6 @@ const Auth = () => {
             },
           }}
           providers={[]}
-          onError={(error) => {
-            let errorMessage = "An error occurred during authentication.";
-            
-            try {
-              // Try to parse the error body if it exists
-              const errorBody = JSON.parse(error.message);
-              errorMessage = errorBody.message || errorMessage;
-            } catch {
-              // If parsing fails, use the error message directly
-              errorMessage = error.message;
-            }
-            
-            toast({
-              variant: "destructive",
-              title: "Authentication Error",
-              description: errorMessage,
-            });
-          }}
         />
       </Card>
     </div>
