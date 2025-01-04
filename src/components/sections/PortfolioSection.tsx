@@ -14,79 +14,127 @@ export const PortfolioSection = () => {
       return [
         {
           id: 1,
-          title: "E-commerce Platform",
-          description: "Complete online shopping solution",
+          title: "E-commerce Platform Revolution",
+          description: "Complete online shopping solution with advanced features",
           image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "A comprehensive e-commerce platform built with modern technologies, featuring real-time inventory management, secure payments, and analytics dashboard.",
-            technologies: ["React", "Node.js", "PostgreSQL", "Stripe"],
-            features: ["Real-time inventory", "Payment processing", "Admin dashboard", "Analytics"],
-            results: "Increased sales by 150% within first 3 months",
+            fullDescription: "A comprehensive e-commerce platform that revolutionizes online shopping. Built with scalability in mind, this solution incorporates advanced features like real-time inventory management, AI-powered product recommendations, and sophisticated analytics dashboards. The platform handles thousands of concurrent users while maintaining sub-second response times.",
+            technologies: ["React", "Node.js", "PostgreSQL", "Redis", "Stripe", "ElasticSearch", "Docker", "AWS"],
+            features: [
+              "Real-time inventory tracking across multiple warehouses",
+              "AI-powered product recommendations",
+              "Advanced analytics dashboard with custom reporting",
+              "Multi-currency and multi-language support",
+              "Integrated payment processing with fraud detection",
+              "Mobile-first responsive design",
+              "Advanced search with faceted filtering"
+            ],
+            results: "Increased sales by 150% within first 3 months, reduced cart abandonment by 45%, and improved customer satisfaction scores by 60%",
             link: "https://example.com/ecommerce"
           }
         },
         {
           id: 2,
-          title: "Brand Identity Design",
-          description: "Complete brand identity package",
+          title: "Corporate Brand Evolution",
+          description: "Comprehensive brand identity transformation",
           image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "Comprehensive brand identity design including logo, color palette, typography, and brand guidelines.",
-            technologies: ["Adobe Creative Suite", "Figma", "Brand Strategy"],
-            features: ["Logo design", "Color system", "Typography", "Guidelines"],
-            results: "Successfully launched new brand identity across all channels",
+            fullDescription: "A complete brand identity overhaul for a Fortune 500 company, including digital presence, marketing materials, and internal communications. The project involved extensive market research, competitor analysis, and stakeholder interviews to develop a cohesive brand strategy that resonates with modern audiences while maintaining corporate values.",
+            technologies: ["Adobe Creative Suite", "Figma", "Brand Strategy", "Motion Design", "Digital Marketing"],
+            features: [
+              "Comprehensive brand guidelines documentation",
+              "Digital-first design system",
+              "Custom icon and illustration library",
+              "Responsive web design templates",
+              "Social media toolkit",
+              "Marketing collateral templates",
+              "Internal communication materials"
+            ],
+            results: "Successfully launched new brand identity across 12 countries, resulting in 40% increase in brand recognition and 25% improvement in employee satisfaction",
             link: "https://example.com/brand"
           }
         },
         {
           id: 3,
-          title: "Mobile App Development",
-          description: "Cross-platform fitness application",
+          title: "Fitness Tracking Revolution",
+          description: "AI-powered fitness companion application",
           image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "A feature-rich fitness tracking application with social features and personalized workout plans.",
-            technologies: ["React Native", "Firebase", "Node.js"],
-            features: ["Workout tracking", "Social sharing", "Progress analytics"],
-            results: "Over 100k downloads in first month",
+            fullDescription: "An innovative fitness tracking application that combines artificial intelligence with personalized workout planning. The app learns from user behavior and performance to create adaptive workout plans, while incorporating social features for community engagement and motivation.",
+            technologies: ["React Native", "TensorFlow", "Firebase", "Node.js", "MongoDB", "AWS"],
+            features: [
+              "AI-powered workout recommendations",
+              "Real-time exercise form analysis",
+              "Personalized nutrition planning",
+              "Social community features",
+              "Progress tracking with 3D body scanning",
+              "Integration with wearable devices",
+              "Virtual coaching sessions"
+            ],
+            results: "Over 100k downloads in first month, 85% user retention rate, and average user fitness goal achievement improved by 73%",
             link: "https://example.com/fitness-app"
           }
         },
         {
           id: 4,
-          title: "Marketing Campaign",
-          description: "Integrated digital marketing",
+          title: "Digital Marketing Transformation",
+          description: "Data-driven marketing campaign platform",
           image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "Comprehensive digital marketing campaign including social media, email marketing, and PPC advertising.",
-            technologies: ["Google Ads", "Facebook Ads", "Email Marketing"],
-            features: ["Social media strategy", "Email campaigns", "PPC optimization"],
-            results: "300% ROI on marketing spend",
+            fullDescription: "A comprehensive digital marketing campaign platform that leverages data analytics and machine learning to optimize marketing efforts across multiple channels. The solution includes advanced targeting capabilities, automated A/B testing, and real-time performance monitoring.",
+            technologies: ["Google Analytics", "Facebook Ads API", "HubSpot", "Mailchimp", "Python", "TensorFlow"],
+            features: [
+              "Multi-channel campaign management",
+              "AI-powered audience segmentation",
+              "Automated A/B testing",
+              "Real-time performance analytics",
+              "Predictive ROI modeling",
+              "Custom attribution modeling",
+              "Automated reporting system"
+            ],
+            results: "300% ROI on marketing spend, 45% reduction in customer acquisition cost, and 80% improvement in campaign efficiency",
             link: "https://example.com/marketing"
           }
         },
         {
           id: 5,
-          title: "AI Integration",
-          description: "Machine learning solution",
+          title: "AI Recommendation Engine",
+          description: "Advanced machine learning solution",
           image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "Implementation of AI-powered recommendation system for e-commerce platform.",
-            technologies: ["Python", "TensorFlow", "AWS"],
-            features: ["Product recommendations", "User behavior analysis", "A/B testing"],
-            results: "25% increase in average order value",
+            fullDescription: "A sophisticated recommendation engine powered by machine learning algorithms, designed to enhance user engagement and drive conversions. The system processes vast amounts of user behavior data to deliver highly personalized recommendations in real-time.",
+            technologies: ["Python", "TensorFlow", "AWS SageMaker", "Apache Kafka", "ElasticSearch", "Docker"],
+            features: [
+              "Real-time recommendation processing",
+              "Multi-factor analysis system",
+              "Behavioral pattern recognition",
+              "A/B testing framework",
+              "Custom algorithm development",
+              "Scalable processing pipeline",
+              "Advanced analytics dashboard"
+            ],
+            results: "25% increase in average order value, 40% improvement in user engagement, and 60% higher conversion rate",
             link: "https://example.com/ai-solution"
           }
         },
         {
           id: 6,
-          title: "Web Application",
-          description: "Cloud-based project management",
+          title: "Enterprise Project Hub",
+          description: "Next-generation project management platform",
           image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=800&q=80",
           details: {
-            fullDescription: "Modern project management platform with real-time collaboration features and resource management.",
-            technologies: ["React", "GraphQL", "MongoDB"],
-            features: ["Task management", "Resource allocation", "Reports"],
-            results: "Adopted by 50+ enterprise clients",
+            fullDescription: "A comprehensive project management platform designed for enterprise-scale operations. The system integrates advanced resource management, real-time collaboration features, and predictive analytics to optimize project delivery and team productivity.",
+            technologies: ["React", "GraphQL", "MongoDB", "Redis", "Kubernetes", "Elasticsearch"],
+            features: [
+              "Advanced resource allocation algorithms",
+              "Real-time collaboration tools",
+              "Predictive project analytics",
+              "Custom workflow automation",
+              "Integration with enterprise systems",
+              "Advanced reporting capabilities",
+              "Time tracking and forecasting"
+            ],
+            results: "Adopted by 50+ enterprise clients, resulting in 35% improvement in project delivery times and 40% reduction in resource conflicts",
             link: "https://example.com/project-management"
           }
         }
