@@ -118,5 +118,125 @@ export const mockExpertiseData = [
       ],
       image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
     }
+  },
+  {
+    id: 7,
+    title: "Brand Identity Design",
+    description: "Creating distinctive brand identities and logo designs",
+    tech: ["Adobe Illustrator", "Adobe Photoshop", "Figma", "Brand Guidelines", "Vector Graphics", "Color Theory"],
+    icon: "palette",
+    details: {
+      longDescription: "Our brand identity design service creates memorable, impactful visual identities that resonate with target audiences. We combine strategic thinking with creative excellence to develop comprehensive brand systems that work across all touchpoints. From logo design to complete visual language development, we ensure your brand stands out in today's competitive marketplace.",
+      benefits: [
+        "Custom logo design with multiple concepts",
+        "Complete brand guidelines documentation",
+        "Visual identity system development",
+        "Brand color palette and typography selection",
+        "Brand voice and messaging guidelines",
+        "Social media brand assets",
+        "Business collateral design"
+      ],
+      image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 8,
+    title: "Print & Marketing Design",
+    description: "Designing professional marketing materials and collateral",
+    tech: ["InDesign", "Photoshop", "Print Design", "Typography", "Layout Design", "Marketing"],
+    icon: "image",
+    details: {
+      longDescription: "We specialize in creating high-impact print and digital marketing materials that effectively communicate your message. Our design team combines creativity with marketing expertise to produce materials that not only look professional but also drive results. From business cards to billboard designs, we ensure consistent brand representation across all marketing channels.",
+      benefits: [
+        "Professional flyer and brochure design",
+        "Business card and stationery design",
+        "Billboard and large format printing",
+        "Marketing collateral development",
+        "Trade show and event materials",
+        "Product packaging design",
+        "Direct mail campaign materials"
+      ],
+      image: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 9,
+    title: "Product Visualization",
+    description: "Creating realistic product mockups and 3D visualizations",
+    tech: ["Blender", "Cinema 4D", "KeyShot", "Photoshop", "3D Modeling", "Rendering"],
+    icon: "layers",
+    details: {
+      longDescription: "Our product visualization service brings your products to life before they're manufactured. Using advanced 3D modeling and rendering techniques, we create photorealistic product mockups that help visualize the final product. This service is invaluable for product development, marketing materials, and e-commerce presentations.",
+      benefits: [
+        "Photorealistic 3D product rendering",
+        "Product packaging visualization",
+        "Interactive 3D product configurators",
+        "E-commerce product photography",
+        "Product demonstration animations",
+        "Conceptual product visualization",
+        "Marketing campaign visuals"
+      ],
+      image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 10,
+    title: "AI Integration Services",
+    description: "Implementing custom AI solutions for businesses",
+    tech: ["TensorFlow", "PyTorch", "OpenAI API", "Hugging Face", "Machine Learning", "Neural Networks"],
+    icon: "brain",
+    details: {
+      longDescription: "We specialize in integrating cutting-edge AI technologies into existing business systems and workflows. Our team develops custom AI solutions that automate processes, enhance decision-making, and improve customer experiences. From natural language processing to computer vision applications, we help businesses leverage the power of artificial intelligence.",
+      benefits: [
+        "Custom AI model development",
+        "AI-powered automation solutions",
+        "Natural Language Processing integration",
+        "Computer Vision applications",
+        "Machine Learning pipeline development",
+        "AI-driven analytics systems",
+        "Predictive modeling implementation"
+      ],
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 11,
+    title: "AI-Powered Design",
+    description: "Leveraging AI for creative design solutions",
+    tech: ["Midjourney", "DALL-E", "Stable Diffusion", "Adobe Firefly", "Generative AI", "Design Systems"],
+    icon: "robot",
+    details: {
+      longDescription: "Our AI-powered design service combines human creativity with artificial intelligence to produce innovative design solutions. We utilize state-of-the-art AI tools and technologies to enhance the creative process, generate unique concepts, and streamline design workflows. This hybrid approach allows us to deliver exceptional results while maintaining efficiency and creativity.",
+      benefits: [
+        "AI-generated design concepts",
+        "Automated style transfer and adaptation",
+        "Rapid prototyping with AI assistance",
+        "Generative design exploration",
+        "AI-enhanced image manipulation",
+        "Smart layout optimization",
+        "Automated design variations"
+      ],
+      image: "https://images.unsplash.com/photo-1678995632928-298d05d41671?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 12,
+    title: "AI Development Solutions",
+    description: "Building advanced AI-powered applications",
+    tech: ["Python", "Deep Learning", "GPT-4", "Docker", "Kubernetes", "MLOps", "AWS SageMaker"],
+    icon: "circuit-board",
+    details: {
+      longDescription: "We develop sophisticated AI-powered applications that solve complex business challenges. Our team of AI specialists and professional developers works together to create robust, scalable solutions that leverage the latest advancements in artificial intelligence. From concept to deployment, we ensure your AI projects are delivered with the highest standards of quality and performance.",
+      benefits: [
+        "End-to-end AI application development",
+        "Custom AI model training and deployment",
+        "MLOps and AI infrastructure setup",
+        "AI-powered chatbots and virtual assistants",
+        "Recommendation systems development",
+        "Computer vision applications",
+        "Natural language processing solutions"
+      ],
+      image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80"
+    }
   }
 ];
