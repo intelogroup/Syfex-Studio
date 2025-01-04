@@ -20,8 +20,9 @@ export const Navbar = () => {
     };
 
     const handleMouseLeave = () => {
-      // Instead of moving light off-screen, keep it at last known position
-      // Removed the code that moves light off-screen
+      // Move light off-screen when mouse leaves
+      nav.style.setProperty('--light-x', '-999px');
+      nav.style.setProperty('--light-y', '-999px');
     };
 
     nav.addEventListener('mousemove', handleMouseMove);
