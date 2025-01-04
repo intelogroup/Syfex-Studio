@@ -21,13 +21,22 @@ const Auth = () => {
     // Set up auth state change listener
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
         toast({
           title: "Welcome!",
           description: "You have successfully signed in.",
         });
         navigate("/");
+      }
+
+      if (event === "USER_DELETED") {
+        toast({
+          variant: "destructive",
+          title: "Account deleted",
+          description: "Your account has been successfully deleted.",
+        });
+        navigate("/auth");
       }
     });
 
@@ -59,9 +68,28 @@ const Auth = () => {
               container: 'space-y-4',
               button: 'w-full',
               input: 'bg-background',
+              message: 'text-destructive text-sm',
             },
           }}
           providers={[]}
+          onError={(error) => {
+            let errorMessage = "An error occurred during authentication.";
+            
+            try {
+              // Try to parse the error body if it exists
+              const errorBody = JSON.parse(error.message);
+              errorMessage = errorBody.message || errorMessage;
+            } catch {
+              // If parsing fails, use the error message directly
+              errorMessage = error.message;
+            }
+            
+            toast({
+              variant: "destructive",
+              title: "Authentication Error",
+              description: errorMessage,
+            });
+          }}
         />
       </Card>
     </div>
