@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Code, Laptop, Globe, GanttChart, Boxes, Braces } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const ProjectsSection = () => {
   const projects = [

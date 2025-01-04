@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export const PortfolioSection = () => {
   const portfolioItems = [
