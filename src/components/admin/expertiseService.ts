@@ -21,7 +21,7 @@ export const createExpertise = async () => {
           }
         }
       })
-      .select()
+      .select('id, title, description, metadata, type, key, locale')
       .single();
 
     if (error) {
