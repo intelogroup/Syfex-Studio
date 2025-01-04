@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ExpertiseItem } from "../expertise/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,111 +13,101 @@ interface ExpertiseFormProps {
 }
 
 export const ExpertiseForm = ({ item, onSave, onDelete }: ExpertiseFormProps) => {
+  const [formData, setFormData] = useState<ExpertiseItem>(item);
+
+  const handleChange = (field: keyof ExpertiseItem | 'longDescription' | 'benefits' | 'image', value: string) => {
+    if (field === 'tech') {
+      setFormData({
+        ...formData,
+        tech: value.split(',').map(t => t.trim())
+      });
+    } else if (field === 'longDescription' || field === 'benefits' || field === 'image') {
+      setFormData({
+        ...formData,
+        details: {
+          ...formData.details,
+          [field]: field === 'benefits' 
+            ? value.split(',').map(b => b.trim())
+            : value
+        }
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [field]: value
+      });
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(item.id, formData);
+  };
+
   return (
-    <form className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <Label htmlFor={`title-${item.id}`}>Title</Label>
         <Input
           id={`title-${item.id}`}
-          defaultValue={item.title}
-          onChange={(e) => {
-            const updatedData = { ...item, title: e.target.value };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.title}
+          onChange={(e) => handleChange('title', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`description-${item.id}`}>Description</Label>
         <Textarea
           id={`description-${item.id}`}
-          defaultValue={item.description}
-          onChange={(e) => {
-            const updatedData = { ...item, description: e.target.value };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.description}
+          onChange={(e) => handleChange('description', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`longDescription-${item.id}`}>Long Description</Label>
         <Textarea
           id={`longDescription-${item.id}`}
-          defaultValue={item.details?.longDescription || ''}
-          onChange={(e) => {
-            const updatedData = {
-              ...item,
-              details: {
-                ...item.details,
-                longDescription: e.target.value
-              }
-            };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.details?.longDescription || ''}
+          onChange={(e) => handleChange('longDescription', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`tech-${item.id}`}>Technologies (comma-separated)</Label>
         <Input
           id={`tech-${item.id}`}
-          defaultValue={item.tech?.join(', ') || ''}
-          onChange={(e) => {
-            const updatedData = {
-              ...item,
-              tech: e.target.value.split(',').map((t: string) => t.trim())
-            };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.tech?.join(', ') || ''}
+          onChange={(e) => handleChange('tech', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`benefits-${item.id}`}>Benefits (comma-separated)</Label>
         <Input
           id={`benefits-${item.id}`}
-          defaultValue={item.details?.benefits?.join(', ') || ''}
-          onChange={(e) => {
-            const updatedData = {
-              ...item,
-              details: {
-                ...item.details,
-                benefits: e.target.value.split(',').map((b: string) => b.trim())
-              }
-            };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.details?.benefits?.join(', ') || ''}
+          onChange={(e) => handleChange('benefits', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`icon-${item.id}`}>Icon</Label>
         <Input
           id={`icon-${item.id}`}
-          defaultValue={item.icon}
-          onChange={(e) => {
-            const updatedData = {
-              ...item,
-              icon: e.target.value
-            };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.icon}
+          onChange={(e) => handleChange('icon', e.target.value)}
         />
       </div>
       <div>
         <Label htmlFor={`image-${item.id}`}>Image URL</Label>
         <Input
           id={`image-${item.id}`}
-          defaultValue={item.details?.image || ''}
-          onChange={(e) => {
-            const updatedData = {
-              ...item,
-              details: {
-                ...item.details,
-                image: e.target.value
-              }
-            };
-            onSave(item.id, updatedData);
-          }}
+          value={formData.details?.image || ''}
+          onChange={(e) => handleChange('image', e.target.value)}
         />
       </div>
       <div className="flex justify-end gap-2">
+        <Button type="submit" size="sm">
+          Save Changes
+        </Button>
         <Button
+          type="button"
           variant="destructive"
           size="sm"
           onClick={() => onDelete(item.id)}
