@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import { ExpertiseForm } from "./ExpertiseForm";
 import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
 import { ExpertiseItem } from "../expertise/types";
+import { toast } from "@/hooks/use-toast";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
@@ -18,8 +19,17 @@ export const ExpertiseManager = () => {
       await createExpertise();
       updateContent();
       setNewCard(false);
+      toast({
+        title: "Success",
+        description: "New expertise card has been created"
+      });
     } catch (error) {
       console.error('Error creating expertise:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to create expertise card"
+      });
     }
   };
 
@@ -27,8 +37,17 @@ export const ExpertiseManager = () => {
     try {
       await updateExpertise(id, data);
       updateContent();
+      toast({
+        title: "Success",
+        description: "Expertise card has been updated"
+      });
     } catch (error) {
       console.error('Error updating expertise:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update expertise card"
+      });
     }
   };
 
@@ -36,8 +55,17 @@ export const ExpertiseManager = () => {
     try {
       await deleteExpertise(id);
       updateContent();
+      toast({
+        title: "Success",
+        description: "Expertise card has been deleted"
+      });
     } catch (error) {
       console.error('Error deleting expertise:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to delete expertise card"
+      });
     }
   };
 
