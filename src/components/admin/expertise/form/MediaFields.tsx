@@ -1,32 +1,47 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { useFormContext } from "react-hook-form";
 
 interface MediaFieldsProps {
   id: string;
-  icon: string;
-  image: string;
-  onChange: (field: string, value: string) => void;
 }
 
-export const MediaFields = ({ id, icon, image, onChange }: MediaFieldsProps) => {
+export const MediaFields = ({ id }: MediaFieldsProps) => {
+  const form = useFormContext();
+
   return (
     <div className="space-y-4">
-      <div>
-        <Label htmlFor={`icon-${id}`}>Icon</Label>
-        <Input
-          id={`icon-${id}`}
-          value={icon}
-          onChange={(e) => onChange('icon', e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor={`image-${id}`}>Image URL</Label>
-        <Input
-          id={`image-${id}`}
-          value={image}
-          onChange={(e) => onChange('image', e.target.value)}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="icon"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Icon</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="code" />
+            </FormControl>
+            <FormDescription>
+              Icon name from Lucide icons (e.g., code, database, globe)
+            </FormDescription>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="details.image"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Image URL</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="/placeholder.svg" />
+            </FormControl>
+            <FormDescription>
+              URL of the image to display
+            </FormDescription>
+          </FormItem>
+        )}
+      />
     </div>
   );
 };

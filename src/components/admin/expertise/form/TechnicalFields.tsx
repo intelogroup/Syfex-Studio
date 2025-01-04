@@ -1,33 +1,74 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { useFormContext } from "react-hook-form";
 
 interface TechnicalFieldsProps {
   id: string;
-  tech: string[];
-  longDescription: string;
-  onChange: (field: string, value: string) => void;
 }
 
-export const TechnicalFields = ({ id, tech, longDescription, onChange }: TechnicalFieldsProps) => {
+export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
+  const form = useFormContext();
+
   return (
     <div className="space-y-4">
-      <div>
-        <Label htmlFor={`tech-${id}`}>Technologies (comma-separated)</Label>
-        <Input
-          id={`tech-${id}`}
-          value={tech.join(', ')}
-          onChange={(e) => onChange('tech', e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor={`longDescription-${id}`}>Long Description</Label>
-        <Textarea
-          id={`longDescription-${id}`}
-          value={longDescription}
-          onChange={(e) => onChange('longDescription', e.target.value)}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="tech"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Technologies</FormLabel>
+            <FormControl>
+              <Input 
+                {...field} 
+                value={Array.isArray(field.value) ? field.value.join(', ') : ''} 
+                onChange={e => field.onChange(e.target.value.split(',').map(t => t.trim()))}
+                placeholder="React, TypeScript, Node.js" 
+              />
+            </FormControl>
+            <FormDescription>
+              Enter technologies separated by commas
+            </FormDescription>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="details.longDescription"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Long Description</FormLabel>
+            <FormControl>
+              <Textarea {...field} placeholder="Enter a detailed description" />
+            </FormControl>
+            <FormDescription>
+              A detailed description that appears in the expanded view
+            </FormDescription>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="details.benefits"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Benefits</FormLabel>
+            <FormControl>
+              <Input 
+                {...field} 
+                value={Array.isArray(field.value) ? field.value.join(', ') : ''} 
+                onChange={e => field.onChange(e.target.value.split(',').map(b => b.trim()))}
+                placeholder="Benefit 1, Benefit 2, Benefit 3" 
+              />
+            </FormControl>
+            <FormDescription>
+              Enter benefits separated by commas
+            </FormDescription>
+          </FormItem>
+        )}
+      />
     </div>
   );
 };

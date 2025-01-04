@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { ExpertiseItem } from "../../expertise/types";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { TechnicalFields } from "./form/TechnicalFields";
 import { MediaFields } from "./form/MediaFields";
+import { Form } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { expertiseSchema } from "./schema";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
@@ -13,74 +16,49 @@ interface ExpertiseFormProps {
 }
 
 export const ExpertiseForm = ({ item, onSave, onDelete }: ExpertiseFormProps) => {
-  const [formData, setFormData] = useState<ExpertiseItem>(item);
-
-  const handleChange = (field: keyof ExpertiseItem | 'longDescription' | 'benefits' | 'image', value: string) => {
-    if (field === 'tech') {
-      setFormData({
-        ...formData,
-        tech: value.split(',').map(t => t.trim())
-      });
-    } else if (field === 'longDescription' || field === 'benefits' || field === 'image') {
-      setFormData({
-        ...formData,
-        details: {
-          ...formData.details,
-          [field]: field === 'benefits' 
-            ? value.split(',').map(b => b.trim())
-            : value
-        }
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [field]: value
-      });
+  const form = useForm({
+    resolver: zodResolver(expertiseSchema),
+    defaultValues: {
+      title: item.title,
+      description: item.description,
+      tech: item.tech || [],
+      icon: item.icon || 'code',
+      details: {
+        longDescription: item.details?.longDescription || '',
+        benefits: item.details?.benefits || [],
+        image: item.details?.image || '/placeholder.svg'
+      }
     }
-  };
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(item.id, formData);
+  const handleSubmit = (data: any) => {
+    onSave(item.id, data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <BasicInfoFields
-        id={item.id}
-        title={formData.title}
-        description={formData.description}
-        onChange={handleChange}
-      />
+    <FormProvider {...form}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <BasicInfoFields id={item.id} />
+          <TechnicalFields id={item.id} />
+          <MediaFields id={item.id} />
 
-      <TechnicalFields
-        id={item.id}
-        tech={formData.tech}
-        longDescription={formData.details.longDescription}
-        onChange={handleChange}
-      />
-
-      <MediaFields
-        id={item.id}
-        icon={formData.icon}
-        image={formData.details.image}
-        onChange={handleChange}
-      />
-
-      <div className="flex justify-end gap-2">
-        <Button type="submit" size="sm">
-          Save Changes
-        </Button>
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          onClick={() => onDelete(item.id)}
-        >
-          <Trash className="w-4 h-4 mr-2" />
-          Delete
-        </Button>
-      </div>
-    </form>
+          <div className="flex justify-end gap-2">
+            <Button type="submit" size="sm">
+              Save Changes
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => onDelete(item.id)}
+            >
+              <Trash className="w-4 h-4 mr-2" />
+              Delete
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </FormProvider>
   );
 };
