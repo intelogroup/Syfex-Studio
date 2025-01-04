@@ -60,6 +60,7 @@ export const ExpertiseSection = () => {
                   description={expertiseItem.description}
                   tech={expertiseItem.tech}
                   icon={expertiseItem.icon}
+                  details={expertiseItem.details}
                 />
               </motion.div>
             ))}
