@@ -1,4 +1,4 @@
-import { Code, Palette, Laptop, CheckCircle2, ArrowRight, Layers, PenTool, Globe, Cpu } from "lucide-react";
+import { Code, Palette, Laptop, CheckCircle2, ArrowRight, PenTool, Globe, Cpu } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
