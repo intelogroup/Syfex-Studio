@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
@@ -9,10 +9,20 @@ import { FileUpload } from "./FileUpload";
 import { contactFormSchema, type ContactFormSchema } from "./schema";
 import { Loader2 } from "lucide-react";
 
+// Throttle configuration
+const THROTTLE_DELAY = 2000; // 2 seconds between submissions
+const MAX_SUBMISSIONS = 5; // Maximum submissions in timeframe
+const SUBMISSION_TIMEFRAME = 300000; // 5 minutes in milliseconds
+
 export const ContactForm = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [files, setFiles] = useState<FileList | null>(null);
+  
+  // Throttling state
+  const lastSubmissionTime = useRef<number>(0);
+  const submissionCount = useRef<number>(0);
+  const submissionResetTimeout = useRef<NodeJS.Timeout>();
 
   const form = useForm<ContactFormSchema>({
     resolver: zodResolver(contactFormSchema),
@@ -24,10 +34,58 @@ export const ContactForm = () => {
       description: "",
       budget: "",
     },
-    mode: "onChange", // Enable real-time validation
+    mode: "onChange",
   });
 
+  // Reset submission count after timeframe
+  const resetSubmissionCount = useCallback(() => {
+    submissionCount.current = 0;
+    if (submissionResetTimeout.current) {
+      clearTimeout(submissionResetTimeout.current);
+    }
+  }, []);
+
+  const checkThrottling = useCallback((): boolean => {
+    const now = Date.now();
+    
+    // Check if enough time has passed since last submission
+    if (now - lastSubmissionTime.current < THROTTLE_DELAY) {
+      toast({
+        title: "Please wait",
+        description: "Please wait a few seconds before submitting again.",
+        variant: "destructive",
+      });
+      return true;
+    }
+
+    // Check submission count
+    if (submissionCount.current >= MAX_SUBMISSIONS) {
+      toast({
+        title: "Too many submissions",
+        description: "You've reached the maximum number of submissions. Please try again later.",
+        variant: "destructive",
+      });
+      return true;
+    }
+
+    // Update throttling state
+    lastSubmissionTime.current = now;
+    submissionCount.current += 1;
+
+    // Set timeout to reset submission count
+    if (submissionCount.current === 1) {
+      submissionResetTimeout.current = setTimeout(resetSubmissionCount, SUBMISSION_TIMEFRAME);
+    }
+
+    return false;
+  }, [toast, resetSubmissionCount]);
+
   const onSubmit = async (data: ContactFormSchema) => {
+    // Check throttling before proceeding
+    if (checkThrottling()) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
