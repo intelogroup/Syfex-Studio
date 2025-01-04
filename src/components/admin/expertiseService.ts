@@ -26,7 +26,7 @@ export const createExpertise = async () => {
 
     if (error) {
       console.error('Create expertise error:', error);
-      throw new Error(error.message);
+      throw error;
     }
     return data;
   } catch (error) {
@@ -52,12 +52,11 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
           }
         }
       })
-      .eq('id', id)
-      .select('id, title, description, metadata, type, key, locale');
+      .eq('id', id);
 
     if (error) {
       console.error('Update expertise error:', error);
-      throw new Error(error.message);
+      throw error;
     }
   } catch (error) {
     console.error('Update expertise error:', error);
@@ -70,12 +69,11 @@ export const deleteExpertise = async (id: string) => {
     const { error } = await supabase
       .from('content')
       .delete()
-      .eq('id', id)
-      .select('id');
+      .eq('id', id);
 
     if (error) {
       console.error('Delete expertise error:', error);
-      throw new Error(error.message);
+      throw error;
     }
   } catch (error) {
     console.error('Delete expertise error:', error);

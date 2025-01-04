@@ -7,11 +7,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Trash } from "lucide-react";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { cn } from "@/lib/utils";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
-  onSave: (id: string, data: Partial<ExpertiseItem>) => void;
-  onDelete: (id: string) => void;
+  onSave: (id: string, data: Partial<ExpertiseItem>) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
   isLoading?: boolean;
   className?: string;
 }
@@ -49,9 +50,13 @@ export const ExpertiseForm = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(item.id, formData);
+    await onSave(item.id, formData);
+  };
+
+  const handleDelete = async () => {
+    await onDelete(item.id);
   };
 
   return (
@@ -124,16 +129,34 @@ export const ExpertiseForm = ({
           {isLoading ? <LoadingSpinner className="mr-2" /> : null}
           Save Changes
         </Button>
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          onClick={() => onDelete(item.id)}
-          disabled={isLoading}
-        >
-          <Trash className="w-4 h-4 mr-2" />
-          Delete
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={isLoading}
+            >
+              <Trash className="w-4 h-4 mr-2" />
+              Delete
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the
+                expertise card and remove all of its data.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </form>
   );
