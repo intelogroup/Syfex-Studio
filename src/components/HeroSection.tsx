@@ -3,23 +3,23 @@ import { Calendar, Sparkles } from "lucide-react";
 
 export const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <section className="min-h-screen flex items-start justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background" />
       <div className="absolute inset-0 bg-grid opacity-30" />
       <div className="absolute inset-0 bg-dots opacity-40" />
       
-      <div className="max-w-6xl mx-auto text-center relative z-50">
+      <div className="max-w-6xl mx-auto text-center relative z-50 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="floating"
+          className="floating space-y-16"
         >
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-bold mb-6 gradient-text tracking-tight text-glow relative z-50"
+            className="text-6xl md:text-8xl font-bold gradient-text tracking-tight text-glow relative z-50"
           >
             Syfex Studio
           </motion.h1>
@@ -27,7 +27,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
           >
             Crafting Digital Experiences with Purpose
           </motion.p>
@@ -35,7 +35,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-x-4"
+            className="space-x-4 pt-8"
           >
             <a 
               href="#contact" 
