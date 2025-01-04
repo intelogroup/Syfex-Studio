@@ -10,11 +10,11 @@ export const createExpertise = async () => {
       title: 'New Expertise',
       description: 'Description here',
       metadata: {
-        tech: JSON.stringify([]),
+        tech: [],
         icon: 'code',
         details: {
           longDescription: 'Long description here',
-          benefits: JSON.stringify([]),
+          benefits: [],
           image: '/placeholder.svg'
         }
       }
@@ -33,11 +33,11 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
       title: data.title,
       description: data.description,
       metadata: {
-        tech: JSON.stringify(data.tech || []),
+        tech: data.tech || [],
         icon: data.icon,
         details: {
           longDescription: data.details?.longDescription || '',
-          benefits: JSON.stringify(data.details?.benefits || []),
+          benefits: data.details?.benefits || [],
           image: data.details?.image || '/placeholder.svg'
         }
       }

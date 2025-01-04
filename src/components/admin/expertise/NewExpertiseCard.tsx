@@ -13,7 +13,7 @@ export const NewExpertiseCard = ({ onCreate, onCancel }: NewExpertiseCardProps) 
         <CardTitle>New Expertise Card</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="flex gap-4">
           <Button onClick={onCreate}>Create Card</Button>
           <Button variant="outline" onClick={onCancel}>
             Cancel
