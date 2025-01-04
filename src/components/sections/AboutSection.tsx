@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Users, Target, Heart, Lightbulb } from "lucide-react";
 
 export const AboutSection = () => {

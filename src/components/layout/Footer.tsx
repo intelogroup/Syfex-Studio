@@ -1,5 +1,5 @@
 import { Github, Twitter, Linkedin, Mail, Phone, MapPin, Instagram, Youtube } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export const Footer = () => {
   return (
