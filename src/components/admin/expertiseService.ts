@@ -20,7 +20,7 @@ export const createExpertise = async () => {
         }
       }
     })
-    .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
+    .select('*')
     .single();
 
   if (error) {

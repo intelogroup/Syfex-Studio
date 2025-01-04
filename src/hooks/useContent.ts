@@ -8,7 +8,7 @@ export const useContent = (type: string, locale: string = 'en') => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('content')
-        .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
+        .select('*')
         .eq('type', type)
         .eq('locale', locale);
 
@@ -29,7 +29,7 @@ export const useContentMutation = () => {
       const { data, error } = await supabase
         .from('content')
         .upsert({ id, ...content })
-        .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
+        .select('*')
         .single();
 
       if (error) throw error;
