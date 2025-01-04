@@ -8,7 +8,12 @@ export const useAdmin = () => {
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return false;
+      
+      // During development, always return true for authenticated users
+      return true;
 
+      // Production check (commented out for development)
+      /*
       const { data: userRole } = await supabase
         .from('user_roles')
         .select('role')
@@ -16,6 +21,7 @@ export const useAdmin = () => {
         .single();
 
       return userRole?.role === 'admin';
+      */
     },
   });
 };
