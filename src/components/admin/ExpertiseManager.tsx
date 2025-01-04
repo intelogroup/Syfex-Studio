@@ -7,12 +7,20 @@ import { useToast } from "@/hooks/use-toast";
 import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
 import { ExpertiseList } from "./expertise/ExpertiseList";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
-  const { data: content, isLoading } = useContent('expertise');
-  const { mutate } = useContentMutation();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: content, isLoading, error } = useContent('expertise');
+  const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
+
+  const filteredContent = content?.filter(item => 
+    item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleCreate = async () => {
     try {
@@ -66,8 +74,12 @@ export const ExpertiseManager = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
+  if (error) {
+    return (
+      <div className="text-center text-red-500">
+        Error loading expertise cards: {error.message}
+      </div>
+    );
   }
 
   return (
@@ -77,18 +89,36 @@ export const ExpertiseManager = () => {
         isNewCardDisabled={newCard} 
       />
 
+      <div className="relative">
+        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search expertise cards..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
       {newCard && (
         <NewExpertiseCard
           onCreate={handleCreate}
           onCancel={() => setNewCard(false)}
+          isLoading={isPending}
         />
       )}
 
-      <ExpertiseList
-        content={content}
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <ExpertiseList
+          content={filteredContent || []}
+          onSave={handleSave}
+          onDelete={handleDelete}
+          isLoading={isPending}
+        />
+      )}
     </div>
   );
 };

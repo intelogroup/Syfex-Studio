@@ -4,11 +4,12 @@ import { ExpertiseForm } from "./ExpertiseForm";
 
 interface ExpertiseListProps {
   content: any[];
-  onSave: (id: string, data: Partial<ExpertiseItem>) => void;
-  onDelete: (id: string) => void;
+  onSave: (id: string, data: Partial<ExpertiseItem>) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
+  isLoading?: boolean;
 }
 
-export const ExpertiseList = ({ content, onSave, onDelete }: ExpertiseListProps) => {
+export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: ExpertiseListProps) => {
   return (
     <div className="space-y-4">
       {Array.isArray(content) && content.map((item: any) => {
@@ -42,6 +43,7 @@ export const ExpertiseList = ({ content, onSave, onDelete }: ExpertiseListProps)
                 item={expertiseItem}
                 onSave={onSave}
                 onDelete={onDelete}
+                isLoading={isLoading}
               />
             </CardContent>
           </Card>

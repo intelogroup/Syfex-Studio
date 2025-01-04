@@ -7,13 +7,15 @@ import { Form } from "@/components/ui/form";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { TechnicalFields } from "./form/TechnicalFields";
 import { MediaFields } from "./form/MediaFields";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface NewExpertiseCardProps {
   onCreate: () => void;
   onCancel: () => void;
+  isLoading?: boolean;
 }
 
-export const NewExpertiseCard = ({ onCreate, onCancel }: NewExpertiseCardProps) => {
+export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertiseCardProps) => {
   const form = useForm({
     resolver: zodResolver(expertiseSchema),
     defaultValues: {
@@ -43,8 +45,24 @@ export const NewExpertiseCard = ({ onCreate, onCancel }: NewExpertiseCardProps) 
               <MediaFields id="new" />
 
               <div className="flex gap-4">
-                <Button onClick={onCreate}>Create Card</Button>
-                <Button variant="outline" onClick={onCancel}>
+                <Button 
+                  onClick={onCreate}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner className="mr-2 h-4 w-4" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Card'
+                  )}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={onCancel}
+                  disabled={isLoading}
+                >
                   Cancel
                 </Button>
               </div>
