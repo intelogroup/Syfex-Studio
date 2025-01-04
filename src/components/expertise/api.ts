@@ -6,8 +6,7 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
     .from('content')
     .select('*')
     .eq('type', 'expertise')
-    .eq('locale', 'en')
-    .eq('published', true);
+    .eq('locale', 'en');
 
   if (error) {
     console.error('Error fetching expertise content:', error);
@@ -18,11 +17,11 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
 
   return data.map(item => {
     const metadata = item.metadata as {
-      tech: string;
+      tech: string[];
       icon: string;
       details: {
         longDescription: string;
-        benefits: string;
+        benefits: string[];
         image: string;
       };
     };
@@ -31,12 +30,12 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
       id: item.id,
       title: item.title || '',
       description: item.description || '',
-      tech: JSON.parse(metadata.tech),
-      icon: metadata.icon,
+      tech: metadata.tech || [],
+      icon: metadata.icon || 'code',
       details: {
-        longDescription: metadata.details.longDescription,
-        benefits: JSON.parse(metadata.details.benefits),
-        image: metadata.details.image
+        longDescription: metadata.details?.longDescription || '',
+        benefits: metadata.details?.benefits || [],
+        image: metadata.details?.image || '/placeholder.svg'
       }
     };
   });

@@ -9,7 +9,8 @@ import { fetchExpertiseContent } from "../expertise/api";
 export const ExpertiseSection = () => {
   const { data: expertise, isLoading, error } = useQuery({
     queryKey: ['expertise'],
-    queryFn: fetchExpertiseContent
+    queryFn: fetchExpertiseContent,
+    retry: 1
   });
 
   if (error) {
@@ -41,7 +42,7 @@ export const ExpertiseSection = () => {
           <div className="flex justify-center">
             <LoadingSpinner />
           </div>
-        ) : (
+        ) : expertise && expertise.length > 0 ? (
           <motion.div
             variants={container}
             initial="hidden"
@@ -49,7 +50,7 @@ export const ExpertiseSection = () => {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {expertise?.map((expertiseItem) => (
+            {expertise.map((expertiseItem) => (
               <motion.div key={expertiseItem.id} variants={item}>
                 <ExpertiseCard
                   title={expertiseItem.title}
@@ -61,6 +62,10 @@ export const ExpertiseSection = () => {
               </motion.div>
             ))}
           </motion.div>
+        ) : (
+          <div className="text-center text-muted-foreground">
+            No expertise data available
+          </div>
         )}
       </div>
     </section>
