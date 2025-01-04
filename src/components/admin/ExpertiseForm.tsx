@@ -6,15 +6,23 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash } from "lucide-react";
 import { LoadingSpinner } from "../ui/loading-spinner";
+import { cn } from "@/lib/utils";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
   onSave: (id: string, data: Partial<ExpertiseItem>) => void;
   onDelete: (id: string) => void;
   isLoading?: boolean;
+  className?: string;
 }
 
-export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFormProps) => {
+export const ExpertiseForm = ({ 
+  item, 
+  onSave, 
+  onDelete, 
+  isLoading,
+  className 
+}: ExpertiseFormProps) => {
   const [formData, setFormData] = useState<ExpertiseItem>(item);
 
   const handleChange = (field: keyof ExpertiseItem | 'longDescription' | 'benefits' | 'image', value: string) => {
@@ -47,7 +55,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className={cn("space-y-4", className)}>
       <div>
         <Label htmlFor={`title-${item.id}`}>Title</Label>
         <Input
