@@ -8,7 +8,7 @@ export const HeroSection = () => {
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background" />
       <div className="absolute inset-0 z-[2] bg-grid opacity-30" />
       
-      <div className="max-w-6xl mx-auto text-center relative z-[100] pt-24">
+      <div className="max-w-6xl mx-auto text-center relative z-[100] pt-32">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
