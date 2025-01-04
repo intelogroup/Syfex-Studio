@@ -7,6 +7,7 @@ import { Form } from "../ui/form";
 import { CustomFormField } from "./FormField";
 import { FileUpload } from "./FileUpload";
 import { contactFormSchema, type ContactFormSchema } from "./schema";
+import { Loader2 } from "lucide-react";
 
 export const ContactForm = () => {
   const { toast } = useToast();
@@ -23,6 +24,7 @@ export const ContactForm = () => {
       description: "",
       budget: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
 
   const onSubmit = async (data: ContactFormSchema) => {
@@ -64,6 +66,7 @@ export const ContactForm = () => {
             label="Your Name"
             placeholder="John Doe"
             required
+            description="Enter your full name"
           />
           <CustomFormField
             control={form.control}
@@ -71,6 +74,7 @@ export const ContactForm = () => {
             label="Email Address"
             placeholder="john@example.com"
             required
+            description="We'll never share your email"
           />
         </div>
 
@@ -80,6 +84,7 @@ export const ContactForm = () => {
           label="Organization Type"
           type="select"
           placeholder="Select organization type"
+          description="Tell us about your organization"
           options={[
             { value: "startup", label: "Startup" },
             { value: "enterprise", label: "Enterprise" },
@@ -94,6 +99,7 @@ export const ContactForm = () => {
           label="Project Type"
           type="select"
           placeholder="Select project type"
+          description="What kind of project do you need help with?"
           options={[
             { value: "web", label: "Web Development" },
             { value: "mobile", label: "Mobile App" },
@@ -110,6 +116,7 @@ export const ContactForm = () => {
           type="textarea"
           placeholder="Tell us about your project goals, requirements, and timeline..."
           required
+          description="Provide as much detail as possible to help us understand your needs"
         />
 
         <FileUpload onFileChange={setFiles} />
@@ -120,6 +127,7 @@ export const ContactForm = () => {
           label="Budget Range"
           type="select"
           placeholder="Select budget range"
+          description="This helps us tailor our solution to your budget"
           options={[
             { value: "small", label: "$5,000 - $10,000" },
             { value: "medium", label: "$10,000 - $25,000" },
@@ -133,7 +141,14 @@ export const ContactForm = () => {
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Sending..." : "Send Message"}
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Sending...
+            </>
+          ) : (
+            "Send Message"
+          )}
         </Button>
       </form>
     </Form>

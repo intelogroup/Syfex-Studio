@@ -1,9 +1,12 @@
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Button } from "../ui/button";
 
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
-  const lightSize = 150; // Adjustable light radius in pixels
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const lightSize = 150;
 
   useEffect(() => {
     const nav = navRef.current;
@@ -13,14 +16,11 @@ export const Navbar = () => {
       const rect = nav.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
-      // Update CSS custom properties for the light position
       nav.style.setProperty('--light-x', `${x}px`);
       nav.style.setProperty('--light-y', `${y}px`);
     };
 
     const handleMouseLeave = () => {
-      // Move light off-screen when mouse leaves
       nav.style.setProperty('--light-x', '-999px');
       nav.style.setProperty('--light-y', '-999px');
     };
@@ -33,6 +33,17 @@ export const Navbar = () => {
       nav.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "#about", label: "About" },
+    { href: "#services", label: "Services" },
+    { href: "#expertise", label: "Expertise" },
+    { href: "#portfolio", label: "Portfolio" },
+    { href: "#contact", label: "Contact" }
+  ];
 
   return (
     <motion.div
@@ -47,16 +58,20 @@ export const Navbar = () => {
         WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
       } as React.CSSProperties}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-center backdrop-blur-sm">
-        <div className="flex items-center space-x-12">
-          {[
-            { href: "/", label: "Home" },
-            { href: "#about", label: "About" },
-            { href: "#services", label: "Services" },
-            { href: "#expertise", label: "Expertise" },
-            { href: "#portfolio", label: "Portfolio" },
-            { href: "#contact", label: "Contact" }
-          ].map((link) => (
+      <nav className="max-w-7xl mx-auto flex items-center justify-between backdrop-blur-sm">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-12">
+          {navLinks.map((link) => (
             <motion.a
               key={link.label}
               href={link.href}
@@ -73,6 +88,38 @@ export const Navbar = () => {
             </motion.a>
           ))}
         </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-primary/10 md:hidden"
+            >
+              <div className="flex flex-col items-center py-4 space-y-4">
+                {navLinks.map((link) => (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
+                    className="text-xl font-bold gradient-text transition-colors duration-200 py-2"
+                    whileHover={{ scale: 1.1 }}
+                    onClick={(e) => {
+                      if (link.href.startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                        setIsMenuOpen(false);
+                      }
+                    }}
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </motion.div>
   );
