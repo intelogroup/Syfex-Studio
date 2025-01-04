@@ -10,11 +10,11 @@ export const createExpertise = async () => {
       title: 'New Expertise',
       description: 'Description here',
       metadata: {
-        tech: '[]',
+        tech: JSON.stringify([]),
         icon: 'code',
         details: {
           longDescription: 'Long description here',
-          benefits: '[]',
+          benefits: JSON.stringify([]),
           image: '/placeholder.svg'
         }
       }

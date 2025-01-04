@@ -3,7 +3,7 @@ import { useContent, useContentMutation } from "@/hooks/useContent";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { ExpertiseItem } from "../expertise/types";
 import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
 import { ExpertiseList } from "./expertise/ExpertiseList";
@@ -12,6 +12,7 @@ export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
   const { data: content, isLoading } = useContent('expertise');
   const { mutate: updateContent } = useContentMutation();
+  const { toast } = useToast();
 
   const handleCreate = async () => {
     try {
@@ -21,7 +22,6 @@ export const ExpertiseManager = () => {
       toast({
         title: "Success",
         description: "New expertise card has been created",
-        variant: "default",
       });
     } catch (error) {
       console.error('Error creating expertise:', error);
@@ -40,7 +40,6 @@ export const ExpertiseManager = () => {
       toast({
         title: "Success",
         description: "Expertise card has been updated",
-        variant: "default",
       });
     } catch (error) {
       console.error('Error updating expertise:', error);
@@ -59,7 +58,6 @@ export const ExpertiseManager = () => {
       toast({
         title: "Success",
         description: "Expertise card has been deleted",
-        variant: "default",
       });
     } catch (error) {
       console.error('Error deleting expertise:', error);
