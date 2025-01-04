@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Star, Quote } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const testimonials = [
   {
@@ -8,28 +9,32 @@ const testimonials = [
     position: "CEO, TechVision Inc.",
     feedback: "Their expertise in React and modern web technologies transformed our digital presence. The team delivered beyond our expectations, creating a seamless and engaging user experience.",
     rating: 5,
-    company: "TechVision Inc."
+    company: "TechVision Inc.",
+    avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&h=150&fit=crop"
   },
   {
     name: "Michael Chen",
     position: "CTO, InnovateLabs",
     feedback: "Working with this team was a game-changer. Their deep understanding of full-stack development and attention to detail resulted in a robust, scalable solution that perfectly met our needs.",
     rating: 5,
-    company: "InnovateLabs"
+    company: "InnovateLabs",
+    avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=150&h=150&fit=crop"
   },
   {
     name: "Emily Rodriguez",
     position: "Marketing Director, GrowthFirst",
     feedback: "The team's ability to blend beautiful design with powerful functionality is remarkable. Our conversion rates increased by 150% after the website redesign.",
     rating: 5,
-    company: "GrowthFirst"
+    company: "GrowthFirst",
+    avatar: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=150&h=150&fit=crop"
   },
   {
     name: "David Kim",
     position: "Product Manager, FutureScale",
     feedback: "Outstanding technical expertise and project management. They not only delivered a fantastic product but also provided valuable insights throughout the development process.",
     rating: 5,
-    company: "FutureScale"
+    company: "FutureScale",
+    avatar: "https://images.unsplash.com/photo-1501286353178-1ec881214838?w=150&h=150&fit=crop"
   },
 ];
 
@@ -75,9 +80,15 @@ export const TestimonialsSection = () => {
                   </div>
                   <p className="text-muted-foreground mb-6 italic">"{testimonial.feedback}"</p>
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-lg">{testimonial.name}</h3>
-                      <p className="text-sm text-muted-foreground">{testimonial.position}</p>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-12 w-12 border-2 border-primary/20">
+                        <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                        <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-semibold text-lg">{testimonial.name}</h3>
+                        <p className="text-sm text-muted-foreground">{testimonial.position}</p>
+                      </div>
                     </div>
                     <Users className="w-6 h-6 text-secondary/60" />
                   </div>
