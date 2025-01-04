@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useContent, useContentMutation } from "@/hooks/useContent";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { Plus, Trash } from "lucide-react";
-import { ExpertiseForm } from "./ExpertiseForm";
-import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
 import { ExpertiseItem } from "../expertise/types";
+import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
 import { toast } from "@/hooks/use-toast";
+import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
+import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
+import { ExpertiseList } from "./expertise/ExpertiseList";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
@@ -78,67 +77,23 @@ export const ExpertiseManager = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Manage Expertise</h2>
-        <Button onClick={() => setNewCard(true)} disabled={newCard}>
-          <Plus className="w-4 h-4 mr-2" />
-          Add New Card
-        </Button>
-      </div>
+      <ExpertiseHeader 
+        onNewCard={() => setNewCard(true)} 
+        isNewCardDisabled={newCard} 
+      />
 
       {newCard && (
-        <Card>
-          <CardHeader>
-            <CardTitle>New Expertise Card</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <Button onClick={handleCreate}>Create Card</Button>
-              <Button variant="outline" onClick={() => setNewCard(false)}>
-                Cancel
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <NewExpertiseCard
+          onCreate={handleCreate}
+          onCancel={() => setNewCard(false)}
+        />
       )}
 
-      {Array.isArray(content) && content.map((item: any) => {
-        if (!item?.id) return null;
-        
-        try {
-          const tech = JSON.parse(item.metadata?.tech || '[]');
-          const benefits = JSON.parse(item.metadata?.details?.benefits || '[]');
-          
-          return (
-            <Card key={item.id}>
-              <CardHeader>
-                <CardTitle>{item.title || 'Untitled'}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ExpertiseForm
-                  item={{
-                    id: item.id,
-                    title: item.title || '',
-                    description: item.description || '',
-                    tech: Array.isArray(tech) ? tech : [],
-                    icon: item.metadata?.icon || '',
-                    details: {
-                      longDescription: item.metadata?.details?.longDescription || '',
-                      benefits: Array.isArray(benefits) ? benefits : [],
-                      image: item.metadata?.details?.image || '/placeholder.svg'
-                    }
-                  }}
-                  onSave={handleSave}
-                  onDelete={handleDelete}
-                />
-              </CardContent>
-            </Card>
-          );
-        } catch (error) {
-          console.error('Error parsing item data:', error);
-          return null;
-        }
-      })}
+      <ExpertiseList
+        content={content}
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };
