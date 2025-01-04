@@ -137,6 +137,69 @@ export const PortfolioSection = () => {
             results: "Adopted by 50+ enterprise clients, resulting in 35% improvement in project delivery times and 40% reduction in resource conflicts",
             link: "https://example.com/project-management"
           }
+        },
+        {
+          id: 7,
+          title: "Luxury Brand Identity",
+          description: "Complete brand redesign for a luxury fashion house",
+          image: "https://images.unsplash.com/photo-1473091534298-04dcbce3278c?auto=format&fit=crop&w=800&q=80",
+          details: {
+            fullDescription: "A comprehensive brand identity overhaul for a luxury fashion brand, including logo design, typography, color palette, and brand guidelines. The project focused on creating a timeless, sophisticated aesthetic that reflects the brand's heritage while appealing to modern luxury consumers.",
+            technologies: ["Adobe Creative Suite", "Figma", "Typography", "Brand Strategy", "Print Design", "Digital Design"],
+            features: [
+              "Custom logotype and monogram design",
+              "Exclusive typography system",
+              "Premium packaging design",
+              "Digital presence guidelines",
+              "Retail environment design",
+              "Marketing collateral templates",
+              "Social media brand guidelines"
+            ],
+            results: "Achieved 40% increase in brand recognition, 25% improvement in customer perception, and successful implementation across 50+ global retail locations",
+            link: "https://example.com/luxury-brand"
+          }
+        },
+        {
+          id: 8,
+          title: "AI-Powered E-commerce",
+          description: "Smart shopping platform with AI recommendations",
+          image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+          details: {
+            fullDescription: "Development of an innovative e-commerce platform that leverages AI for personalized shopping experiences. The system uses advanced machine learning algorithms to provide real-time product recommendations, dynamic pricing, and intelligent inventory management.",
+            technologies: ["TensorFlow", "Python", "React", "Node.js", "AWS", "MongoDB", "Redis"],
+            features: [
+              "AI-powered product recommendations",
+              "Dynamic pricing optimization",
+              "Personalized user experiences",
+              "Automated inventory management",
+              "Smart search functionality",
+              "Customer behavior analysis",
+              "Predictive analytics dashboard"
+            ],
+            results: "200% increase in conversion rate, 45% improvement in average order value, and 60% reduction in cart abandonment",
+            link: "https://example.com/ai-ecommerce"
+          }
+        },
+        {
+          id: 9,
+          title: "Product Campaign Design",
+          description: "Integrated marketing campaign for product launch",
+          image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=800&q=80",
+          details: {
+            fullDescription: "Created a comprehensive marketing campaign for a major product launch, including print materials, digital assets, and environmental graphics. The project encompassed everything from initial concept development to final production across multiple channels and formats.",
+            technologies: ["Adobe Creative Suite", "Cinema 4D", "After Effects", "Social Media Design", "Print Production"],
+            features: [
+              "Billboard and outdoor advertising",
+              "Social media campaign assets",
+              "Product packaging design",
+              "Print collateral suite",
+              "Digital advertising materials",
+              "Event graphics and signage",
+              "Video content production"
+            ],
+            results: "Generated 150% increase in brand engagement, reached 2M+ social media impressions, and exceeded sales targets by 75%",
+            link: "https://example.com/product-campaign"
+          }
         }
       ];
     },

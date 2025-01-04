@@ -118,5 +118,125 @@ export const mockExpertiseData = [
       ],
       image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
     }
+  },
+  {
+    id: 7,
+    title: "Brand Identity Design",
+    description: "Creating distinctive visual identities and brand guidelines",
+    tech: ["Adobe Creative Suite", "Figma", "Brand Strategy", "Typography", "Color Theory", "Logo Design", "Brand Guidelines"],
+    icon: "palette",
+    details: {
+      longDescription: "Our brand identity design service creates compelling visual narratives that capture your brand's essence. We specialize in developing comprehensive brand identities that include logo design, typography selection, color palettes, and detailed brand guidelines. Our approach combines creative expertise with strategic thinking to ensure your brand stands out in today's competitive market.",
+      benefits: [
+        "Unique and memorable logo design that reflects brand values",
+        "Comprehensive brand guidelines for consistent application",
+        "Versatile design systems that work across all platforms",
+        "Strategic color palette selection for brand recognition",
+        "Custom typography and icon sets",
+        "Brand voice and messaging guidelines",
+        "Social media brand presence optimization"
+      ],
+      image: "https://images.unsplash.com/photo-1473091534298-04dcbce3278c?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 8,
+    title: "Print & Marketing Design",
+    description: "Crafting impactful marketing materials and print collateral",
+    tech: ["InDesign", "Illustrator", "Photoshop", "Print Production", "Marketing Strategy", "Layout Design", "Typography"],
+    icon: "paintbrush",
+    details: {
+      longDescription: "We excel in creating high-impact print and digital marketing materials that effectively communicate your message. From business cards and brochures to large-format displays and digital marketing assets, our design team ensures every piece maintains brand consistency while maximizing visual impact and engagement.",
+      benefits: [
+        "Professional business collateral design",
+        "Eye-catching marketing materials",
+        "Print-ready file preparation",
+        "Digital and social media asset creation",
+        "Consistent brand implementation",
+        "Multi-format design adaptation",
+        "Cost-effective print solutions"
+      ],
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 9,
+    title: "Product Visualization",
+    description: "Creating stunning 3D renders and product mockups",
+    tech: ["3D Studio Max", "Cinema 4D", "Blender", "KeyShot", "Photoshop", "Product Photography", "Lighting"],
+    icon: "image",
+    details: {
+      longDescription: "Our product visualization service brings your products to life through photorealistic 3D rendering and professional mockups. We create stunning visual assets that showcase your products in their best light, perfect for marketing materials, e-commerce, and presentations. Our team combines technical expertise with artistic vision to deliver exceptional results.",
+      benefits: [
+        "Photorealistic 3D product rendering",
+        "Custom product mockup creation",
+        "360-degree product visualization",
+        "Environmental context visualization",
+        "Product packaging design",
+        "Interactive product demonstrations",
+        "E-commerce ready images"
+      ],
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 10,
+    title: "AI Integration Services",
+    description: "Implementing cutting-edge AI solutions for businesses",
+    tech: ["TensorFlow", "PyTorch", "OpenAI API", "Machine Learning", "Natural Language Processing", "Computer Vision", "AWS AI Services"],
+    icon: "brain",
+    details: {
+      longDescription: "We specialize in integrating advanced AI technologies into existing business systems and workflows. Our team develops custom AI solutions that automate processes, enhance decision-making, and improve customer experiences. From natural language processing to computer vision applications, we help businesses leverage the power of artificial intelligence.",
+      benefits: [
+        "Custom AI model development and training",
+        "Seamless integration with existing systems",
+        "Automated workflow implementation",
+        "Predictive analytics solutions",
+        "AI-powered customer service tools",
+        "Machine learning pipeline development",
+        "Performance monitoring and optimization"
+      ],
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 11,
+    title: "AI-Powered Design",
+    description: "Leveraging AI for innovative design solutions",
+    tech: ["Midjourney", "DALL-E", "Stable Diffusion", "Adobe Firefly", "Figma", "Design Systems", "Generative AI"],
+    icon: "palette",
+    details: {
+      longDescription: "Our AI-powered design service combines creative expertise with cutting-edge AI technologies to revolutionize the design process. We utilize advanced AI tools for concept generation, style exploration, and design iteration, while maintaining human creativity and strategic thinking to ensure results that exceed expectations and push creative boundaries.",
+      benefits: [
+        "Rapid concept generation and exploration",
+        "AI-assisted style development",
+        "Automated asset generation",
+        "Design variation testing",
+        "Intelligent layout suggestions",
+        "Color palette optimization",
+        "Enhanced design workflow efficiency"
+      ],
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    }
+  },
+  {
+    id: 12,
+    title: "AI Development Solutions",
+    description: "Professional AI-assisted software development",
+    tech: ["GitHub Copilot", "Amazon CodeWhisperer", "OpenAI API", "Neural Networks", "AutoML", "CI/CD", "Code Analysis"],
+    icon: "code",
+    details: {
+      longDescription: "We leverage advanced AI-powered development tools and methodologies to accelerate software development while maintaining high quality standards. Our team combines AI assistance with professional development expertise to deliver efficient, scalable, and maintainable solutions. From code generation to testing and optimization, we ensure every aspect of development benefits from AI capabilities.",
+      benefits: [
+        "Accelerated development timelines",
+        "AI-assisted code generation and review",
+        "Automated testing and quality assurance",
+        "Intelligent code refactoring",
+        "Performance optimization",
+        "Security vulnerability detection",
+        "Smart documentation generation"
+      ],
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80"
+    }
   }
 ];
