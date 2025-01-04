@@ -9,8 +9,10 @@ import { supabase } from "./integrations/supabase/client";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Auth from "./pages/Auth";
+import Admin from "./pages/Admin";
 import { sendToAnalytics } from "./utils/analytics";
 import { onCLS, onFID, onLCP } from 'web-vitals';
+import "./i18n/config";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -68,6 +70,7 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/admin" element={<Admin />} />
               </Routes>
               <Toaster />
               <Sonner />
