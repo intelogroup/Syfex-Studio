@@ -99,31 +99,39 @@ export const ExpertiseManager = () => {
         </Card>
       )}
 
-      {content?.map((item: any) => (
-        <Card key={item.id}>
-          <CardHeader>
-            <CardTitle>{item.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ExpertiseForm
-              item={{
-                id: item.id,
-                title: item.title || '',
-                description: item.description || '',
-                tech: JSON.parse(item.metadata?.tech || '[]'),
-                icon: item.metadata?.icon || '',
-                details: {
-                  longDescription: item.metadata?.details?.longDescription || '',
-                  benefits: JSON.parse(item.metadata?.details?.benefits || '[]'),
-                  image: item.metadata?.details?.image || '/placeholder.svg'
-                }
-              }}
-              onSave={handleSave}
-              onDelete={handleDelete}
-            />
-          </CardContent>
-        </Card>
-      ))}
+      {Array.isArray(content) && content.map((item: any) => {
+        if (!item?.id) return null;
+        
+        return (
+          <Card key={item.id}>
+            <CardHeader>
+              <CardTitle>{item.title || 'Untitled'}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ExpertiseForm
+                item={{
+                  id: item.id,
+                  title: item.title || '',
+                  description: item.description || '',
+                  tech: Array.isArray(JSON.parse(item.metadata?.tech || '[]')) 
+                    ? JSON.parse(item.metadata?.tech || '[]') 
+                    : [],
+                  icon: item.metadata?.icon || '',
+                  details: {
+                    longDescription: item.metadata?.details?.longDescription || '',
+                    benefits: Array.isArray(JSON.parse(item.metadata?.details?.benefits || '[]'))
+                      ? JSON.parse(item.metadata?.details?.benefits || '[]')
+                      : [],
+                    image: item.metadata?.details?.image || '/placeholder.svg'
+                  }
+                }}
+                onSave={handleSave}
+                onDelete={handleDelete}
+              />
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };
