@@ -1,29 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../ui/loading-spinner";
-import { AlertCircle, ChevronRight, ExternalLink } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-
-const PortfolioSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {[1, 2, 3].map((item) => (
-      <Card key={item} className="bg-card/50 backdrop-blur-sm border-muted">
-        <CardHeader>
-          <Skeleton className="h-6 w-3/4" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="w-full aspect-video rounded-lg" />
-          <Skeleton className="h-4 w-1/2 mt-4" />
-        </CardContent>
-      </Card>
-    ))}
-  </div>
-);
+import { PortfolioCard } from "../portfolio/PortfolioCard";
+import { PortfolioSkeleton } from "../portfolio/PortfolioSkeleton";
 
 export const PortfolioSection = () => {
   const { data: portfolioItems, isLoading, error, refetch } = useQuery({
@@ -144,72 +125,7 @@ export const PortfolioSection = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolioItems?.map(item => (
-              <Dialog key={item.id}>
-                <DialogTrigger asChild>
-                  <Card className="bg-card/50 backdrop-blur-sm border-muted hover:border-primary/50 transition-colors duration-300 overflow-hidden cursor-pointer group">
-                    <CardHeader>
-                      <CardTitle>{item.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <AspectRatio ratio={16 / 9}>
-                        <img 
-                          src={item.image} 
-                          alt={`${item.title} project showcase`} 
-                          className="object-cover w-full h-full rounded-lg"
-                          loading="lazy"
-                        />
-                      </AspectRatio>
-                      <p className="text-muted-foreground">{item.description}</p>
-                      <div className="flex items-center text-sm text-primary gap-1 group-hover:gap-2 transition-all">
-                        View details <ChevronRight className="h-4 w-4" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>{item.title}</DialogTitle>
-                    <DialogDescription>{item.description}</DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <img 
-                      src={item.image} 
-                      alt={item.title} 
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                    <p className="text-muted-foreground">
-                      {item.details.fullDescription}
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Technologies Used:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {item.details.technologies.map((tech) => (
-                          <Badge key={tech} variant="secondary">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Key Features:</h4>
-                      <ul className="list-disc list-inside space-y-1">
-                        {item.details.features.map((feature, index) => (
-                          <li key={index} className="text-muted-foreground">{feature}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Results:</h4>
-                      <p className="text-muted-foreground">{item.details.results}</p>
-                    </div>
-                    <Button asChild className="w-full">
-                      <a href={item.details.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                        Visit Project <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <PortfolioCard key={item.id} item={item} />
             ))}
           </div>
         )}
