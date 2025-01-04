@@ -46,10 +46,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
     .select()
     .single();
 
-  if (error) {
-    console.error('Update error:', error);
-    throw error;
-  }
+  if (error) throw error;
 };
 
 export const deleteExpertise = async (id: string) => {
@@ -60,8 +57,5 @@ export const deleteExpertise = async (id: string) => {
     .select()
     .single();
 
-  if (error) {
-    console.error('Delete error:', error);
-    throw error;
-  }
+  if (error) throw error;
 };

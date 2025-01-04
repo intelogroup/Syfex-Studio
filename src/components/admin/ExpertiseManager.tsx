@@ -11,20 +11,19 @@ import { ExpertiseList } from "./expertise/ExpertiseList";
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
   const { data: content, isLoading } = useContent('expertise');
-  const { mutate: updateContent } = useContentMutation();
+  const { mutate } = useContentMutation();
   const { toast } = useToast();
 
   const handleCreate = async () => {
     try {
       await createExpertise();
-      updateContent();
+      mutate();
       setNewCard(false);
       toast({
         title: "Success",
         description: "New expertise card has been created",
       });
     } catch (error) {
-      console.error('Error creating expertise:', error);
       toast({
         title: "Error",
         description: "Failed to create expertise card",
@@ -36,13 +35,12 @@ export const ExpertiseManager = () => {
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
       await updateExpertise(id, data);
-      updateContent();
+      mutate();
       toast({
         title: "Success",
         description: "Expertise card has been updated",
       });
     } catch (error) {
-      console.error('Error updating expertise:', error);
       toast({
         title: "Error",
         description: "Failed to update expertise card",
@@ -54,13 +52,12 @@ export const ExpertiseManager = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteExpertise(id);
-      updateContent();
+      mutate();
       toast({
         title: "Success",
         description: "Expertise card has been deleted",
       });
     } catch (error) {
-      console.error('Error deleting expertise:', error);
       toast({
         title: "Error",
         description: "Failed to delete expertise card",
