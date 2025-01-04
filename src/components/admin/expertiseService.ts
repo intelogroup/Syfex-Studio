@@ -19,7 +19,7 @@ export const createExpertise = async () => {
         }
       }
     })
-    .select()
+    .select('id, title, description, metadata, type, key')
     .single();
 
   if (error) throw error;
@@ -43,7 +43,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
       }
     })
     .eq('id', id)
-    .select()
+    .select('id, title, description, metadata, type, key')
     .single();
 
   if (error) throw error;
@@ -54,7 +54,7 @@ export const deleteExpertise = async (id: string) => {
     .from('content')
     .delete()
     .eq('id', id)
-    .select()
+    .select('id')
     .single();
 
   if (error) throw error;
