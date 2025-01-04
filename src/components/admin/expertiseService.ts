@@ -9,6 +9,7 @@ export const createExpertise = async () => {
       key: 'expertise-' + Date.now(),
       title: 'New Expertise',
       description: 'Description here',
+      locale: 'en',
       metadata: {
         tech: [],
         icon: 'code',
@@ -17,10 +18,9 @@ export const createExpertise = async () => {
           benefits: [],
           image: '/placeholder.svg'
         }
-      },
-      locale: 'en'
+      }
     })
-    .select('id, title, description, metadata, type, key, locale')
+    .select()
     .single();
 
   if (error) throw error;
@@ -35,7 +35,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
       description: data.description,
       metadata: {
         tech: data.tech || [],
-        icon: data.icon,
+        icon: data.icon || 'code',
         details: {
           longDescription: data.details?.longDescription || '',
           benefits: data.details?.benefits || [],

@@ -14,39 +14,36 @@ export const ExpertiseList = ({ content, onSave, onDelete }: ExpertiseListProps)
       {Array.isArray(content) && content.map((item: any) => {
         if (!item?.id) return null;
         
-        try {
-          const tech = JSON.parse(item.metadata?.tech || '[]');
-          const benefits = JSON.parse(item.metadata?.details?.benefits || '[]');
-          
-          return (
-            <Card key={item.id}>
-              <CardHeader>
-                <CardTitle>{item.title || 'Untitled'}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ExpertiseForm
-                  item={{
-                    id: item.id,
-                    title: item.title || '',
-                    description: item.description || '',
-                    tech: Array.isArray(tech) ? tech : [],
-                    icon: item.metadata?.icon || '',
-                    details: {
-                      longDescription: item.metadata?.details?.longDescription || '',
-                      benefits: Array.isArray(benefits) ? benefits : [],
-                      image: item.metadata?.details?.image || '/placeholder.svg'
-                    }
-                  }}
-                  onSave={onSave}
-                  onDelete={onDelete}
-                />
-              </CardContent>
-            </Card>
-          );
-        } catch (error) {
-          console.error('Error parsing item data:', error);
-          return null;
-        }
+        const metadata = item.metadata || {};
+        const tech = metadata.tech || [];
+        const details = metadata.details || {};
+        const benefits = details.benefits || [];
+        
+        return (
+          <Card key={item.id}>
+            <CardHeader>
+              <CardTitle>{item.title || 'Untitled'}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ExpertiseForm
+                item={{
+                  id: item.id,
+                  title: item.title || '',
+                  description: item.description || '',
+                  tech: tech,
+                  icon: metadata.icon || 'code',
+                  details: {
+                    longDescription: details.longDescription || '',
+                    benefits: benefits,
+                    image: details.image || '/placeholder.svg'
+                  }
+                }}
+                onSave={onSave}
+                onDelete={onDelete}
+              />
+            </CardContent>
+          </Card>
+        );
       })}
     </div>
   );
