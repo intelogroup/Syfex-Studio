@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 export const ServicesSection = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const { toast } = useToast();
 
   const services = [
     {
@@ -64,9 +66,32 @@ export const ServicesSection = () => {
     },
   ];
 
+  const handleServiceRequest = (serviceTitle: string) => {
+    // In a real app, this could send data to a backend or open a form
+    toast({
+      title: "Service Request Received",
+      description: `Thank you for your interest in our ${serviceTitle} service. We'll contact you soon!`,
+      duration: 5000,
+    });
+    
+    // Simulate sending to backend
+    console.log("Service requested:", {
+      service: serviceTitle,
+      timestamp: new Date().toISOString(),
+    });
+  };
+
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
-    contactSection?.scrollIntoView({ behavior: 'smooth' });
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      toast({
+        title: "Navigation Error",
+        description: "Contact form not found. Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -139,16 +164,28 @@ export const ServicesSection = () => {
                           ))}
                         </ul>
                       </div>
-                      <Button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          scrollToContact();
-                        }}
-                        className="w-full mt-4"
-                        variant="secondary"
-                      >
-                        Request Service
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleServiceRequest(service.title);
+                          }}
+                          className="w-full"
+                          variant="default"
+                        >
+                          Request Service
+                        </Button>
+                        <Button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollToContact();
+                          }}
+                          className="w-full"
+                          variant="secondary"
+                        >
+                          Contact Us
+                        </Button>
+                      </div>
                     </div>
                   </motion.div>
                 </CardContent>
