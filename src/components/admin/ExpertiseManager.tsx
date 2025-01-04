@@ -24,7 +24,7 @@ export const ExpertiseManager = () => {
 
   const handleCreate = async () => {
     try {
-      const newExpertise = await createExpertise();
+      await createExpertise();
       mutate(['content', 'expertise']);
       setNewCard(false);
       toast({
@@ -60,12 +60,17 @@ export const ExpertiseManager = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteExpertise(id);
-      mutate(['content', 'expertise']);
+      // Immediately update the UI by removing the deleted item
+      mutate(['content', 'expertise'], (oldData: any) => 
+        oldData?.filter((item: any) => item.id !== id) || [], 
+        { revalidate: false }
+      );
       toast({
         title: "Success",
         description: "Expertise card has been deleted",
       });
     } catch (error) {
+      console.error('Delete error:', error);
       toast({
         title: "Error",
         description: "Failed to delete expertise card",
