@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 
 interface TechnicalFieldsProps {
@@ -22,13 +22,14 @@ export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
               <Input 
                 {...field} 
                 value={Array.isArray(field.value) ? field.value.join(', ') : ''} 
-                onChange={e => field.onChange(e.target.value.split(',').map(t => t.trim()))}
+                onChange={e => field.onChange(e.target.value.split(',').map(t => t.trim()).filter(Boolean))}
                 placeholder="React, TypeScript, Node.js" 
               />
             </FormControl>
             <FormDescription>
               Enter technologies separated by commas
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -45,6 +46,7 @@ export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
             <FormDescription>
               A detailed description that appears in the expanded view
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -59,13 +61,14 @@ export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
               <Input 
                 {...field} 
                 value={Array.isArray(field.value) ? field.value.join(', ') : ''} 
-                onChange={e => field.onChange(e.target.value.split(',').map(b => b.trim()))}
+                onChange={e => field.onChange(e.target.value.split(',').map(b => b.trim()).filter(Boolean))}
                 placeholder="Benefit 1, Benefit 2, Benefit 3" 
               />
             </FormControl>
             <FormDescription>
               Enter benefits separated by commas
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />

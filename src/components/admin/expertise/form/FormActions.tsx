@@ -18,8 +18,8 @@ export const FormActions = ({ isLoading, onDelete }: FormActionsProps) => {
       >
         {isLoading ? (
           <div className="flex items-center">
-            <LoadingSpinner />
-            <span className="ml-2">Saving...</span>
+            <LoadingSpinner className="mr-2 h-4 w-4" />
+            <span>Saving...</span>
           </div>
         ) : (
           'Save Changes'
@@ -40,15 +40,18 @@ export const FormActions = ({ isLoading, onDelete }: FormActionsProps) => {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
-              expertise card and remove all of its data.
+              expertise card and remove all of its data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete}>
+            <AlertDialogAction 
+              onClick={onDelete}
+              className="bg-destructive hover:bg-destructive/90"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 
 interface MediaFieldsProps {
@@ -23,6 +23,7 @@ export const MediaFields = ({ id }: MediaFieldsProps) => {
             <FormDescription>
               Icon name from Lucide icons (e.g., code, database, globe)
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -39,6 +40,7 @@ export const MediaFields = ({ id }: MediaFieldsProps) => {
             <FormDescription>
               URL of the image to display
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />

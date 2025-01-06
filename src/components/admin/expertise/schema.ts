@@ -8,7 +8,7 @@ export const expertiseSchema = z.object({
   details: z.object({
     longDescription: z.string().min(1, "Long description is required"),
     benefits: z.array(z.string()).min(1, "At least one benefit is required"),
-    image: z.string().url("Invalid image URL").optional().default("/placeholder.svg")
+    image: z.string().min(1, "Image URL is required")
   })
 });
 

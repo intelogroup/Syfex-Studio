@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 
 interface BasicInfoFieldsProps {
@@ -24,6 +24,7 @@ export const BasicInfoFields = ({ id }: BasicInfoFieldsProps) => {
             <FormDescription>
               The title of your expertise card
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -40,6 +41,7 @@ export const BasicInfoFields = ({ id }: BasicInfoFieldsProps) => {
             <FormDescription>
               A short description that appears on the card
             </FormDescription>
+            <FormMessage />
           </FormItem>
         )}
       />

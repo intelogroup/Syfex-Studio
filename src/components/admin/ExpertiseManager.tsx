@@ -23,17 +23,21 @@ export const ExpertiseManager = () => {
 
   const availableTech = Array.from(
     new Set(
-      content?.flatMap((item) => item.metadata?.tech || []) || []
+      content?.flatMap((item) => {
+        const metadata = item.metadata as Record<string, any>;
+        return metadata?.tech || [];
+      }) || []
     )
   );
 
   const filteredContent = content?.filter(item => {
+    const metadata = item.metadata as Record<string, any>;
     const matchesSearch = 
       item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.description?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesTech = selectedTech.length === 0 || 
-      selectedTech.every(tech => item.metadata?.tech?.includes(tech));
+      selectedTech.every(tech => metadata?.tech?.includes(tech));
 
     return matchesSearch && matchesTech;
   });
@@ -50,9 +54,9 @@ export const ExpertiseManager = () => {
     } catch (error: any) {
       console.error('Create error:', error);
       toast({
+        variant: "destructive",
         title: "Error",
         description: error.message || "Failed to create expertise card",
-        variant: "destructive",
       });
     }
   };
@@ -68,9 +72,9 @@ export const ExpertiseManager = () => {
     } catch (error: any) {
       console.error('Update error:', error);
       toast({
+        variant: "destructive",
         title: "Error",
         description: error.message || "Failed to update expertise card",
-        variant: "destructive",
       });
     }
   };
@@ -86,9 +90,9 @@ export const ExpertiseManager = () => {
     } catch (error: any) {
       console.error('Delete error:', error);
       toast({
+        variant: "destructive",
         title: "Error",
         description: error.message || "Failed to delete expertise card",
-        variant: "destructive",
       });
     }
   };
