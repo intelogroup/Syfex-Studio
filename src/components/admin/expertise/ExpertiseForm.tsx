@@ -1,7 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { ExpertiseItem } from "../../expertise/types";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { TechnicalFields } from "./form/TechnicalFields";
 import { MediaFields } from "./form/MediaFields";
