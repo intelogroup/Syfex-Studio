@@ -76,7 +76,8 @@ export const deleteExpertise = async (id: string) => {
     const { error } = await supabase
       .from('content')
       .delete()
-      .eq('id', id);
+      .eq('id', id)
+      .maybeSingle(); // This ensures we don't try to read the response body
 
     if (error) {
       console.error('Delete expertise error:', error);
