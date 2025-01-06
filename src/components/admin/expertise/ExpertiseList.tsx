@@ -81,7 +81,6 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
               const metadata = item.metadata || {};
               const tech = Array.isArray(metadata.tech) ? metadata.tech : [];
               const details = metadata.details || {};
-              const benefits = Array.isArray(details.benefits) ? details.benefits : [];
               
               const expertiseItem: ExpertiseItem = {
                 id: item.id,
@@ -93,10 +92,11 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
                 icon: metadata.icon || 'code',
                 details: {
                   longDescription: details.longDescription || '',
-                  benefits: benefits,
+                  benefits: Array.isArray(details.benefits) ? details.benefits : [],
                   image: details.image || '/placeholder.svg'
                 },
-                published: item.published || false
+                published: item.published || false,
+                type: item.type || 'expertise'
               };
               
               return (
