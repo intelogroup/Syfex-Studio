@@ -1,6 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 import { ExpertiseItem } from "../expertise/types";
 
+export const fetchExpertise = async (): Promise<ExpertiseItem[]> => {
+  try {
+    console.log('Fetching expertise content from Supabase...');
+    const { data, error } = await supabase
+      .from('expertise')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Fetch expertise error:', error);
+      throw error;
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Fetch expertise error:', error);
+    throw error;
+  }
+};
+
 export const createExpertise = async () => {
   try {
     const key = 'expertise-' + Date.now();

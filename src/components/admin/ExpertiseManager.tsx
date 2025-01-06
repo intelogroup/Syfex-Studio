@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useContentMutation } from "@/hooks/useContent";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { ExpertiseItem } from "../expertise/types";
-import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
+import { createExpertise, updateExpertise, deleteExpertise, fetchExpertise } from "./expertiseService";
 import { useToast } from "@/hooks/use-toast";
 import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
@@ -10,13 +10,18 @@ import { ExpertiseList } from "./expertise/ExpertiseList";
 import { ErrorBoundary } from "../error-boundary";
 import { ExpertiseFilterSection } from "./expertise/filters/ExpertiseFilterSection";
 import { ExpertiseError } from "./expertise/error/ExpertiseError";
-import { useExpertiseContent } from "@/hooks/useExpertiseContent";
+import { useQuery } from "@tanstack/react-query";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
-  const { data: content, isLoading, error } = useExpertiseContent();
+  
+  const { data: content, isLoading, error } = useQuery({
+    queryKey: ['expertise'],
+    queryFn: fetchExpertise
+  });
+
   const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
 
