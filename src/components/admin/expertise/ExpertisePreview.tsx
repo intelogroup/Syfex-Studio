@@ -71,6 +71,12 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
             />
           </div>
         )}
+
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <span>Key: {item.key}</span>
+          <span>Locale: {item.locale}</span>
+          <span>Status: {item.published ? 'Published' : 'Draft'}</span>
+        </div>
       </CardContent>
     </Card>
   );
