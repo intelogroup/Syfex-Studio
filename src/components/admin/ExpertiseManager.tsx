@@ -83,7 +83,7 @@ export const ExpertiseManager = () => {
   if (error) {
     return (
       <Alert variant="destructive">
-        <AlertTriangle />
+        <AlertTriangle className="h-4 w-4" />
         <AlertDescription>
           Error loading expertise cards: {error.message}
         </AlertDescription>
@@ -120,7 +120,7 @@ export const ExpertiseManager = () => {
 
         {isLoading ? (
           <div className="flex justify-center items-center min-h-[200px]">
-            <LoadingSpinner size={32} />
+            <LoadingSpinner className="h-8 w-8" />
           </div>
         ) : (
           <ExpertiseList
