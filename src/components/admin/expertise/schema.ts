@@ -8,7 +8,7 @@ export const expertiseSchema = z.object({
   image_url: z.string().nullable().default('/placeholder.svg'),
   tech: z.array(z.string()).default([]),
   benefits: z.array(z.string()).default([]),
-  published: z.boolean().default(false),
+  published: z.boolean().nullable().default(false),
   key: z.string().min(1, "Key is required"),
   locale: z.string().min(2, "Locale is required").default('en')
 });

@@ -7,7 +7,7 @@ export interface ExpertiseItem {
   image_url: string | null;
   tech: string[];
   benefits: string[];
-  published: boolean;
+  published: boolean | null;
   created_at?: string;
   updated_at?: string;
   created_by?: string | null;
