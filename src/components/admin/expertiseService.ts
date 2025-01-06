@@ -7,14 +7,14 @@ export const createExpertise = async () => {
     const { data, error } = await supabase
       .from('expertise')
       .insert({
-        key: key,
+        key,
         title: 'New Expertise',
-        description: 'Description here',
+        description: null,
         locale: 'en',
         published: false,
         tech: [],
         icon: 'code',
-        long_description: '',
+        long_description: null,
         benefits: [],
         image_url: '/placeholder.svg'
       })
@@ -44,10 +44,10 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
         locale: data.locale,
         published: data.published,
         tech: data.tech || [],
-        icon: data.icon || 'code',
-        long_description: data.long_description || '',
+        icon: data.icon,
+        long_description: data.long_description,
         benefits: data.benefits || [],
-        image_url: data.image_url || '/placeholder.svg'
+        image_url: data.image_url
       })
       .eq('id', id)
       .maybeSingle();

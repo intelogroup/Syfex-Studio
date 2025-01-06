@@ -8,9 +8,9 @@ export interface ExpertiseItem {
   tech: string[];
   benefits: string[];
   published: boolean;
-  key: string;
-  locale: string;
   created_at?: string;
   updated_at?: string;
   created_by?: string | null;
+  key: string;
+  locale: string;
 }
