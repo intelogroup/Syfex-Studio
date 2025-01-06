@@ -30,7 +30,7 @@ export const MediaFields = ({ id }: MediaFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="details.image"
+        name="imageUrl"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Image URL</FormLabel>

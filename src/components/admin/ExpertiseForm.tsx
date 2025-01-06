@@ -27,11 +27,9 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       tech: item.tech || [],
       icon: item.icon || 'code',
       published: item.published || false,
-      details: {
-        longDescription: item.details.longDescription,
-        benefits: item.details.benefits,
-        image: item.details.image
-      }
+      longDescription: item.longDescription || '',
+      benefits: item.benefits || [],
+      imageUrl: item.imageUrl || '/placeholder.svg'
     }
   });
 

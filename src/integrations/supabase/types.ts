@@ -54,6 +54,57 @@ export type Database = {
         }
         Relationships: []
       }
+      expertise: {
+        Row: {
+          benefits: string[] | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          key: string
+          locale: string
+          long_description: string | null
+          published: boolean | null
+          tech: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          benefits?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          key: string
+          locale?: string
+          long_description?: string | null
+          published?: boolean | null
+          tech?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          benefits?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          key?: string
+          locale?: string
+          long_description?: string | null
+          published?: boolean | null
+          tech?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

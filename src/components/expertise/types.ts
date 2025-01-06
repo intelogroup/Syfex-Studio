@@ -1,5 +1,3 @@
-import { Json } from "@/integrations/supabase/types";
-
 export interface ExpertiseDetails {
   longDescription: string;
   benefits: string[];
@@ -14,22 +12,8 @@ export interface ExpertiseItem {
   icon: string;
   key: string;
   locale: string;
-  details: ExpertiseDetails;
+  longDescription: string;
+  benefits: string[];
+  imageUrl: string;
   published?: boolean;
-  type?: "expertise" | "portfolio" | "testimonial" | "service";
-}
-
-export interface ContentResponse {
-  id: string;
-  title: string | null;
-  description: string | null;
-  metadata: Json;
-  created_at: string;
-  updated_at: string;
-  created_by: string | null;
-  published: boolean | null;
-  type: "expertise" | "portfolio" | "testimonial" | "service";
-  key: string;
-  locale: string;
-  long_description: string | null;
 }

@@ -7,11 +7,9 @@ export const expertiseSchema = z.object({
   icon: z.string().min(1, "Icon is required"),
   key: z.string().min(1, "Key is required"),
   locale: z.string().min(2, "Locale is required"),
-  details: z.object({
-    longDescription: z.string().min(1, "Long description is required"),
-    benefits: z.array(z.string()).min(1, "At least one benefit is required"),
-    image: z.string().min(1, "Image URL is required")
-  }),
+  longDescription: z.string().min(1, "Long description is required"),
+  benefits: z.array(z.string()).min(1, "At least one benefit is required"),
+  imageUrl: z.string().min(1, "Image URL is required"),
   published: z.boolean().default(false)
 });
 

@@ -36,7 +36,7 @@ export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="details.longDescription"
+        name="longDescription"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Long Description</FormLabel>
@@ -53,7 +53,7 @@ export const TechnicalFields = ({ id }: TechnicalFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="details.benefits"
+        name="benefits"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Benefits</FormLabel>

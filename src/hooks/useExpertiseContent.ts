@@ -4,20 +4,17 @@ import { useEffect } from "react";
 import { ExpertiseItem } from "@/components/expertise/types";
 
 const transformContent = (item: any): ExpertiseItem => {
-  const metadata = item.metadata || {};
   return {
     id: item.id,
     title: item.title || '',
     description: item.description || '',
     key: item.key || '',
     locale: item.locale || 'en',
-    tech: metadata.tech || [],
-    icon: metadata.icon || 'code',
-    details: {
-      longDescription: metadata.details?.longDescription || '',
-      benefits: metadata.details?.benefits || [],
-      image: metadata.details?.image || '/placeholder.svg'
-    },
+    tech: item.tech || [],
+    icon: item.icon || 'code',
+    longDescription: item.long_description || '',
+    benefits: item.benefits || [],
+    imageUrl: item.image_url || '/placeholder.svg',
     published: item.published || false
   };
 };
@@ -33,12 +30,11 @@ export const useExpertiseContent = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'content',
-          filter: 'type=eq.expertise'
+          table: 'expertise'
         },
         (payload) => {
           console.log('Real-time update received:', payload);
-          queryClient.invalidateQueries({ queryKey: ['content', 'expertise'] });
+          queryClient.invalidateQueries({ queryKey: ['expertise'] });
         }
       )
       .subscribe();
@@ -49,13 +45,12 @@ export const useExpertiseContent = () => {
   }, [queryClient]);
 
   return useQuery({
-    queryKey: ['content', 'expertise'],
+    queryKey: ['expertise'],
     queryFn: async () => {
       console.log('Fetching expertise content...');
       const { data, error } = await supabase
-        .from('content')
+        .from('expertise')
         .select('*')
-        .eq('type', 'expertise')
         .eq('locale', 'en');
 
       if (error) {
