@@ -1,17 +1,47 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { ExpertiseCard } from "../expertise/ExpertiseCard";
 import { container, item } from "../expertise/expertiseAnimations";
 import { fetchExpertiseContent } from "../expertise/api";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ExpertiseSection = () => {
+  const queryClient = useQueryClient();
   const { data: expertise, isLoading, error } = useQuery({
     queryKey: ['expertise'],
     queryFn: fetchExpertiseContent,
     retry: 1
   });
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('expertise-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'content',
+          filter: 'type=eq.expertise'
+        },
+        () => {
+          console.log('Content table changed, invalidating query...');
+          queryClient.invalidateQueries({ queryKey: ['expertise'] });
+          toast({
+            title: "Content Updated",
+            description: "The expertise section has been updated.",
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   if (error) {
     toast({
