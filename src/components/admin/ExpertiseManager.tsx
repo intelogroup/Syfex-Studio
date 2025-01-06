@@ -1,97 +1,38 @@
-import { useState } from "react";
-import { useContentMutation } from "@/hooks/useContent";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { ExpertiseItem } from "../expertise/types";
-import { createExpertise, updateExpertise, deleteExpertise, fetchExpertise } from "./expertiseService";
-import { useToast } from "@/hooks/use-toast";
 import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
 import { ExpertiseList } from "./expertise/ExpertiseList";
 import { ErrorBoundary } from "../error-boundary";
 import { ExpertiseFilterSection } from "./expertise/filters/ExpertiseFilterSection";
 import { ExpertiseError } from "./expertise/error/ExpertiseError";
-import { useQuery } from "@tanstack/react-query";
+import { useExpertiseState } from "./expertise/state/useExpertiseState";
+import { useExpertiseHandlers } from "./expertise/handlers/useExpertiseHandlers";
 
 export const ExpertiseManager = () => {
-  const [newCard, setNewCard] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTech, setSelectedTech] = useState<string[]>([]);
-  
-  const { data: content, isLoading, error } = useQuery({
-    queryKey: ['expertise'],
-    queryFn: fetchExpertise
-  });
+  const {
+    newCard,
+    setNewCard,
+    searchTerm,
+    setSearchTerm,
+    selectedTech,
+    setSelectedTech,
+    content,
+    isLoading,
+    error,
+    availableTech
+  } = useExpertiseState();
 
-  const { mutate, isPending } = useContentMutation();
-  const { toast } = useToast();
+  const {
+    handleCreate,
+    handleSave,
+    handleDelete,
+    isPending
+  } = useExpertiseHandlers();
 
-  const availableTech = Array.from(
-    new Set(content?.flatMap((item) => item.tech || []) || [])
-  );
-
-  const filteredContent = content?.filter(item => {
-    const matchesSearch = 
-      item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesTech = selectedTech.length === 0 || 
-      selectedTech.every(tech => item.tech?.includes(tech));
-
-    return matchesSearch && matchesTech;
-  });
-
-  const handleCreate = async () => {
-    try {
-      await createExpertise();
-      mutate(['content', 'expertise']);
+  const onCreateSuccess = async () => {
+    const success = await handleCreate();
+    if (success) {
       setNewCard(false);
-      toast({
-        title: "Success",
-        description: "New expertise card has been created",
-      });
-    } catch (error: any) {
-      console.error('Create error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to create expertise card",
-      });
-    }
-  };
-
-  const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
-    try {
-      await updateExpertise(id, data);
-      mutate(['content', 'expertise']);
-      toast({
-        title: "Success",
-        description: "Expertise card has been updated",
-      });
-    } catch (error: any) {
-      console.error('Update error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update expertise card",
-      });
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteExpertise(id);
-      mutate(['content', 'expertise']);
-      toast({
-        title: "Success",
-        description: "Expertise card has been deleted",
-      });
-    } catch (error: any) {
-      console.error('Delete error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to delete expertise card",
-      });
     }
   };
 
@@ -119,7 +60,7 @@ export const ExpertiseManager = () => {
 
         {newCard && (
           <NewExpertiseCard
-            onCreate={handleCreate}
+            onCreate={onCreateSuccess}
             onCancel={() => setNewCard(false)}
             isLoading={isPending}
           />
@@ -131,7 +72,7 @@ export const ExpertiseManager = () => {
           </div>
         ) : (
           <ExpertiseList
-            content={filteredContent || []}
+            content={content || []}
             onSave={handleSave}
             onDelete={handleDelete}
             isLoading={isPending}
