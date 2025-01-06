@@ -7,23 +7,36 @@ import { useToast } from "@/hooks/use-toast";
 import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
 import { ExpertiseList } from "./expertise/ExpertiseList";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
 import { ErrorBoundary } from "../error-boundary";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
+import { ExpertiseSearch } from "./expertise/ExpertiseSearch";
+import { ExpertiseFilters } from "./expertise/ExpertiseFilters";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTech, setSelectedTech] = useState<string[]>([]);
   const { data: content, isLoading, error } = useContent('expertise');
   const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
 
-  const filteredContent = content?.filter(item => 
-    item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  const availableTech = Array.from(
+    new Set(
+      content?.flatMap((item) => item.metadata?.tech || []) || []
+    )
   );
+
+  const filteredContent = content?.filter(item => {
+    const matchesSearch = 
+      item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTech = selectedTech.length === 0 || 
+      selectedTech.every(tech => item.metadata?.tech?.includes(tech));
+
+    return matchesSearch && matchesTech;
+  });
 
   const handleCreate = async () => {
     try {
@@ -99,37 +112,45 @@ export const ExpertiseManager = () => {
           isNewCardDisabled={newCard || isPending} 
         />
 
-        <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search expertise cards..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-            disabled={isLoading || isPending}
-          />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="md:col-span-3 space-y-4">
+            <ExpertiseSearch
+              value={searchTerm}
+              onChange={setSearchTerm}
+              disabled={isLoading || isPending}
+            />
 
-        {newCard && (
-          <NewExpertiseCard
-            onCreate={handleCreate}
-            onCancel={() => setNewCard(false)}
-            isLoading={isPending}
-          />
-        )}
+            {newCard && (
+              <NewExpertiseCard
+                onCreate={handleCreate}
+                onCancel={() => setNewCard(false)}
+                isLoading={isPending}
+              />
+            )}
 
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[200px]">
-            <LoadingSpinner className="h-8 w-8" />
+            {isLoading ? (
+              <div className="flex justify-center items-center min-h-[200px]">
+                <LoadingSpinner className="h-8 w-8" />
+              </div>
+            ) : (
+              <ExpertiseList
+                content={filteredContent || []}
+                onSave={handleSave}
+                onDelete={handleDelete}
+                isLoading={isPending}
+              />
+            )}
           </div>
-        ) : (
-          <ExpertiseList
-            content={filteredContent || []}
-            onSave={handleSave}
-            onDelete={handleDelete}
-            isLoading={isPending}
-          />
-        )}
+
+          <div className="border rounded-lg p-4">
+            <ExpertiseFilters
+              selectedTech={selectedTech}
+              availableTech={availableTech}
+              onTechSelect={(tech) => setSelectedTech([...selectedTech, tech])}
+              onTechRemove={(tech) => setSelectedTech(selectedTech.filter(t => t !== tech))}
+            />
+          </div>
+        </div>
       </div>
     </ErrorBoundary>
   );
