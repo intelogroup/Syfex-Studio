@@ -7,7 +7,7 @@ export const LocalizationFields = () => {
   const form = useFormContext();
 
   return (
-    <>
+    <div className="space-y-4">
       <FormField
         control={form.control}
         name="key"
@@ -50,6 +50,6 @@ export const LocalizationFields = () => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };

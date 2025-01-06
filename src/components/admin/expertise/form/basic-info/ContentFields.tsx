@@ -7,7 +7,7 @@ export const ContentFields = () => {
   const form = useFormContext();
 
   return (
-    <>
+    <div className="space-y-4">
       <FormField
         control={form.control}
         name="title"
@@ -41,6 +41,6 @@ export const ContentFields = () => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
