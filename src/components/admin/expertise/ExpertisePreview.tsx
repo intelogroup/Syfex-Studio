@@ -26,7 +26,7 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           <p className="text-sm text-muted-foreground">{item.description}</p>
         </div>
 
-        {item.tech.length > 0 && (
+        {item.tech && item.tech.length > 0 && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Technologies</h4>
             <div className="flex flex-wrap gap-2">
@@ -48,7 +48,7 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           </div>
         )}
 
-        {item.benefits.length > 0 && (
+        {item.benefits && item.benefits.length > 0 && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Benefits</h4>
             <ul className="list-disc list-inside space-y-1">

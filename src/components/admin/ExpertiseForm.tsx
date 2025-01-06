@@ -23,13 +23,15 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     resolver: zodResolver(expertiseSchema),
     defaultValues: {
       title: item.title,
-      description: item.description,
+      description: item.description || '',
       tech: item.tech || [],
       icon: item.icon || 'code',
-      published: item.published || false,
-      longDescription: item.longDescription || '',
+      long_description: item.long_description || '',
       benefits: item.benefits || [],
-      imageUrl: item.imageUrl || '/placeholder.svg'
+      image_url: item.image_url || '/placeholder.svg',
+      published: item.published || false,
+      key: item.key,
+      locale: item.locale
     }
   });
 
