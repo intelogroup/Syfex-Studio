@@ -87,13 +87,16 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
                 id: item.id,
                 title: item.title || '',
                 description: item.description || '',
+                key: item.key || '',
+                locale: item.locale || 'en',
                 tech: tech,
                 icon: metadata.icon || 'code',
                 details: {
                   longDescription: details.longDescription || '',
                   benefits: benefits,
                   image: details.image || '/placeholder.svg'
-                }
+                },
+                published: item.published || false
               };
               
               return (

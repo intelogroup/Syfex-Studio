@@ -9,13 +9,16 @@ const transformContent = (item: any): ExpertiseItem => {
     id: item.id,
     title: item.title || '',
     description: item.description || '',
+    key: item.key || '',
+    locale: item.locale || 'en',
     tech: metadata.tech || [],
     icon: metadata.icon || 'code',
     details: {
       longDescription: metadata.details?.longDescription || '',
       benefits: metadata.details?.benefits || [],
       image: metadata.details?.image || '/placeholder.svg'
-    }
+    },
+    published: item.published || false
   };
 };
 
