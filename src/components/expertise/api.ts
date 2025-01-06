@@ -2,6 +2,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ContentResponse, ExpertiseItem } from "./types";
 
 export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
+  console.log('Fetching expertise content from Supabase...');
+  
   const { data, error } = await supabase
     .from('content')
     .select('*')
@@ -14,9 +16,11 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
     throw error;
   }
 
+  console.log('Raw data from Supabase:', data);
+
   if (!data) return [];
 
-  return data.map(item => {
+  const mappedData = data.map(item => {
     const metadata = item.metadata as {
       tech: string[];
       icon: string;
@@ -40,4 +44,7 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
       }
     };
   });
+
+  console.log('Mapped expertise data:', mappedData);
+  return mappedData;
 };
