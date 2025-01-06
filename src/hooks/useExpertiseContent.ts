@@ -26,7 +26,6 @@ export const useExpertiseContent = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // Subscribe to real-time changes
     const channel = supabase
       .channel('expertise-changes')
       .on(
@@ -39,7 +38,6 @@ export const useExpertiseContent = () => {
         },
         (payload) => {
           console.log('Real-time update received:', payload);
-          // Invalidate and refetch
           queryClient.invalidateQueries({ queryKey: ['content', 'expertise'] });
         }
       )
