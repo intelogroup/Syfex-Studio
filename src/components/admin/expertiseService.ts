@@ -37,6 +37,7 @@ export const createExpertise = async () => {
 
 export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) => {
   try {
+    console.log('Updating expertise:', id, data);
     const { error } = await supabase
       .from('content')
       .update({
@@ -66,6 +67,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
 
 export const deleteExpertise = async (id: string) => {
   try {
+    console.log('Deleting expertise:', id);
     const { error } = await supabase
       .from('content')
       .delete()

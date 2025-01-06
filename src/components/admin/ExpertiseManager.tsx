@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useContent, useContentMutation } from "@/hooks/useContent";
+import { useContentMutation } from "@/hooks/useContent";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { ExpertiseItem } from "../expertise/types";
 import { createExpertise, updateExpertise, deleteExpertise } from "./expertiseService";
@@ -12,32 +12,27 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
 import { ExpertiseSearch } from "./expertise/ExpertiseSearch";
 import { ExpertiseFilters } from "./expertise/ExpertiseFilters";
+import { useExpertiseContent } from "@/hooks/useExpertiseContent";
 
 export const ExpertiseManager = () => {
   const [newCard, setNewCard] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
-  const { data: content, isLoading, error } = useContent('expertise');
+  const { data: content, isLoading, error } = useExpertiseContent();
   const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
 
   const availableTech = Array.from(
-    new Set(
-      content?.flatMap((item) => {
-        const metadata = item.metadata as Record<string, any>;
-        return metadata?.tech || [];
-      }) || []
-    )
+    new Set(content?.flatMap((item) => item.tech || []) || [])
   );
 
   const filteredContent = content?.filter(item => {
-    const metadata = item.metadata as Record<string, any>;
     const matchesSearch = 
       item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.description?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesTech = selectedTech.length === 0 || 
-      selectedTech.every(tech => metadata?.tech?.includes(tech));
+      selectedTech.every(tech => item.tech?.includes(tech));
 
     return matchesSearch && matchesTech;
   });
