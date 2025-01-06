@@ -3,7 +3,7 @@ import { LoadingSpinner } from "../ui/loading-spinner";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { ExpertiseCard } from "../expertise/ExpertiseCard";
-import { container, item } from "../expertise/expertiseAnimations";
+import { container } from "../expertise/expertiseAnimations";
 import { fetchExpertiseContent } from "../expertise/api";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -80,7 +80,13 @@ export const ExpertiseSection = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {expertise.filter(item => item.published).map((item) => (
-              <motion.div key={item.id} variants={item}>
+              <motion.div 
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
                 <ExpertiseCard
                   title={item.title}
                   description={item.description || ''}

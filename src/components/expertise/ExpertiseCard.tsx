@@ -1,4 +1,3 @@
-import { ExpertiseItem } from "./types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/icons";
@@ -17,7 +16,15 @@ interface ExpertiseCardProps {
   imageUrl: string;
 }
 
-export const ExpertiseCard = ({ title, description, tech, icon, longDescription, benefits, imageUrl }: ExpertiseCardProps) => {
+export const ExpertiseCard = ({ 
+  title, 
+  description, 
+  tech, 
+  icon, 
+  longDescription, 
+  benefits, 
+  imageUrl 
+}: ExpertiseCardProps) => {
   const Icon = Icons[icon as keyof typeof Icons] || Icons.code;
 
   return (
