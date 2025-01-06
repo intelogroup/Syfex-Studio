@@ -49,7 +49,6 @@ export const SortableExpertiseCard = ({
       >
         <GripVertical className="h-6 w-6 text-muted-foreground" />
       </div>
-
       <CardHeader className="pl-12">
         <CardTitle>{item.title || 'Untitled'}</CardTitle>
       </CardHeader>

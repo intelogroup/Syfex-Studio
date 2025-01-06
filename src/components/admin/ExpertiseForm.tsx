@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash } from "lucide-react";
 import { LoadingSpinner } from "../ui/loading-spinner";
-import { cn } from "@/lib/utils";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface ExpertiseFormProps {
@@ -14,39 +13,32 @@ interface ExpertiseFormProps {
   onSave: (id: string, data: Partial<ExpertiseItem>) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   isLoading?: boolean;
-  className?: string;
 }
 
-export const ExpertiseForm = ({ 
-  item, 
-  onSave, 
-  onDelete, 
-  isLoading,
-  className 
-}: ExpertiseFormProps) => {
+export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFormProps) => {
   const [formData, setFormData] = useState<ExpertiseItem>(item);
 
   const handleChange = (field: keyof ExpertiseItem | 'longDescription' | 'benefits' | 'image', value: string) => {
     if (field === 'tech') {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         tech: value.split(',').map(t => t.trim())
-      });
+      }));
     } else if (field === 'longDescription' || field === 'benefits' || field === 'image') {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         details: {
-          ...formData.details,
+          ...prev.details,
           [field]: field === 'benefits' 
             ? value.split(',').map(b => b.trim())
             : value
         }
-      });
+      }));
     } else {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         [field]: value
-      });
+      }));
     }
   };
 
@@ -55,12 +47,8 @@ export const ExpertiseForm = ({
     await onSave(item.id, formData);
   };
 
-  const handleDelete = async () => {
-    await onDelete(item.id);
-  };
-
   return (
-    <form onSubmit={handleSubmit} className={cn("space-y-4", className)}>
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <Label htmlFor={`title-${item.id}`}>Title</Label>
         <Input
@@ -126,7 +114,7 @@ export const ExpertiseForm = ({
       </div>
       <div className="flex justify-end gap-2">
         <Button type="submit" size="sm" disabled={isLoading}>
-          {isLoading ? <LoadingSpinner className="mr-2" /> : null}
+          {isLoading && <LoadingSpinner className="mr-2" />}
           Save Changes
         </Button>
         <AlertDialog>
@@ -151,7 +139,7 @@ export const ExpertiseForm = ({
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>
+              <AlertDialogAction onClick={() => onDelete(item.id)}>
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>
