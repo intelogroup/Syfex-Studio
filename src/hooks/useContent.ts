@@ -27,24 +27,20 @@ export const useContentMutation = () => {
   return useMutation({
     mutationFn: async ({ id, ...content }: any) => {
       if (id) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('content')
           .update(content)
-          .eq('id', id)
-          .select()
-          .single();
+          .eq('id', id);
 
         if (error) throw error;
-        return data;
+        return { id }; // Return minimal data needed
       } else {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('content')
-          .insert(content)
-          .select()
-          .single();
+          .insert(content);
 
         if (error) throw error;
-        return data;
+        return { success: true }; // Return minimal data needed
       }
     },
     onSuccess: () => {
