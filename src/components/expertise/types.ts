@@ -12,6 +12,8 @@ export interface ExpertiseItem {
   description: string;
   tech: string[];
   icon: string;
+  key: string;
+  locale: string;
   details: ExpertiseDetails;
   published?: boolean;
 }

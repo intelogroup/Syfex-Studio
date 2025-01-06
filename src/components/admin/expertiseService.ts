@@ -3,11 +3,12 @@ import { ExpertiseItem } from "../expertise/types";
 
 export const createExpertise = async () => {
   try {
+    const key = 'expertise-' + Date.now();
     const { data, error } = await supabase
       .from('content')
       .insert({
         type: 'expertise',
-        key: 'expertise-' + Date.now(),
+        key: key,
         title: 'New Expertise',
         description: 'Description here',
         locale: 'en',
@@ -44,6 +45,8 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
       .update({
         title: data.title,
         description: data.description,
+        key: data.key,
+        locale: data.locale,
         published: data.published,
         metadata: {
           tech: data.tech || [],

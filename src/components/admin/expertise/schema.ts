@@ -5,6 +5,8 @@ export const expertiseSchema = z.object({
   description: z.string().min(1, "Description is required").max(500, "Description is too long"),
   tech: z.array(z.string()).min(1, "At least one technology is required"),
   icon: z.string().min(1, "Icon is required"),
+  key: z.string().min(1, "Key is required"),
+  locale: z.string().min(2, "Locale is required"),
   details: z.object({
     longDescription: z.string().min(1, "Long description is required"),
     benefits: z.array(z.string()).min(1, "At least one benefit is required"),
