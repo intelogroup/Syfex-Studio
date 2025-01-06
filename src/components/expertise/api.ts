@@ -18,20 +18,5 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
 
   if (!data) return [];
 
-  const mappedData: ExpertiseItem[] = data.map(item => ({
-    id: item.id,
-    title: item.title || '',
-    description: item.description || '',
-    longDescription: item.long_description || '',
-    icon: item.icon || 'code',
-    imageUrl: item.image_url || '/placeholder.svg',
-    tech: item.tech || [],
-    benefits: item.benefits || [],
-    published: item.published || false,
-    key: item.key,
-    locale: item.locale
-  }));
-
-  console.log('Mapped expertise data:', mappedData);
-  return mappedData;
+  return data;
 };

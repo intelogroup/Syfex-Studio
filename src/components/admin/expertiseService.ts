@@ -45,9 +45,9 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
         published: data.published,
         tech: data.tech || [],
         icon: data.icon || 'code',
-        long_description: data.longDescription || '',
+        long_description: data.long_description || '',
         benefits: data.benefits || [],
-        image_url: data.imageUrl || '/placeholder.svg'
+        image_url: data.image_url || '/placeholder.svg'
       })
       .eq('id', id)
       .maybeSingle();

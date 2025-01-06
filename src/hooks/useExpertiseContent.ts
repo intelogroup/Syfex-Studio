@@ -3,22 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { ExpertiseItem } from "@/components/expertise/types";
 
-const transformContent = (item: any): ExpertiseItem => {
-  return {
-    id: item.id,
-    title: item.title || '',
-    description: item.description || '',
-    key: item.key || '',
-    locale: item.locale || 'en',
-    tech: item.tech || [],
-    icon: item.icon || 'code',
-    longDescription: item.long_description || '',
-    benefits: item.benefits || [],
-    imageUrl: item.image_url || '/placeholder.svg',
-    published: item.published || false
-  };
-};
-
 export const useExpertiseContent = () => {
   const queryClient = useQueryClient();
 
@@ -58,7 +42,7 @@ export const useExpertiseContent = () => {
         throw error;
       }
 
-      return data?.map(transformContent) || [];
+      return data || [];
     },
   });
 };

@@ -39,11 +39,11 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           </div>
         )}
 
-        {item.longDescription && (
+        {item.long_description && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Details</h4>
             <p className="text-sm text-muted-foreground">
-              {item.longDescription}
+              {item.long_description}
             </p>
           </div>
         )}
@@ -61,11 +61,11 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           </div>
         )}
 
-        {item.imageUrl && item.imageUrl !== '/placeholder.svg' && (
+        {item.image_url && item.image_url !== '/placeholder.svg' && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Image</h4>
             <img
-              src={item.imageUrl}
+              src={item.image_url}
               alt={item.title}
               className="rounded-lg object-cover w-full max-h-48"
             />
