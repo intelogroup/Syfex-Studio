@@ -39,20 +39,20 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           </div>
         )}
 
-        {item.details.longDescription && (
+        {item.longDescription && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Details</h4>
             <p className="text-sm text-muted-foreground">
-              {item.details.longDescription}
+              {item.longDescription}
             </p>
           </div>
         )}
 
-        {item.details.benefits.length > 0 && (
+        {item.benefits.length > 0 && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Benefits</h4>
             <ul className="list-disc list-inside space-y-1">
-              {item.details.benefits.map((benefit, index) => (
+              {item.benefits.map((benefit, index) => (
                 <li key={index} className="text-sm text-muted-foreground">
                   {benefit}
                 </li>
@@ -61,11 +61,11 @@ export const ExpertisePreview = ({ item }: ExpertisePreviewProps) => {
           </div>
         )}
 
-        {item.details.image && item.details.image !== '/placeholder.svg' && (
+        {item.imageUrl && item.imageUrl !== '/placeholder.svg' && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold">Image</h4>
             <img
-              src={item.details.image}
+              src={item.imageUrl}
               alt={item.title}
               className="rounded-lg object-cover w-full max-h-48"
             />

@@ -1,19 +1,13 @@
-export interface ExpertiseDetails {
-  longDescription: string;
-  benefits: string[];
-  image: string;
-}
-
 export interface ExpertiseItem {
   id: string;
   title: string;
   description: string;
-  tech: string[];
+  longDescription: string;
   icon: string;
+  imageUrl: string;
+  tech: string[];
+  benefits: string[];
+  published: boolean;
   key: string;
   locale: string;
-  longDescription: string;
-  benefits: string[];
-  imageUrl: string;
-  published?: boolean;
 }

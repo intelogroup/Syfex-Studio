@@ -28,11 +28,12 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       description: item.description,
       tech: item.tech || [],
       icon: item.icon || 'code',
-      details: {
-        longDescription: item.details?.longDescription || '',
-        benefits: item.details?.benefits || [],
-        image: item.details?.image || '/placeholder.svg'
-      }
+      longDescription: item.longDescription || '',
+      benefits: item.benefits || [],
+      imageUrl: item.imageUrl || '/placeholder.svg',
+      published: item.published || false,
+      key: item.key,
+      locale: item.locale
     }
   });
 

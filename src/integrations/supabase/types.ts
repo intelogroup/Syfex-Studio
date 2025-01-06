@@ -9,51 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      content: {
-        Row: {
-          created_at: string
-          created_by: string | null
-          description: string | null
-          id: string
-          key: string
-          locale: string
-          long_description: string | null
-          metadata: Json | null
-          published: boolean | null
-          title: string | null
-          type: Database["public"]["Enums"]["content_type"]
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          key: string
-          locale?: string
-          long_description?: string | null
-          metadata?: Json | null
-          published?: boolean | null
-          title?: string | null
-          type: Database["public"]["Enums"]["content_type"]
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          key?: string
-          locale?: string
-          long_description?: string | null
-          metadata?: Json | null
-          published?: boolean | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["content_type"]
-          updated_at?: string
-        }
-        Relationships: []
-      }
       expertise: {
         Row: {
           benefits: string[] | null
