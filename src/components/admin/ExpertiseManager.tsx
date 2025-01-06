@@ -82,7 +82,7 @@ export const ExpertiseManager = () => {
 
   if (error) {
     return (
-      <Alert variant="destructive" className="mb-4">
+      <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
         <AlertDescription>
           Error loading expertise cards: {error.message}

@@ -114,7 +114,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       </div>
       <div className="flex justify-end gap-2">
         <Button type="submit" size="sm" disabled={isLoading}>
-          {isLoading && <LoadingSpinner className="mr-2" />}
+          {isLoading && <LoadingSpinner />}
           Save Changes
         </Button>
         <AlertDialog>
