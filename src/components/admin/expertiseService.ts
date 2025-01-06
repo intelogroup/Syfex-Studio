@@ -58,7 +58,8 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
           }
         }
       })
-      .eq('id', id);
+      .eq('id', id)
+      .maybeSingle();
 
     if (error) {
       console.error('Update expertise error:', error);
@@ -77,7 +78,7 @@ export const deleteExpertise = async (id: string) => {
       .from('content')
       .delete()
       .eq('id', id)
-      .maybeSingle(); // This ensures we don't try to read the response body
+      .maybeSingle();
 
     if (error) {
       console.error('Delete expertise error:', error);
