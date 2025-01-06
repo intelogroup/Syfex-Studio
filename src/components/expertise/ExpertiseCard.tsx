@@ -1,48 +1,24 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExpertiseItem } from "./types";
 import { Badge } from "@/components/ui/badge";
-import { Code2, Database, Globe, Laptop, Smartphone, Palette, ChevronRight, X } from "lucide-react";
-import { motion } from "framer-motion";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Icons } from "@/components/icons";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect } from "react";
-import { ExpertiseDetails } from "./types";
+import { ChevronRight, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ExpertiseCardProps {
   title: string;
   description: string;
   tech: string[];
   icon: string;
-  details: ExpertiseDetails;
+  longDescription: string;
+  benefits: string[];
+  imageUrl: string;
 }
 
-const getIcon = (iconName: string) => {
-  switch (iconName) {
-    case "code":
-      return <Code2 className="h-6 w-6" />;
-    case "database":
-      return <Database className="h-6 w-6" />;
-    case "smartphone":
-      return <Smartphone className="h-6 w-6" />;
-    case "palette":
-      return <Palette className="h-6 w-6" />;
-    case "globe":
-      return <Globe className="h-6 w-6" />;
-    case "laptop":
-      return <Laptop className="h-6 w-6" />;
-    default:
-      return <Code2 className="h-6 w-6" />;
-  }
-};
-
-export const ExpertiseCard = ({ title, description, tech, icon, details }: ExpertiseCardProps) => {
-  useEffect(() => {
-    const handleDialogOpen = () => {
-      window.scrollTo(0, 0);
-    };
-
-    document.addEventListener('dialogopen', handleDialogOpen);
-    return () => document.removeEventListener('dialogopen', handleDialogOpen);
-  }, []);
+export const ExpertiseCard = ({ title, description, tech, icon, longDescription, benefits, imageUrl }: ExpertiseCardProps) => {
+  const Icon = Icons[icon as keyof typeof Icons] || Icons.code;
 
   return (
     <Dialog>
@@ -51,17 +27,17 @@ export const ExpertiseCard = ({ title, description, tech, icon, details }: Exper
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                {getIcon(icon)}
+                <Icon className="h-6 w-6" />
               </div>
               <CardTitle className="text-xl">{title}</CardTitle>
             </div>
-            <CardDescription className="mt-3">{description}</CardDescription>
+            <DialogDescription className="mt-3">{description}</DialogDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2 mb-4">
-              {tech.map((tech) => (
-                <Badge key={tech} variant="secondary" className="bg-secondary/10">
-                  {tech}
+              {tech.map((item) => (
+                <Badge key={item} variant="secondary" className="bg-secondary/10">
+                  {item}
                 </Badge>
               ))}
             </div>
@@ -79,7 +55,7 @@ export const ExpertiseCard = ({ title, description, tech, icon, details }: Exper
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
-              {getIcon(icon)}
+              <Icon className="h-6 w-6" />
             </div>
             {title}
           </DialogTitle>
@@ -87,24 +63,26 @@ export const ExpertiseCard = ({ title, description, tech, icon, details }: Exper
         </DialogHeader>
         <ScrollArea className="h-[60vh] pr-4">
           <div className="space-y-4">
-            <img 
-              src={details.image} 
-              alt={title} 
-              className="w-full h-48 object-cover rounded-lg"
-            />
-            <p className="text-muted-foreground">{details.longDescription}</p>
+            {imageUrl && imageUrl !== '/placeholder.svg' && (
+              <img 
+                src={imageUrl} 
+                alt={title} 
+                className="w-full h-48 object-cover rounded-lg"
+              />
+            )}
+            <p className="text-muted-foreground">{longDescription}</p>
             <div className="space-y-2">
               <h4 className="font-semibold">Key Benefits:</h4>
               <ul className="list-disc list-inside space-y-1">
-                {details.benefits.map((benefit, index) => (
+                {benefits.map((benefit, index) => (
                   <li key={index} className="text-muted-foreground">{benefit}</li>
                 ))}
               </ul>
             </div>
             <div className="flex flex-wrap gap-2">
-              {tech.map((tech) => (
-                <Badge key={tech} variant="secondary">
-                  {tech}
+              {tech.map((item) => (
+                <Badge key={item} variant="secondary">
+                  {item}
                 </Badge>
               ))}
             </div>

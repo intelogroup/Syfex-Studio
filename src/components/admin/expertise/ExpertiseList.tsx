@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpertiseItem } from "../../expertise/types";
 import { ExpertiseForm } from "../ExpertiseForm";
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
@@ -9,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 
 interface ExpertiseListProps {
-  content: any[];
+  content: ExpertiseItem[];
   onSave: (id: string, data: Partial<ExpertiseItem>) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   isLoading?: boolean;
@@ -75,40 +74,16 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext items={items.map(item => item.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-4">
-            {Array.isArray(items) && items.map((item: any) => {
-              if (!item?.id) return null;
-              
-              const metadata = item.metadata || {};
-              const tech = Array.isArray(metadata.tech) ? metadata.tech : [];
-              const details = metadata.details || {};
-              
-              const expertiseItem: ExpertiseItem = {
-                id: item.id,
-                title: item.title || '',
-                description: item.description || '',
-                key: item.key || '',
-                locale: item.locale || 'en',
-                tech: tech,
-                icon: metadata.icon || 'code',
-                details: {
-                  longDescription: details.longDescription || '',
-                  benefits: Array.isArray(details.benefits) ? details.benefits : [],
-                  image: details.image || '/placeholder.svg'
-                },
-                published: item.published || false
-              };
-              
-              return (
-                <SortableExpertiseCard
-                  key={item.id}
-                  item={expertiseItem}
-                  onSave={onSave}
-                  onDelete={onDelete}
-                  isLoading={isLoading}
-                  previewMode={previewMode}
-                />
-              );
-            })}
+            {Array.isArray(items) && items.map((item) => (
+              <SortableExpertiseCard
+                key={item.id}
+                item={item}
+                onSave={onSave}
+                onDelete={onDelete}
+                isLoading={isLoading}
+                previewMode={previewMode}
+              />
+            ))}
           </div>
         </SortableContext>
       </DndContext>

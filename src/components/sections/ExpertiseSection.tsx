@@ -24,11 +24,10 @@ export const ExpertiseSection = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'content',
-          filter: 'type=eq.expertise'
+          table: 'expertise'
         },
         () => {
-          console.log('Content table changed, invalidating query...');
+          console.log('Expertise table changed, invalidating query...');
           queryClient.invalidateQueries({ queryKey: ['expertise'] });
           toast({
             title: "Content Updated",
@@ -80,14 +79,16 @@ export const ExpertiseSection = () => {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {expertise.map((expertiseItem) => (
-              <motion.div key={expertiseItem.id} variants={item}>
+            {expertise.filter(item => item.published).map((item) => (
+              <motion.div key={item.id} variants={item}>
                 <ExpertiseCard
-                  title={expertiseItem.title}
-                  description={expertiseItem.description}
-                  tech={expertiseItem.tech}
-                  icon={expertiseItem.icon}
-                  details={expertiseItem.details}
+                  title={item.title}
+                  description={item.description || ''}
+                  tech={item.tech || []}
+                  icon={item.icon || 'code'}
+                  longDescription={item.long_description || ''}
+                  benefits={item.benefits || []}
+                  imageUrl={item.image_url || '/placeholder.svg'}
                 />
               </motion.div>
             ))}

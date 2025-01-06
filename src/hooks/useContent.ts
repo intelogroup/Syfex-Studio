@@ -2,14 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
-export const useContent = (type: string, locale: string = 'en') => {
+export const useContent = (type: 'expertise', locale: string = 'en') => {
   return useQuery({
     queryKey: ['content', type, locale],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('content')
-        .select('id, title, description, metadata, type, key, locale, created_at, updated_at, created_by, published')
-        .eq('type', type)
+        .from('expertise')
+        .select('*')
         .eq('locale', locale);
 
       if (error) {
@@ -28,19 +27,19 @@ export const useContentMutation = () => {
     mutationFn: async ({ id, ...content }: any) => {
       if (id) {
         const { error } = await supabase
-          .from('content')
+          .from('expertise')
           .update(content)
           .eq('id', id);
 
         if (error) throw error;
-        return { id }; // Return minimal data needed
+        return { id };
       } else {
         const { error } = await supabase
-          .from('content')
+          .from('expertise')
           .insert(content);
 
         if (error) throw error;
-        return { success: true }; // Return minimal data needed
+        return { success: true };
       }
     },
     onSuccess: () => {
