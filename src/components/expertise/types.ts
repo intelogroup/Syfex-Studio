@@ -16,6 +16,7 @@ export interface ExpertiseItem {
   locale: string;
   details: ExpertiseDetails;
   published?: boolean;
+  type?: "expertise" | "portfolio" | "testimonial" | "service";
 }
 
 export interface ContentResponse {

@@ -95,8 +95,7 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
                   benefits: Array.isArray(details.benefits) ? details.benefits : [],
                   image: details.image || '/placeholder.svg'
                 },
-                published: item.published || false,
-                type: item.type || 'expertise'
+                published: item.published || false
               };
               
               return (
