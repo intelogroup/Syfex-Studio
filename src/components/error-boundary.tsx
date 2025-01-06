@@ -7,6 +7,7 @@ import { trackError } from "@/utils/analytics";
 
 interface Props {
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface State {
@@ -27,13 +28,29 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Error caught by boundary:", error);
+    console.error("Component stack:", errorInfo.componentStack);
+    
+    // Track error with additional context
     trackError(error, errorInfo.componentStack);
     this.setState({ errorInfo });
+
+    // Show error toast with more detailed message
     toast({
       variant: "destructive",
       title: "Something went wrong",
-      description: error.message || "An error occurred while rendering the application.",
+      description: this.getErrorMessage(error),
     });
+  }
+
+  private getErrorMessage(error: Error): string {
+    if (error.message.includes("row level security")) {
+      return "You don't have permission to perform this action. Please check your authentication status.";
+    }
+    if (error.message.includes("network")) {
+      return "Network error occurred. Please check your internet connection.";
+    }
+    return error.message || "An unexpected error occurred while rendering the application.";
   }
 
   private handleReset = () => {
@@ -44,15 +61,19 @@ export class ErrorBoundary extends Component<Props, State> {
   private handleReportError = () => {
     if (this.state.error) {
       trackError(this.state.error, this.state.errorInfo?.componentStack);
+      toast({
+        title: "Error Reported",
+        description: "Thank you for helping us improve our application.",
+      });
     }
-    toast({
-      title: "Error Reported",
-      description: "Thank you for helping us improve our application.",
-    });
   };
 
   public render() {
     if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
       return (
         <div className="min-h-[400px] flex items-center justify-center p-4">
           <Card className="w-full max-w-lg bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -67,8 +88,15 @@ export class ErrorBoundary extends Component<Props, State> {
             </CardHeader>
             <CardContent className="space-y-4">
               {process.env.NODE_ENV === 'development' && this.state.error && (
-                <div className="p-4 rounded-md bg-destructive/10 text-destructive text-sm font-mono overflow-auto">
+                <div className="p-4 rounded-md bg-destructive/10 text-destructive text-sm font-mono overflow-auto max-h-[200px]">
+                  <div className="font-semibold mb-2">Error:</div>
                   {this.state.error.toString()}
+                  {this.state.errorInfo && (
+                    <>
+                      <div className="font-semibold mt-4 mb-2">Component Stack:</div>
+                      {this.state.errorInfo.componentStack}
+                    </>
+                  )}
                 </div>
               )}
               <div className="flex gap-2">
