@@ -6,7 +6,8 @@ export const fetchExpertiseContent = async (): Promise<ExpertiseItem[]> => {
     .from('content')
     .select('*')
     .eq('type', 'expertise')
-    .eq('locale', 'en');
+    .eq('locale', 'en')
+    .range(2, 1000); // Skip first 2 items, get up to 1000 items
 
   if (error) {
     console.error('Error fetching expertise content:', error);
