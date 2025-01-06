@@ -26,6 +26,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       description: item.description,
       tech: item.tech || [],
       icon: item.icon || 'code',
+      published: item.published || false,
       details: {
         longDescription: item.details.longDescription,
         benefits: item.details.benefits,

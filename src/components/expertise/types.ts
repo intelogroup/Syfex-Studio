@@ -13,6 +13,7 @@ export interface ExpertiseItem {
   tech: string[];
   icon: string;
   details: ExpertiseDetails;
+  published?: boolean;
 }
 
 export interface ContentResponse {

@@ -11,6 +11,7 @@ export const createExpertise = async () => {
         title: 'New Expertise',
         description: 'Description here',
         locale: 'en',
+        published: false,
         metadata: {
           tech: [],
           icon: 'code',
@@ -21,7 +22,7 @@ export const createExpertise = async () => {
           }
         }
       })
-      .select('id, title, description, metadata, type, key, locale')
+      .select('id, title, description, metadata, type, key, locale, published')
       .single();
 
     if (error) {
@@ -43,6 +44,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
       .update({
         title: data.title,
         description: data.description,
+        published: data.published,
         metadata: {
           tech: data.tech || [],
           icon: data.icon || 'code',

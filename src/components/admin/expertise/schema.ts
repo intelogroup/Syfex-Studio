@@ -9,7 +9,8 @@ export const expertiseSchema = z.object({
     longDescription: z.string().min(1, "Long description is required"),
     benefits: z.array(z.string()).min(1, "At least one benefit is required"),
     image: z.string().min(1, "Image URL is required")
-  })
+  }),
+  published: z.boolean().default(false)
 });
 
 export type ExpertiseFormData = z.infer<typeof expertiseSchema>;
