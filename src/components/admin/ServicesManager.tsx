@@ -40,7 +40,7 @@ export const ServicesManager = () => {
         console.log('[ServicesManager] Creation failed or was cancelled');
         return false;
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('[ServicesManager] Create operation failed:', error);
       throw error;
     }
@@ -59,17 +59,6 @@ export const ServicesManager = () => {
     return <ServiceError error={error} />;
   }
 
-  const previewService = content?.[0] || {
-    title: 'Example Service',
-    description: 'This is an example service description',
-    icon: 'code',
-    features: ['Feature 1', 'Feature 2'],
-    details: ['Detail 1', 'Detail 2'],
-    published: false,
-    key: 'example',
-    locale: 'en'
-  };
-
   return (
     <ErrorBoundary>
       <div className="space-y-4">
@@ -87,8 +76,8 @@ export const ServicesManager = () => {
           />
         )}
 
-        {showPreview && (
-          <ServicePreview service={previewService} />
+        {showPreview && content && (
+          <ServicePreview services={content} />
         )}
 
         {isLoading ? (
