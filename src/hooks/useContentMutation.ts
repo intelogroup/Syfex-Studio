@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTable, ContentMutationParams, LocalizedContent } from "@/types/content";
+import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
+import { Database } from "@/integrations/supabase/types";
 
 export const useContentMutation = <T extends ContentTable>() => {
   const queryClient = useQueryClient();
@@ -13,22 +15,30 @@ export const useContentMutation = <T extends ContentTable>() => {
 
       if (id) {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
-        const { data: result, error } = await supabase
+        const { data: result, error } = await (supabase
           .from(type)
           .update(data as any)
-          .eq('id', id)
+          .eq('id', id as string)
           .select()
-          .maybeSingle();
+          .maybeSingle() as PostgrestFilterBuilder<
+            Database,
+            Database['public']['Tables'][T]['Row'],
+            Database['public']['Tables'][T]['Row']
+          >);
 
         if (error) throw error;
         return result;
       } else {
         console.log(`[useContentMutation] Creating new ${type}`);
-        const { data: result, error } = await supabase
+        const { data: result, error } = await (supabase
           .from(type)
           .insert(data as any)
           .select()
-          .maybeSingle();
+          .maybeSingle() as PostgrestFilterBuilder<
+            Database,
+            Database['public']['Tables'][T]['Row'],
+            Database['public']['Tables'][T]['Row']
+          >);
 
         if (error) throw error;
         return result;
