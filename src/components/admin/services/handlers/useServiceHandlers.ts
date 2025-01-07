@@ -25,22 +25,21 @@ export const useServiceHandlers = () => {
       }
 
       const key = formData.key || `service-${Date.now()}`;
-      const servicePayload = {
-        type: 'services' as const,
-        key,
-        title: formData.title,
-        description: formData.description,
-        locale: formData.locale || 'en',
-        published: formData.published || false,
-        icon: formData.icon || 'code',
-        features: formData.features || [],
-        details: formData.details || [],
-        created_by: session.user.id
-      };
-      
-      console.log('[useServiceHandlers] Prepared service payload:', servicePayload);
 
-      await mutate(servicePayload);
+      await mutate({
+        type: 'services',
+        data: {
+          key,
+          title: formData.title,
+          description: formData.description,
+          locale: formData.locale || 'en',
+          published: formData.published || false,
+          icon: formData.icon || 'code',
+          features: formData.features || [],
+          details: formData.details || [],
+          created_by: session.user.id
+        }
+      });
       
       toast({
         title: "Success",
@@ -72,7 +71,7 @@ export const useServiceHandlers = () => {
       await mutate({ 
         id, 
         type: 'services',
-        ...data
+        data
       });
 
       toast({
@@ -114,7 +113,10 @@ export const useServiceHandlers = () => {
       }
 
       console.log('[handleDelete] Delete successful, invalidating queries');
-      await mutate({ type: 'services' });
+      await mutate({ 
+        type: 'services',
+        data: {} // Empty data for invalidation only
+      });
       
       toast({
         title: "Success",
