@@ -11,16 +11,14 @@ export const useContentMutation = <T extends ContentTable>() => {
 
   return useMutation({
     mutationFn: async ({ id, type, data }: ContentMutationParams<T>) => {
-      console.log('[useContentMutation] Starting mutation with:', { id, type, data });
-
       if (id) {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
         const { data: result, error } = await supabase
           .from(type)
-          .update(data as Tables[T]['Update'])
-          .eq('id', id)
-          .select('*')
-          .maybeSingle();
+          .update(data as Tables[T]["Update"])
+          .eq('id', id as string)
+          .select()
+          .single();
 
         if (error) throw error;
         return result;
@@ -28,9 +26,9 @@ export const useContentMutation = <T extends ContentTable>() => {
         console.log(`[useContentMutation] Creating new ${type}`);
         const { data: result, error } = await supabase
           .from(type)
-          .insert(data as Tables[T]['Insert'])
-          .select('*')
-          .maybeSingle();
+          .insert(data as Tables[T]["Insert"])
+          .select()
+          .single();
 
         if (error) throw error;
         return result;
