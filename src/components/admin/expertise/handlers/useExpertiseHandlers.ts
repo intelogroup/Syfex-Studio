@@ -5,7 +5,7 @@ import { ExpertiseItem } from "@/components/expertise/types";
 import { ExpertiseFormData } from "../schema";
 
 export const useExpertiseHandlers = () => {
-  const { mutate, isPending } = useContentMutation();
+  const { mutate, isPending } = useContentMutation<'expertise'>();
   const { toast } = useToast();
 
   const handleCreate = async (formData: ExpertiseFormData): Promise<boolean> => {
@@ -30,6 +30,7 @@ export const useExpertiseHandlers = () => {
 
       // Create expertise payload from form data
       const expertisePayload = {
+        type: 'expertise' as const,
         key,
         title: formData.title,
         description: formData.description,
@@ -45,28 +46,7 @@ export const useExpertiseHandlers = () => {
       
       console.log('[useExpertiseHandlers] Prepared expertise payload:', expertisePayload);
 
-      const { error } = await supabase
-        .from('expertise')
-        .insert([expertisePayload]);
-
-      if (error) {
-        console.error('[useExpertiseHandlers] Database error:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message || "Failed to create expertise card",
-        });
-        return false;
-      }
-
-      // Invalidate queries after successful creation
-      await mutate({ type: 'expertise' });
-      
-      toast({
-        title: "Success",
-        description: "New expertise card created successfully",
-      });
-      
+      await mutate(expertisePayload);
       return true;
     } catch (error: any) {
       console.error('[useExpertiseHandlers] Create operation failed:', {
@@ -89,7 +69,7 @@ export const useExpertiseHandlers = () => {
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
       console.log('[useExpertiseHandlers] Starting expertise save:', { id, data });
-      await mutate({ id, ...data });
+      await mutate({ id, type: 'expertise', ...data });
     } catch (error: any) {
       console.error('[useExpertiseHandlers] Save error:', error);
       throw error;

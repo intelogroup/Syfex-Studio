@@ -19,7 +19,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             .update(content)
             .eq('id', id)
             .select()
-            .single();
+            .maybeSingle();
 
           if (error) {
             console.error('[useContentMutation] Update error:', error);
@@ -33,7 +33,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             .from(type)
             .insert(content)
             .select()
-            .single();
+            .maybeSingle();
 
           if (error) {
             console.error('[useContentMutation] Insert error:', error);

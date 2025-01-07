@@ -9,7 +9,7 @@ export type ContentQueryParams = {
   published?: boolean;
 };
 
-export type ContentMutationParams<T extends ContentTableWithLocale = ContentTableWithLocale> = {
+export type ContentMutationParams<T extends ContentTableWithLocale> = {
   id?: string;
   type: T;
 } & Partial<Tables<T>>;
