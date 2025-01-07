@@ -1,16 +1,16 @@
 import { useContentMutation } from "@/hooks/useContent";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { createExpertise } from "@/services/expertise/operations/create";
 import { ExpertiseItem } from "@/components/expertise/types";
+import { ExpertiseFormData } from "../schema";
 
 export const useExpertiseHandlers = () => {
   const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
 
-  const handleCreate = async (formData: Partial<ExpertiseItem>) => {
+  const handleCreate = async (formData: ExpertiseFormData): Promise<boolean> => {
     try {
-      console.log('[useExpertiseHandlers] Starting expertise creation');
+      console.log('[useExpertiseHandlers] Starting expertise creation with data:', formData);
       
       const { data: session } = await supabase.auth.getSession();
       console.log('[useExpertiseHandlers] Auth session:', session ? 'Present' : 'Missing');
@@ -25,11 +25,38 @@ export const useExpertiseHandlers = () => {
         return false;
       }
 
-      const newExpertise = await createExpertise(formData);
-      console.log('[useExpertiseHandlers] Expertise created successfully:', newExpertise);
+      // Create the expertise payload
+      const expertisePayload = {
+        key: formData.key || `expertise-${Date.now()}`,
+        title: formData.title,
+        description: formData.description || null,
+        locale: formData.locale || 'en',
+        published: formData.published || false,
+        tech: Array.isArray(formData.tech) ? formData.tech : [],
+        icon: formData.icon || 'code',
+        long_description: formData.long_description || null,
+        benefits: Array.isArray(formData.benefits) ? formData.benefits : [],
+        image_url: formData.image_url || '/placeholder.svg',
+        created_by: session.user.id
+      };
 
+      console.log('[useExpertiseHandlers] Prepared expertise payload:', expertisePayload);
+
+      const { data, error } = await supabase
+        .from('expertise')
+        .insert([expertisePayload])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('[useExpertiseHandlers] Database error:', error);
+        throw error;
+      }
+
+      console.log('[useExpertiseHandlers] Expertise created successfully:', data);
+      
       // Invalidate queries after successful creation
-      mutate({ ...newExpertise });
+      mutate({ ...data });
       
       toast({
         title: "Success",
@@ -55,12 +82,12 @@ export const useExpertiseHandlers = () => {
     }
   };
 
-  const handleSave = async (id: string, data: any) => {
+  const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
-      console.log('Starting expertise save:', { id, data });
+      console.log('[useExpertiseHandlers] Starting expertise save:', { id, data });
       await mutate({ id, ...data });
     } catch (error: any) {
-      console.error('Save error:', error);
+      console.error('[useExpertiseHandlers] Save error:', error);
       throw error;
     }
   };
@@ -88,7 +115,6 @@ export const useExpertiseHandlers = () => {
         throw error;
       }
 
-      // Only invalidate queries after successful deletion
       console.log('[handleDelete] Delete successful, invalidating queries');
       toast({
         title: "Success",

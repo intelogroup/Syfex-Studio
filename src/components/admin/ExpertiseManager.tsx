@@ -6,6 +6,7 @@ import { ErrorBoundary } from "../error-boundary";
 import { ExpertiseError } from "./expertise/error/ExpertiseError";
 import { useExpertiseState } from "./expertise/state/useExpertiseState";
 import { useExpertiseHandlers } from "./expertise/handlers/useExpertiseHandlers";
+import { ExpertiseFormData } from "./expertise/schema";
 
 export const ExpertiseManager = () => {
   const {
@@ -23,9 +24,9 @@ export const ExpertiseManager = () => {
     isPending
   } = useExpertiseHandlers();
 
-  const onCreateSuccess = async () => {
-    console.log('[ExpertiseManager] Attempting to create new expertise');
-    const success = await handleCreate();
+  const onCreateSuccess = async (formData: ExpertiseFormData) => {
+    console.log('[ExpertiseManager] Attempting to create new expertise with data:', formData);
+    const success = await handleCreate(formData);
     if (success) {
       console.log('[ExpertiseManager] Creation successful, hiding new card form');
       setNewCard(false);
