@@ -1,8 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Tables } from "@/integrations/supabase/types";
 
-export const useContent = (type: 'expertise' | 'services', locale: string = 'en') => {
+type ContentType = 'expertise' | 'services';
+
+export const useContent = <T extends ContentType>(type: T, locale: string = 'en') => {
   return useQuery({
     queryKey: ['content', type, locale],
     queryFn: async () => {
@@ -24,7 +27,7 @@ export const useContent = (type: 'expertise' | 'services', locale: string = 'en'
         }
 
         console.log(`[useContent] Successfully fetched ${type}:`, data?.length, 'items');
-        return data || [];
+        return data as Tables<T>[];
       } catch (error: any) {
         console.error(`[useContent] ${type} fetch error:`, {
           message: error.message,
