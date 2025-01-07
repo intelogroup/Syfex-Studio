@@ -14,3 +14,7 @@ export interface ContentMutationParams<T extends ContentTable> {
 }
 
 export type LocalizedContent<T extends ContentTable> = TableRow<T>;
+
+export type ContentData<T extends ContentTable> = {
+  [K in T]: TableRow<K>;
+};
