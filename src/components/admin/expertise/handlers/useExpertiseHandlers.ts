@@ -24,12 +24,10 @@ export const useExpertiseHandlers = () => {
         return false;
       }
 
-      const key = formData.key || `expertise-${Date.now()}`;
-
       await mutate({
         type: 'expertise',
         data: {
-          key,
+          key: formData.key || `expertise-${Date.now()}`,
           title: formData.title,
           description: formData.description,
           locale: formData.locale || 'en',
@@ -64,9 +62,25 @@ export const useExpertiseHandlers = () => {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      console.log('[useExpertiseHandlers] Starting delete operation for ID:', id);
+      const { error } = await supabase
+        .from('expertise')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+    } catch (error: any) {
+      console.error('[useExpertiseHandlers] Delete error:', error);
+      throw error;
+    }
+  };
+
   return {
     handleCreate,
     handleSave,
+    handleDelete,
     isPending
   };
 };

@@ -1,15 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
-import { Database } from "@/integrations/supabase/types";
+import { ContentTable, ContentMutationParams, LocalizedContent } from "@/types/content";
 
-const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000;
-
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-export const useContentMutation = <T extends ContentTableWithLocale>() => {
+export const useContentMutation = <T extends ContentTable>() => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -17,56 +11,28 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
     mutationFn: async ({ id, type, data }: ContentMutationParams<T>) => {
       console.log('[useContentMutation] Starting mutation with:', { id, type, data });
 
-      let retries = 0;
-      let lastError: any;
+      if (id) {
+        console.log(`[useContentMutation] Updating ${type} with id:`, id);
+        const { data: result, error } = await supabase
+          .from(type)
+          .update(data)
+          .eq('id', id)
+          .select()
+          .maybeSingle();
 
-      while (retries < MAX_RETRIES) {
-        try {
-          if (id) {
-            console.log(`[useContentMutation] Updating ${type} with id:`, id);
-            const { data: result, error } = await supabase
-              .from(type)
-              .update(data)
-              .eq('id', id)
-              .select()
-              .maybeSingle();
+        if (error) throw error;
+        return result;
+      } else {
+        console.log(`[useContentMutation] Creating new ${type}`);
+        const { data: result, error } = await supabase
+          .from(type)
+          .insert(data)
+          .select()
+          .maybeSingle();
 
-            if (error) throw error;
-            return result;
-          } else {
-            console.log(`[useContentMutation] Creating new ${type}`);
-            const { data: result, error } = await supabase
-              .from(type)
-              .insert(data)
-              .select()
-              .maybeSingle();
-
-            if (error) throw error;
-            return result;
-          }
-        } catch (error: any) {
-          lastError = error;
-          retries++;
-
-          if (!error.message.includes('network') && 
-              !error.message.includes('timeout') && 
-              !error.message.includes('connection') &&
-              !error.code?.includes('57P')) {
-            throw error;
-          }
-
-          console.log(`[useContentMutation] Operation failed (attempt ${retries}/${MAX_RETRIES}):`, error);
-          
-          if (retries < MAX_RETRIES) {
-            const delay = RETRY_DELAY * Math.pow(2, retries - 1);
-            console.log(`[useContentMutation] Retrying in ${delay}ms...`);
-            await wait(delay);
-          }
-        }
+        if (error) throw error;
+        return result;
       }
-
-      console.error('[useContentMutation] All retry attempts failed:', lastError);
-      throw lastError;
     },
     onMutate: async ({ id, type, data }) => {
       await queryClient.cancelQueries({ queryKey: ['content', type] });
@@ -95,14 +61,14 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
       return { previousData };
     },
     onError: (err, { type }, context) => {
-      console.error('[useContentMutation] Error occurred after retries:', err);
+      console.error('[useContentMutation] Error occurred:', err);
       if (context?.previousData) {
         queryClient.setQueryData(['content', type], context.previousData);
       }
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to save changes after multiple attempts. Please try again.",
+        description: "Failed to save changes. Please try again.",
       });
     },
     onSuccess: (_, { type }) => {
