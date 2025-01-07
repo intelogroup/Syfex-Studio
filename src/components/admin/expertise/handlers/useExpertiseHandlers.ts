@@ -11,14 +11,19 @@ export const useExpertiseHandlers = () => {
     try {
       const newExpertise = await createExpertise();
       console.log('Created new expertise:', newExpertise);
-      mutate(['content', 'expertise']);
+      mutate({ ...newExpertise });
       toast({
         title: "Success",
         description: "New expertise card has been created",
       });
       return true;
     } catch (error: any) {
-      console.error('Create error:', error);
+      console.error('Create error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       toast({
         variant: "destructive",
         title: "Error",
@@ -30,19 +35,14 @@ export const useExpertiseHandlers = () => {
 
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
-      console.log('Saving expertise:', id, data);
-      await updateExpertise(id, data);
-      mutate(['content', 'expertise']);
-      toast({
-        title: "Success",
-        description: "Expertise card has been updated",
-      });
+      console.log('Saving expertise:', { id, data });
+      await mutate({ id, ...data });
     } catch (error: any) {
-      console.error('Update error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update expertise card",
+      console.error('Update error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
       });
       throw error;
     }
@@ -52,17 +52,17 @@ export const useExpertiseHandlers = () => {
     try {
       console.log('Deleting expertise:', id);
       await deleteExpertise(id);
-      mutate(['content', 'expertise']);
+      mutate({ id });
       toast({
         title: "Success",
         description: "Expertise card has been deleted",
       });
     } catch (error: any) {
-      console.error('Delete error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to delete expertise card",
+      console.error('Delete error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
       });
       throw error;
     }

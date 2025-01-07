@@ -7,7 +7,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
     queryKey: ['content', type, locale],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('expertise')
+        .from(type)
         .select('*')
         .eq('locale', locale);
 
@@ -25,25 +25,35 @@ export const useContentMutation = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...content }: any) => {
-      if (id) {
-        const { data, error } = await supabase
-          .from('expertise')
-          .update(content)
-          .eq('id', id)
-          .select()
-          .single();
+      try {
+        if (id) {
+          const { data, error } = await supabase
+            .from('expertise')
+            .update(content)
+            .eq('id', id)
+            .select('*')
+            .single();
 
-        if (error) throw error;
-        return data;
-      } else {
-        const { data, error } = await supabase
-          .from('expertise')
-          .insert(content)
-          .select()
-          .single();
+          if (error) throw error;
+          return data;
+        } else {
+          const { data, error } = await supabase
+            .from('expertise')
+            .insert([content])
+            .select('*')
+            .single();
 
-        if (error) throw error;
-        return data;
+          if (error) throw error;
+          return data;
+        }
+      } catch (error: any) {
+        console.error('Mutation error:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw error;
       }
     },
     onSuccess: () => {
@@ -54,7 +64,12 @@ export const useContentMutation = () => {
       });
     },
     onError: (error: any) => {
-      console.error('Content mutation error:', error);
+      console.error('Content mutation error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       toast({
         variant: "destructive",
         title: "Error",
