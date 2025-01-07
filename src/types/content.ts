@@ -5,7 +5,7 @@ export type ContentTableWithLocale = 'expertise' | 'services';
 export type LocalizedContent<T extends ContentTableWithLocale> = Tables<T>;
 
 export type ContentQueryParams = {
-  locale?: string;
+  locale?: 'en' | string;
   published?: boolean;
 };
 

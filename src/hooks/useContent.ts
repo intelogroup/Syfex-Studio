@@ -20,7 +20,7 @@ export const useContent = <T extends ContentTableWithLocale>(
 
         // Add locale filter if specified
         if (locale) {
-          query = query.eq('locale', locale as string);
+          query = query.eq('locale', locale);
         }
 
         const { data, error } = await query;

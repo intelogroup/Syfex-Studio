@@ -1,31 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ContentTableWithLocale } from "@/types/content";
-
-type MutationParams = {
-  id?: string;
-  type?: ContentTableWithLocale;
-  [key: string]: any;
-};
+import { ContentTableWithLocale, ContentMutationParams } from "@/types/content";
 
 export const useContentMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async ({ id, type, ...content }: MutationParams) => {
-      try {
-        console.log('[useContentMutation] Starting content mutation with:', { id, type, content });
-        
-        if (!id && !type) {
-          throw new Error('Either id or type must be provided');
-        }
+    mutationFn: async ({ id, type, ...content }: ContentMutationParams) => {
+      console.log('[useContentMutation] Starting mutation with:', { id, type, content });
 
+      if (!type) {
+        throw new Error('Content type is required for mutation');
+      }
+
+      try {
         if (id) {
-          console.log('[useContentMutation] Updating existing content');
+          console.log(`[useContentMutation] Updating ${type} with id:`, id);
           const { data, error } = await supabase
-            .from('expertise')
+            .from(type)
             .update(content)
             .eq('id', id)
             .select()
@@ -35,41 +29,41 @@ export const useContentMutation = () => {
             console.error('[useContentMutation] Update error:', error);
             throw error;
           }
+
+          return data;
+        } else {
+          console.log(`[useContentMutation] Creating new ${type}`);
+          const { data, error } = await supabase
+            .from(type)
+            .insert(content)
+            .select()
+            .single();
+
+          if (error) {
+            console.error('[useContentMutation] Insert error:', error);
+            throw error;
+          }
+
           return data;
         }
-
-        return null;
       } catch (error: any) {
-        console.error('[useContentMutation] Mutation error:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code,
-          stack: error.stack
+        console.error('[useContentMutation] Operation failed:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message || "Failed to save changes",
         });
         throw error;
       }
     },
-    onSuccess: () => {
-      console.log('[useContentMutation] Mutation successful, invalidating queries');
-      queryClient.invalidateQueries({ queryKey: ['content'] });
+    onSuccess: (_, variables) => {
+      console.log('[useContentMutation] Operation successful, invalidating queries');
+      queryClient.invalidateQueries({
+        queryKey: ['content', variables.type],
+      });
       toast({
         title: "Success",
-        description: "Content updated successfully",
-      });
-    },
-    onError: (error: any) => {
-      console.error('[useContentMutation] Content mutation error:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        stack: error.stack
-      });
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update content",
+        description: "Changes saved successfully",
       });
     },
   });
