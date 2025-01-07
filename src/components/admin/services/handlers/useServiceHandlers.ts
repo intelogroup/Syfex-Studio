@@ -25,67 +25,39 @@ export const useServiceHandlers = () => {
       }
 
       const key = formData.key || `service-${Date.now()}`;
-      const servicePayload = {
-        type: 'services' as const,
-        key,
-        title: formData.title,
-        description: formData.description,
-        locale: formData.locale || 'en',
-        published: formData.published || false,
-        icon: formData.icon || 'code',
-        features: formData.features || [],
-        details: formData.details || [],
-        created_by: session.user.id
-      };
-      
-      console.log('[useServiceHandlers] Prepared service payload:', servicePayload);
 
-      await mutate(servicePayload);
-      
-      toast({
-        title: "Success",
-        description: "New service card created successfully",
+      await mutate({
+        type: 'services',
+        data: {
+          key,
+          title: formData.title,
+          description: formData.description,
+          locale: formData.locale || 'en',
+          published: formData.published || false,
+          icon: formData.icon || 'code',
+          features: Array.isArray(formData.features) ? formData.features : [],
+          details: Array.isArray(formData.details) ? formData.details : [],
+          created_by: session.user.id
+        }
       });
       
       return true;
     } catch (error: any) {
-      console.error('[useServiceHandlers] Create operation failed:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        stack: error.stack
-      });
-      
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to create service card",
-      });
-      return false;
+      console.error('[useServiceHandlers] Create operation failed:', error);
+      throw error;
     }
   };
 
-  const handleSave = async (id: string, data: Partial<ServiceFormData>) => {
+  const handleSave = async (id: string, updates: Partial<ServiceFormData>) => {
     try {
-      console.log('[useServiceHandlers] Starting service update:', { id, data });
+      console.log('[useServiceHandlers] Starting service update:', { id, updates });
       await mutate({ 
         id, 
         type: 'services',
-        ...data
-      });
-
-      toast({
-        title: "Success",
-        description: "Service updated successfully",
+        data: updates
       });
     } catch (error: any) {
       console.error('[useServiceHandlers] Save error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update service",
-      });
       throw error;
     }
   };
@@ -114,7 +86,7 @@ export const useServiceHandlers = () => {
       }
 
       console.log('[handleDelete] Delete successful, invalidating queries');
-      await mutate({ type: 'services' });
+      await mutate({ type: 'services', data: {} });
       
       toast({
         title: "Success",
