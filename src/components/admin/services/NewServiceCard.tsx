@@ -25,7 +25,6 @@ export const NewServiceCard = ({ onCreate, onCancel, isLoading }: NewServiceCard
       title: "",
       description: "",
       icon: "code",
-      secondary_icon: "code",
       features: [],
       details: [],
       published: false,

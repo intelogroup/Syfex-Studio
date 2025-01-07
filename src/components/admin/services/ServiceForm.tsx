@@ -24,7 +24,6 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
       title: item.title || '',
       description: item.description || '',
       icon: item.icon || 'code',
-      secondary_icon: item.secondary_icon || 'code',
       features: item.features || [],
       details: item.details || [],
       published: item.published || false,
