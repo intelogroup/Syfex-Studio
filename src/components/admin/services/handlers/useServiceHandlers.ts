@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ServiceFormData } from "../schema";
 
 export const useServiceHandlers = () => {
-  const { mutate, isPending } = useContentMutation();
+  const { mutate, isPending } = useContentMutation<'services'>();
   const { toast } = useToast();
 
   const handleCreate = async (formData: ServiceFormData): Promise<boolean> => {
@@ -26,6 +26,7 @@ export const useServiceHandlers = () => {
 
       const key = formData.key || `service-${Date.now()}`;
       const servicePayload = {
+        type: 'services' as const,
         key,
         title: formData.title,
         description: formData.description,
@@ -39,21 +40,7 @@ export const useServiceHandlers = () => {
       
       console.log('[useServiceHandlers] Prepared service payload:', servicePayload);
 
-      const { error } = await supabase
-        .from('services')
-        .insert([servicePayload]);
-
-      if (error) {
-        console.error('[useServiceHandlers] Database error:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message || "Failed to create service card",
-        });
-        return false;
-      }
-
-      await mutate({ type: 'services' });
+      await mutate(servicePayload);
       
       toast({
         title: "Success",
@@ -82,48 +69,18 @@ export const useServiceHandlers = () => {
   const handleSave = async (id: string, data: Partial<ServiceFormData>) => {
     try {
       console.log('[useServiceHandlers] Starting service update:', { id, data });
-      
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error('Authentication required');
-      }
-
-      const { error } = await supabase
-        .from('services')
-        .update({
-          title: data.title,
-          description: data.description,
-          icon: data.icon,
-          features: data.features || [],
-          details: data.details || [],
-          published: data.published,
-          key: data.key,
-          locale: data.locale
-        })
-        .eq('id', id)
-        .select();
-
-      if (error) {
-        console.error('[useServiceHandlers] Update error:', error);
-        throw error;
-      }
-
-      console.log('[useServiceHandlers] Service updated successfully');
-      await mutate({ type: 'services' });
+      await mutate({ 
+        id, 
+        type: 'services',
+        ...data
+      });
 
       toast({
         title: "Success",
         description: "Service updated successfully",
       });
     } catch (error: any) {
-      console.error('[useServiceHandlers] Save operation failed:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        stack: error.stack
-      });
-      
+      console.error('[useServiceHandlers] Save error:', error);
       toast({
         variant: "destructive",
         title: "Error",

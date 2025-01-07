@@ -13,3 +13,8 @@ export type ContentMutationParams<T extends ContentTableWithLocale> = {
   id?: string;
   type: T;
 } & Partial<Tables<T>>;
+
+export type ContentTableSchema = {
+  expertise: Tables<'expertise'>;
+  services: Tables<'services'>;
+};
