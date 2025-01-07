@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trash, AlertCircle } from "lucide-react";
+import { Trash } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -19,11 +19,14 @@ export const FormActions = ({ isLoading, onDelete, isValid = true }: FormActions
 
   const handleConfirmDelete = () => {
     console.log('[FormActions] Delete confirmed by user');
+    console.log('[FormActions] Starting delete operation...');
+    
     try {
       onDelete();
       console.log('[FormActions] Delete handler called successfully');
     } catch (error) {
       console.error('[FormActions] Error in delete confirmation:', error);
+      throw error; // Re-throw to be caught by error boundary
     }
   };
 
