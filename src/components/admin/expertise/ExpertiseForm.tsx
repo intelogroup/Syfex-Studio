@@ -32,20 +32,13 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       key: item.key,
       locale: item.locale
     },
-    mode: "onChange" // Enable real-time validation
+    mode: "onChange"
   });
 
   const handleSubmit = async (data: any) => {
     try {
       console.log('Form data before save:', data);
       
-      // Optimistic update
-      const previousData = { ...item };
-      const optimisticData = {
-        ...item,
-        ...data
-      };
-
       // Show optimistic toast
       const toastId = toast({
         title: "Saving changes...",
@@ -79,7 +72,6 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
         stack: error.stack
       });
 
-      // Show detailed error message
       toast({
         variant: "destructive",
         title: "Error saving changes",
@@ -88,16 +80,19 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     }
   };
 
+  // Add console logs to debug form state
+  console.log('Form state:', {
+    isDirty: form.formState.isDirty,
+    isValid: form.formState.isValid,
+    errors: form.formState.errors
+  });
+
   return (
     <FormProvider {...form}>
       <Form {...form}>
         <form 
           onSubmit={form.handleSubmit(handleSubmit)} 
           className="space-y-6"
-          onChange={() => {
-            // Trigger validation on change
-            form.trigger();
-          }}
         >
           <BasicInfoFields id={item.id} />
           <TechnicalFields id={item.id} />
@@ -105,7 +100,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
-            isValid={form.formState.isValid}
+            isValid={form.formState.isDirty && form.formState.isValid}
           />
         </form>
       </Form>
