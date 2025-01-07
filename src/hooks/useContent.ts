@@ -46,34 +46,26 @@ export const useContentMutation = () => {
       try {
         console.log('[useContentMutation] Starting content mutation with:', { id, content });
         
-        if (id) {
-          console.log('[useContentMutation] Updating existing content');
-          const { data, error } = await supabase
-            .from('expertise')
-            .update(content)
-            .eq('id', id)
-            .select('*')
-            .maybeSingle();
-
-          if (error) {
-            console.error('[useContentMutation] Update error:', error);
-            throw error;
-          }
-          return data;
-        } else {
-          console.log('[useContentMutation] Creating new content');
-          const { data, error } = await supabase
-            .from('expertise')
-            .insert([content])
-            .select('*')
-            .maybeSingle();
-
-          if (error) {
-            console.error('[useContentMutation] Insert error:', error);
-            throw error;
-          }
-          return data;
+        // Handle delete operation
+        if (Object.keys(content).length === 0) {
+          console.log('[useContentMutation] Detected delete operation');
+          return null;
         }
+
+        // Handle update operation
+        console.log('[useContentMutation] Updating existing content');
+        const { data, error } = await supabase
+          .from('expertise')
+          .update(content)
+          .eq('id', id)
+          .select()
+          .maybeSingle();
+
+        if (error) {
+          console.error('[useContentMutation] Update error:', error);
+          throw error;
+        }
+        return data;
       } catch (error: any) {
         console.error('[useContentMutation] Mutation error:', {
           message: error.message,
