@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
-import { Tables } from "@/integrations/supabase/types";
+import { Database } from "@/integrations/supabase/types";
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY = 1000;
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -14,8 +14,8 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async ({ id, type, ...content }: ContentMutationParams<T>) => {
-      console.log('[useContentMutation] Starting mutation with:', { id, type, content });
+    mutationFn: async ({ id, type, data }: ContentMutationParams<T>) => {
+      console.log('[useContentMutation] Starting mutation with:', { id, type, data });
 
       let retries = 0;
       let lastError: any;
@@ -24,42 +24,41 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
         try {
           if (id) {
             console.log(`[useContentMutation] Updating ${type} with id:`, id);
-            const { data, error } = await supabase
+            const { data: result, error } = await supabase
               .from(type)
-              .update(content)
+              .update(data)
               .eq('id', id)
               .select()
               .maybeSingle();
 
             if (error) throw error;
-            return data;
+            return result;
           } else {
             console.log(`[useContentMutation] Creating new ${type}`);
-            const { data, error } = await supabase
+            const { data: result, error } = await supabase
               .from(type)
-              .insert(content)
+              .insert(data)
               .select()
               .maybeSingle();
 
             if (error) throw error;
-            return data;
+            return result;
           }
         } catch (error: any) {
           lastError = error;
           retries++;
 
-          // Only retry on network errors or specific database errors
           if (!error.message.includes('network') && 
               !error.message.includes('timeout') && 
               !error.message.includes('connection') &&
               !error.code?.includes('57P')) {
-            throw error; // Don't retry on validation or permission errors
+            throw error;
           }
 
           console.log(`[useContentMutation] Operation failed (attempt ${retries}/${MAX_RETRIES}):`, error);
           
           if (retries < MAX_RETRIES) {
-            const delay = RETRY_DELAY * Math.pow(2, retries - 1); // Exponential backoff
+            const delay = RETRY_DELAY * Math.pow(2, retries - 1);
             console.log(`[useContentMutation] Retrying in ${delay}ms...`);
             await wait(delay);
           }
@@ -69,7 +68,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
       console.error('[useContentMutation] All retry attempts failed:', lastError);
       throw lastError;
     },
-    onMutate: async ({ id, type, ...content }) => {
+    onMutate: async ({ id, type, data }) => {
       await queryClient.cancelQueries({ queryKey: ['content', type] });
       const previousData = queryClient.getQueryData<LocalizedContent<T>[]>(['content', type]);
 
@@ -77,7 +76,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
         queryClient.setQueryData<LocalizedContent<T>[]>(['content', type], (old) => {
           if (!old) return [];
           return old.map((item) => 
-            item.id === id ? { ...item, ...content } : item
+            item.id === id ? { ...item, ...data } : item
           );
         });
       } else {
@@ -85,7 +84,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
           id: `temp-${Date.now()}`,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
-          ...content
+          ...data
         } as LocalizedContent<T>;
 
         queryClient.setQueryData<LocalizedContent<T>[]>(['content', type], (old) => {
