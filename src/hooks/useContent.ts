@@ -21,17 +21,17 @@ export const useContent = <T extends ContentTableWithLocale>(
 
       while (retries < MAX_RETRIES) {
         try {
-          let query = supabase.from(type).select('*');
-
+          const query = supabase.from(type);
+          
           if (params?.locale) {
-            query = query.eq('locale', params.locale);
+            query.eq('locale', params.locale);
           }
 
           if (params?.published !== undefined) {
-            query = query.eq('published', params.published);
+            query.eq('published', params.published);
           }
 
-          const { data, error } = await query;
+          const { data, error } = await query.select('*');
 
           if (error) throw error;
 

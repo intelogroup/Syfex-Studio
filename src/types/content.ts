@@ -1,9 +1,11 @@
 import { Database } from "@/integrations/supabase/types";
 
-type DatabaseTables = Database['public']['Tables'];
-export type ContentTableWithLocale = keyof Pick<DatabaseTables, 'expertise' | 'services'>;
+type Tables = Database['public']['Tables'];
+export type ContentTableWithLocale = keyof Pick<Tables, 'expertise' | 'services'>;
 
-export type LocalizedContent<T extends ContentTableWithLocale> = DatabaseTables[T]['Row'];
+export type LocalizedContent<T extends ContentTableWithLocale> = Tables[T]['Row'];
+export type InsertContent<T extends ContentTableWithLocale> = Tables[T]['Insert'];
+export type UpdateContent<T extends ContentTableWithLocale> = Tables[T]['Update'];
 
 export interface ContentQueryParams {
   locale?: string;
@@ -13,7 +15,7 @@ export interface ContentQueryParams {
 export interface ContentMutationParams<T extends ContentTableWithLocale> {
   id?: string;
   type: T;
-  data: Partial<DatabaseTables[T]['Insert']>;
+  data: UpdateContent<T>;
 }
 
 export type ContentError = {
