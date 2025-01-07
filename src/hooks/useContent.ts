@@ -11,7 +11,9 @@ export const useContent = <T extends ContentTable>(
     queryFn: async () => {
       console.log(`[useContent] Fetching ${type} content from Supabase`, params);
 
-      let query = supabase.from(type).select('*');
+      let query = supabase
+        .from(type)
+        .select('*') as any;
 
       if (params?.locale) {
         query = query.eq('locale', params.locale);

@@ -15,7 +15,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
         const { data: result, error } = await supabase
           .from(type)
-          .update(data)
+          .update(data as any)
           .eq('id', id)
           .select()
           .maybeSingle();
@@ -26,7 +26,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         console.log(`[useContentMutation] Creating new ${type}`);
         const { data: result, error } = await supabase
           .from(type)
-          .insert(data)
+          .insert(data as any)
           .select()
           .maybeSingle();
 
