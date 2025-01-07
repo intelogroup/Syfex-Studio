@@ -42,30 +42,31 @@ export const useContentMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...content }: any) => {
+    mutationFn: async ({ id, type, ...content }: any) => {
       try {
-        console.log('[useContentMutation] Starting content mutation with:', { id, content });
+        console.log('[useContentMutation] Starting content mutation with:', { id, type, content });
         
-        // Handle delete operation
-        if (Object.keys(content).length === 0) {
-          console.log('[useContentMutation] Detected delete operation');
-          return null;
+        if (!id && !type) {
+          throw new Error('Either id or type must be provided');
         }
 
         // Handle update operation
-        console.log('[useContentMutation] Updating existing content');
-        const { data, error } = await supabase
-          .from('expertise')
-          .update(content)
-          .eq('id', id)
-          .select()
-          .maybeSingle();
+        if (id) {
+          console.log('[useContentMutation] Updating existing content');
+          const { data, error } = await supabase
+            .from('expertise')
+            .update(content)
+            .eq('id', id)
+            .maybeSingle();
 
-        if (error) {
-          console.error('[useContentMutation] Update error:', error);
-          throw error;
+          if (error) {
+            console.error('[useContentMutation] Update error:', error);
+            throw error;
+          }
+          return data;
         }
-        return data;
+
+        return null;
       } catch (error: any) {
         console.error('[useContentMutation] Mutation error:', {
           message: error.message,
