@@ -38,7 +38,7 @@ export const FormActions = ({ isLoading, onDelete, isValid }: FormActionsProps) 
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            {!isValid && "Make changes to enable saving"}
+            {!isValid && "Make changes and ensure all fields are valid"}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

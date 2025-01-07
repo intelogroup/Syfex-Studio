@@ -39,7 +39,6 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     try {
       console.log('Form data before save:', data);
       
-      // Show optimistic toast
       const toastId = toast({
         title: "Saving changes...",
         description: "Your changes are being saved",
@@ -80,11 +79,13 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     }
   };
 
-  // Add console logs to debug form state
+  // Debug form state
   console.log('Form state:', {
     isDirty: form.formState.isDirty,
     isValid: form.formState.isValid,
-    errors: form.formState.errors
+    errors: form.formState.errors,
+    dirtyFields: form.formState.dirtyFields,
+    touchedFields: form.formState.touchedFields
   });
 
   return (
@@ -100,7 +101,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
-            isValid={form.formState.isDirty && form.formState.isValid}
+            isValid={Object.keys(form.formState.dirtyFields).length > 0 && form.formState.isValid}
           />
         </form>
       </Form>
