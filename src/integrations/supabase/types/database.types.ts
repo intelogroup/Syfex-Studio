@@ -1,132 +1,156 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
-
 export interface Database {
   public: {
     Tables: {
       expertise: {
         Row: {
-          id: string;
-          title: string;
-          description: string | null;
-          long_description: string | null;
-          icon: string | null;
-          image_url: string | null;
-          tech: string[] | null;
-          benefits: string[] | null;
-          published: boolean | null;
-          created_at: string;
-          updated_at: string;
-          created_by: string | null;
-          key: string;
-          locale: string;
-        };
+          id: string
+          title: string
+          description: string | null
+          long_description: string | null
+          icon: string | null
+          image_url: string | null
+          tech: string[]
+          benefits: string[]
+          published: boolean | null
+          created_at: string
+          updated_at: string
+          created_by: string | null
+          key: string
+          locale: string
+        }
         Insert: {
-          id?: string;
-          title: string;
-          description?: string | null;
-          long_description?: string | null;
-          icon?: string | null;
-          image_url?: string | null;
-          tech?: string[] | null;
-          benefits?: string[] | null;
-          published?: boolean | null;
-          created_at?: string;
-          updated_at?: string;
-          created_by?: string | null;
-          key: string;
-          locale?: string;
-        };
+          title: string
+          description?: string | null
+          long_description?: string | null
+          icon?: string | null
+          image_url?: string | null
+          tech?: string[]
+          benefits?: string[]
+          published?: boolean | null
+          key: string
+          locale?: string
+          created_by?: string | null
+        }
         Update: {
-          id?: string;
-          title?: string;
-          description?: string | null;
-          long_description?: string | null;
-          icon?: string | null;
-          image_url?: string | null;
-          tech?: string[] | null;
-          benefits?: string[] | null;
-          published?: boolean | null;
-          created_at?: string;
-          updated_at?: string;
-          created_by?: string | null;
-          key?: string;
-          locale?: string;
-        };
-      };
+          title?: string
+          description?: string | null
+          long_description?: string | null
+          icon?: string | null
+          image_url?: string | null
+          tech?: string[]
+          benefits?: string[]
+          published?: boolean | null
+          key?: string
+          locale?: string
+          created_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expertise_created_by_fkey"
+            columns: ["created_by"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       services: {
         Row: {
-          id: string;
-          title: string;
-          description: string;
-          icon: string;
-          created_at: string | null;
-          updated_at: string | null;
-          published: boolean | null;
-          created_by: string | null;
-          features: string[] | null;
-          details: string[] | null;
-          key: string;
-          locale: string;
-        };
+          id: string
+          title: string
+          description: string
+          icon: string
+          created_at: string
+          updated_at: string
+          published: boolean | null
+          created_by: string | null
+          features: string[]
+          details: string[]
+          key: string
+          locale: string
+        }
         Insert: {
-          id?: string;
-          title: string;
-          description: string;
-          icon?: string;
-          created_at?: string | null;
-          updated_at?: string | null;
-          published?: boolean | null;
-          created_by?: string | null;
-          features?: string[] | null;
-          details?: string[] | null;
-          key: string;
-          locale?: string;
-        };
+          title: string
+          description: string
+          icon?: string
+          published?: boolean
+          features?: string[]
+          details?: string[]
+          key: string
+          locale?: string
+          created_by?: string | null
+        }
         Update: {
-          id?: string;
-          title?: string;
-          description?: string;
-          icon?: string;
-          created_at?: string | null;
-          updated_at?: string | null;
-          published?: boolean | null;
-          created_by?: string | null;
-          features?: string[] | null;
-          details?: string[] | null;
-          key?: string;
-          locale?: string;
-        };
-      };
+          title?: string
+          description?: string
+          icon?: string
+          published?: boolean
+          features?: string[]
+          details?: string[]
+          key?: string
+          locale?: string
+          created_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_created_by_fkey"
+            columns: ["created_by"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
-          id: string;
-          updated_at: string | null;
-          username: string | null;
-          avatar_url: string | null;
-        };
+          id: string
+          updated_at: string | null
+          username: string | null
+          avatar_url: string | null
+        }
         Insert: {
-          id: string;
-          updated_at?: string | null;
-          username?: string | null;
-          avatar_url?: string | null;
-        };
+          id: string
+          username?: string | null
+          avatar_url?: string | null
+        }
         Update: {
-          id?: string;
-          updated_at?: string | null;
-          username?: string | null;
-          avatar_url?: string | null;
-        };
-      };
-    };
+          username?: string | null
+          avatar_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          user_id: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
+          created_at: string
+        }
+        Insert: {
+          user_id?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+        }
+        Update: {
+          user_id?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+    }
     Enums: {
-      content_type: "expertise" | "portfolio" | "testimonial" | "service";
-      user_role: "admin" | "user";
-    };
-  };
+      user_role: "admin" | "user"
+    }
+  }
 }
