@@ -11,18 +11,20 @@ export const isContentTable = (table: string): table is ContentTable => {
   return ["expertise", "services"].includes(table);
 };
 
-// Type guard to check if data matches table schema
 export const isValidTableData = <T extends ContentTable>(
   table: T,
-  data: any
+  data: unknown
 ): data is TableInsert<T> | TableUpdate<T> => {
   if (!data || typeof data !== 'object') return false;
 
-  // Required fields for each table
   const requiredFields: Record<ContentTable, string[]> = {
     expertise: ['title', 'key'],
     services: ['title', 'description', 'key']
   };
 
-  return requiredFields[table].every(field => field in data);
+  return requiredFields[table].every(field => 
+    field in data && 
+    (data as any)[field] !== undefined && 
+    (data as any)[field] !== null
+  );
 };
