@@ -1,5 +1,5 @@
 import { Database } from "@/integrations/supabase/types/database.types";
-import { PostgrestFilterBuilder } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 type Tables = Database['public']['Tables'];
 export type ContentTableWithLocale = keyof Pick<Tables, 'expertise' | 'services'>;
@@ -26,4 +26,4 @@ export type ContentError = {
   code?: string;
 }
 
-export type PostgrestResult<T> = PostgrestFilterBuilder<T>;
+export type PostgrestResult<T> = Awaited<ReturnType<SupabaseClient<Database>['from']>>;
