@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTable, ContentMutationParams, LocalizedContent } from "@/types/content";
-import { Database } from "@/integrations/supabase/types";
-import { Tables } from "@/types/database";
+import { TableInsert, TableUpdate } from "@/types/database";
 
 export const useContentMutation = <T extends ContentTable>() => {
   const queryClient = useQueryClient();
@@ -15,7 +14,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
         const { data: result, error } = await supabase
           .from(type)
-          .update(data)
+          .update(data as TableUpdate<T>)
           .eq('id', id)
           .select()
           .maybeSingle();
@@ -26,7 +25,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         console.log(`[useContentMutation] Creating new ${type}`);
         const { data: result, error } = await supabase
           .from(type)
-          .insert(data)
+          .insert(data as TableInsert<T>)
           .select()
           .maybeSingle();
 
@@ -42,7 +41,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         queryClient.setQueryData<LocalizedContent<T>[]>(['content', type], (old) => {
           if (!old) return [];
           return old.map((item) => 
-            item.id === id ? { ...item, ...data } : item
+            item.id === id ? { ...item, ...data } as LocalizedContent<T> : item
           );
         });
       } else {
