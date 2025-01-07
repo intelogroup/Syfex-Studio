@@ -36,12 +36,25 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
 
   const handleSubmit = async (data: any) => {
     try {
-      await onSave(item.id, data);
+      console.log('Form data before save:', data);
+      await onSave(item.id, {
+        title: data.title,
+        description: data.description,
+        tech: data.tech,
+        icon: data.icon,
+        long_description: data.long_description,
+        benefits: data.benefits,
+        image_url: data.image_url,
+        published: data.published,
+        key: data.key,
+        locale: data.locale
+      });
       toast({
         title: "Success",
         description: "Expertise card has been updated",
       });
     } catch (error: any) {
+      console.error('Form submission error:', error);
       toast({
         variant: "destructive",
         title: "Error",

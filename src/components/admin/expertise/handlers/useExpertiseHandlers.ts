@@ -9,7 +9,8 @@ export const useExpertiseHandlers = () => {
 
   const handleCreate = async () => {
     try {
-      await createExpertise();
+      const newExpertise = await createExpertise();
+      console.log('Created new expertise:', newExpertise);
       mutate(['content', 'expertise']);
       toast({
         title: "Success",
@@ -29,6 +30,7 @@ export const useExpertiseHandlers = () => {
 
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
+      console.log('Saving expertise:', id, data);
       await updateExpertise(id, data);
       mutate(['content', 'expertise']);
       toast({
@@ -48,6 +50,7 @@ export const useExpertiseHandlers = () => {
 
   const handleDelete = async (id: string) => {
     try {
+      console.log('Deleting expertise:', id);
       await deleteExpertise(id);
       mutate(['content', 'expertise']);
       toast({

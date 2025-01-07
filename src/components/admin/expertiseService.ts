@@ -39,7 +39,7 @@ export const createExpertise = async () => {
         image_url: '/placeholder.svg'
       })
       .select()
-      .maybeSingle();
+      .single();
 
     if (error) {
       console.error('Create expertise error:', error);
