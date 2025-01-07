@@ -115,11 +115,14 @@ export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem
       throw error;
     }
 
+    if (!data) {
+      throw new Error('Record not found');
+    }
+
     console.log('Successfully updated expertise:', data);
     return data;
   } catch (error) {
     console.error('Update expertise error:', error);
-    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     throw error;
   }
 };
@@ -145,8 +148,7 @@ export const deleteExpertise = async (id: string) => {
     }
 
     console.log('Successfully deleted expertise with ID:', id);
-    // Return void since we don't need the deleted data
-    return;
+    return true;
   } catch (error) {
     console.error('Delete expertise error:', error);
     throw error;

@@ -52,7 +52,7 @@ export const useContentMutation = () => {
             .from('expertise')
             .update(content)
             .eq('id', id)
-            .select('*')
+            .select()
             .maybeSingle();
 
           if (error) {
@@ -65,6 +65,10 @@ export const useContentMutation = () => {
             throw error;
           }
 
+          if (!data) {
+            throw new Error('Record not found after update');
+          }
+
           console.log('Update successful:', data);
           return data;
         } else {
@@ -72,7 +76,7 @@ export const useContentMutation = () => {
           const { data, error } = await supabase
             .from('expertise')
             .insert([content])
-            .select('*')
+            .select()
             .maybeSingle();
 
           if (error) {
@@ -83,6 +87,10 @@ export const useContentMutation = () => {
               code: error.code
             });
             throw error;
+          }
+
+          if (!data) {
+            throw new Error('Record not found after insert');
           }
 
           console.log('Insert successful:', data);
