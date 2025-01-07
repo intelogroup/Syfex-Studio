@@ -11,6 +11,22 @@ interface FormActionsProps {
 }
 
 export const FormActions = ({ isLoading, onDelete, isValid = true }: FormActionsProps) => {
+  const handleDeleteClick = () => {
+    console.log('[FormActions] Delete button clicked');
+    console.log('[FormActions] Current loading state:', isLoading);
+    console.log('[FormActions] Form validity state:', isValid);
+  };
+
+  const handleConfirmDelete = () => {
+    console.log('[FormActions] Delete confirmed by user');
+    try {
+      onDelete();
+      console.log('[FormActions] Delete handler called successfully');
+    } catch (error) {
+      console.error('[FormActions] Error in delete confirmation:', error);
+    }
+  };
+
   return (
     <div className="flex justify-end gap-2">
       <TooltipProvider>
@@ -47,6 +63,7 @@ export const FormActions = ({ isLoading, onDelete, isValid = true }: FormActions
             variant="destructive"
             size="sm"
             disabled={isLoading}
+            onClick={handleDeleteClick}
           >
             <Trash className="w-4 h-4 mr-2" />
             Delete
@@ -63,7 +80,7 @@ export const FormActions = ({ isLoading, onDelete, isValid = true }: FormActions
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction 
-              onClick={onDelete}
+              onClick={handleConfirmDelete}
               className="bg-destructive hover:bg-destructive/90"
             >
               Delete

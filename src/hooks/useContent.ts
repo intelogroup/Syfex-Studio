@@ -7,14 +7,14 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
     queryKey: ['content', type, locale],
     queryFn: async () => {
       try {
-        console.log(`Fetching ${type} content from Supabase`);
+        console.log(`[useContent] Fetching ${type} content from Supabase`);
         const { data, error } = await supabase
           .from(type)
           .select('*')
           .eq('locale', locale);
 
         if (error) {
-          console.error(`${type} fetch error:`, {
+          console.error(`[useContent] ${type} fetch error:`, {
             message: error.message,
             details: error.details,
             hint: error.hint,
@@ -23,10 +23,10 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
           throw error;
         }
 
-        console.log(`Successfully fetched ${type}:`, data?.length, 'items');
+        console.log(`[useContent] Successfully fetched ${type}:`, data?.length, 'items');
         return data || [];
       } catch (error: any) {
-        console.error(`${type} fetch error:`, {
+        console.error(`[useContent] ${type} fetch error:`, {
           message: error.message,
           details: error.details,
           hint: error.hint,
@@ -44,30 +44,38 @@ export const useContentMutation = () => {
   return useMutation({
     mutationFn: async ({ id, ...content }: any) => {
       try {
-        console.log('Starting content mutation with:', { id, content });
+        console.log('[useContentMutation] Starting content mutation with:', { id, content });
         
         if (id) {
+          console.log('[useContentMutation] Updating existing content');
           const { data, error } = await supabase
             .from('expertise')
             .update(content)
             .eq('id', id)
             .select('*')
-            .single();
+            .maybeSingle();
 
-          if (error) throw error;
+          if (error) {
+            console.error('[useContentMutation] Update error:', error);
+            throw error;
+          }
           return data;
         } else {
+          console.log('[useContentMutation] Creating new content');
           const { data, error } = await supabase
             .from('expertise')
             .insert([content])
             .select('*')
-            .single();
+            .maybeSingle();
 
-          if (error) throw error;
+          if (error) {
+            console.error('[useContentMutation] Insert error:', error);
+            throw error;
+          }
           return data;
         }
       } catch (error: any) {
-        console.error('Mutation error:', {
+        console.error('[useContentMutation] Mutation error:', {
           message: error.message,
           details: error.details,
           hint: error.hint,
@@ -78,6 +86,7 @@ export const useContentMutation = () => {
       }
     },
     onSuccess: () => {
+      console.log('[useContentMutation] Mutation successful, invalidating queries');
       queryClient.invalidateQueries({ queryKey: ['content'] });
       toast({
         title: "Success",
@@ -85,7 +94,7 @@ export const useContentMutation = () => {
       });
     },
     onError: (error: any) => {
-      console.error('Content mutation error:', {
+      console.error('[useContentMutation] Content mutation error:', {
         message: error.message,
         details: error.details,
         hint: error.hint,
