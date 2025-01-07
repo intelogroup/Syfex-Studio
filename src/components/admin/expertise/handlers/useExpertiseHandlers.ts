@@ -58,13 +58,16 @@ export const useExpertiseHandlers = () => {
   const handleDelete = async (id: string) => {
     try {
       console.log('Starting expertise deletion:', id);
-      await deleteExpertise(id);
-      // After successful deletion, update the UI state
-      mutate({ id });
-      toast({
-        title: "Success",
-        description: "Expertise card has been deleted",
-      });
+      const success = await deleteExpertise(id);
+      
+      if (success) {
+        // Only mutate state if deletion was successful
+        mutate({ id });
+        toast({
+          title: "Success",
+          description: "Expertise card has been deleted",
+        });
+      }
     } catch (error: any) {
       console.error('Delete error:', {
         message: error.message,
