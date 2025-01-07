@@ -18,6 +18,8 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
   const [items, setItems] = useState(content);
   const [previewMode, setPreviewMode] = useState(false);
 
+  console.log('[ExpertiseList] Current items:', items.length);
+
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -39,13 +41,32 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
       setItems((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over?.id);
-
+        console.log('[ExpertiseList] Reordering items:', { oldIndex, newIndex });
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      console.log('[ExpertiseList] Delete requested for item:', id);
+      await onDelete(id);
+      console.log('[ExpertiseList] Delete successful, updating items list');
+      setItems(items.filter(item => item.id !== id));
+    } catch (error: any) {
+      console.error('[ExpertiseList] Delete operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      throw error; // Re-throw to be handled by error boundary
+    }
+  };
+
   const togglePreviewMode = () => {
+    console.log('[ExpertiseList] Toggling preview mode:', !previewMode);
     setPreviewMode(!previewMode);
   };
 
@@ -79,7 +100,7 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
                 key={item.id}
                 item={item}
                 onSave={onSave}
-                onDelete={onDelete}
+                onDelete={handleDelete}
                 isLoading={isLoading}
                 previewMode={previewMode}
               />

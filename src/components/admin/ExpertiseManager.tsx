@@ -24,13 +24,35 @@ export const ExpertiseManager = () => {
   } = useExpertiseHandlers();
 
   const onCreateSuccess = async () => {
+    console.log('[ExpertiseManager] Attempting to create new expertise');
     const success = await handleCreate();
     if (success) {
+      console.log('[ExpertiseManager] Creation successful, hiding new card form');
       setNewCard(false);
+    } else {
+      console.log('[ExpertiseManager] Creation failed or was cancelled');
+    }
+  };
+
+  const onDelete = async (id: string) => {
+    try {
+      console.log('[ExpertiseManager] Delete requested for expertise:', id);
+      await handleDelete(id);
+      console.log('[ExpertiseManager] Delete operation completed successfully');
+    } catch (error: any) {
+      console.error('[ExpertiseManager] Delete operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      throw error; // Re-throw to be handled by error boundary
     }
   };
 
   if (error) {
+    console.error('[ExpertiseManager] Error state:', error);
     return <ExpertiseError error={error} />;
   }
 
@@ -58,7 +80,7 @@ export const ExpertiseManager = () => {
           <ExpertiseList
             content={content || []}
             onSave={handleSave}
-            onDelete={handleDelete}
+            onDelete={onDelete}
             isLoading={isPending}
           />
         )}

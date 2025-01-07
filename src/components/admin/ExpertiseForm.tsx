@@ -36,7 +36,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
 
   const handleSubmit = async (data: any) => {
     try {
-      console.log('Form data before save:', data);
+      console.log('[ExpertiseForm] Form data before save:', data);
       await onSave(item.id, {
         title: data.title,
         description: data.description,
@@ -54,12 +54,35 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
         description: "Expertise card has been updated",
       });
     } catch (error: any) {
-      console.error('Form submission error:', error);
+      console.error('[ExpertiseForm] Form submission error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
       toast({
         variant: "destructive",
         title: "Error",
         description: error.message || "Failed to update expertise card",
       });
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      console.log('[ExpertiseForm] Starting delete operation for item:', item.id);
+      await onDelete(item.id);
+      console.log('[ExpertiseForm] Delete operation completed successfully');
+    } catch (error: any) {
+      console.error('[ExpertiseForm] Delete operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      throw error; // Re-throw to be handled by error boundary
     }
   };
 
@@ -72,7 +95,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
           <MediaFields id={item.id} />
           <FormActions 
             isLoading={isLoading} 
-            onDelete={() => onDelete(item.id)}
+            onDelete={handleDelete}
           />
         </form>
       </Form>
