@@ -81,6 +81,54 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string
+          details: string[] | null
+          features: string[] | null
+          icon: string
+          id: string
+          key: string
+          locale: string
+          published: boolean | null
+          secondary_icon: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description: string
+          details?: string[] | null
+          features?: string[] | null
+          icon?: string
+          id?: string
+          key: string
+          locale?: string
+          published?: boolean | null
+          secondary_icon?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string
+          details?: string[] | null
+          features?: string[] | null
+          icon?: string
+          id?: string
+          key?: string
+          locale?: string
+          published?: boolean | null
+          secondary_icon?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

@@ -1,4 +1,4 @@
-import { Code, Palette, Laptop, CheckCircle2, ArrowRight, PenTool, Globe, Cpu } from "lucide-react";
+import { Code, Palette, Laptop, CheckCircle2, ArrowRight, PenTool, Globe, Cpu, Smartphone, ShieldCheck, Headphones, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +6,21 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../ui/loading-spinner";
+import { supabase } from "@/integrations/supabase/client";
+
+// Map string icon names to Lucide icon components
+const iconMap: { [key: string]: any } = {
+  code: Code,
+  palette: Palette,
+  laptop: Laptop,
+  "pen-tool": PenTool,
+  globe: Globe,
+  cpu: Cpu,
+  smartphone: Smartphone,
+  "shield-check": ShieldCheck,
+  headphones: Headphones,
+  users: Users
+};
 
 export const ServicesSection = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -14,68 +29,25 @@ export const ServicesSection = () => {
   const { data: services, isLoading, error } = useQuery({
     queryKey: ['services'],
     queryFn: async () => {
-      // Simulated API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return [
-        {
-          title: "Logo & Brand Design",
-          description: "Creating distinctive brand identities that leave lasting impressions",
-          icon: Palette,
-          details: [
-            "Custom Logo Design",
-            "Brand Identity Guidelines",
-            "Business Card & Stationery",
-            "Social Media Branding",
-          ],
-          features: [
-            "Unique & Memorable Designs",
-            "Multiple Concept Options",
-            "Unlimited Revisions",
-            "Full Brand Guidelines",
-          ],
-          secondaryIcon: PenTool,
-        },
-        {
-          title: "Website Design",
-          description: "Crafting modern, responsive websites that engage and convert",
-          icon: Laptop,
-          details: [
-            "UI/UX Design",
-            "Responsive Layouts",
-            "Interactive Prototypes",
-            "Design Systems",
-          ],
-          features: [
-            "Mobile-First Approach",
-            "User-Centric Design",
-            "Conversion Optimization",
-            "Modern Aesthetics",
-          ],
-          secondaryIcon: Globe,
-        },
-        {
-          title: "Website Development",
-          description: "Building robust, scalable web applications with cutting-edge technology",
-          icon: Code,
-          details: [
-            "Frontend Development",
-            "Backend Integration",
-            "CMS Implementation",
-            "Performance Optimization",
-          ],
-          features: [
-            "Clean, Efficient Code",
-            "SEO Best Practices",
-            "Security Measures",
-            "Ongoing Support",
-          ],
-          secondaryIcon: Cpu,
-        },
-      ];
+      console.log('[ServicesSection] Fetching services from Supabase');
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .eq('published', true)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('[ServicesSection] Error fetching services:', error);
+        throw error;
+      }
+
+      console.log('[ServicesSection] Successfully fetched services:', data);
+      return data || [];
     }
   });
 
   if (error) {
+    console.error('[ServicesSection] Error in services query:', error);
     toast({
       variant: "destructive",
       title: "Error loading services",
@@ -102,96 +74,102 @@ export const ServicesSection = () => {
           <LoadingSpinner />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services?.map((service, index) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                onClick={() => setExpandedCard(expandedCard === index ? null : index)}
-                className="cursor-pointer"
-              >
-                <Card className={`bg-black/40 backdrop-blur-sm border-primary/10 hover:border-primary/20 transition-all duration-300 ${
-                  expandedCard === index ? 'scale-105' : ''
-                }`}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <service.icon className="w-12 h-12 text-primary mb-4" />
-                      <service.secondaryIcon className="w-8 h-8 text-secondary/60" />
-                    </div>
-                    <CardTitle className="text-xl font-semibold">{service.title}</CardTitle>
-                    <CardDescription className="text-muted-foreground text-base">
-                      {service.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ 
-                        height: expandedCard === index ? 'auto' : 0,
-                        opacity: expandedCard === index ? 1 : 0
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="pt-4 space-y-6">
-                        <div>
-                          <h4 className="text-sm font-semibold text-primary mb-2">What we offer:</h4>
-                          <ul className="space-y-2">
-                            {service.details.map((detail, idx) => (
-                              <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                                <ArrowRight className="w-4 h-4 mr-2 text-primary" />
-                                {detail}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-semibold text-primary mb-2">Key Features:</h4>
-                          <ul className="space-y-2">
-                            {service.features.map((feature, idx) => (
-                              <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                                <CheckCircle2 className="w-4 h-4 mr-2 text-secondary" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toast({
-                                title: "Service Request Received",
-                                description: `Thank you for your interest in our ${service.title} service. We'll contact you soon!`,
-                              });
-                            }}
-                            className="w-full"
-                            variant="default"
-                          >
-                            Request Service
-                          </Button>
-                          <Button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const contactSection = document.getElementById('contact');
-                              if (contactSection) {
-                                contactSection.scrollIntoView({ behavior: 'smooth' });
-                              }
-                            }}
-                            className="w-full"
-                            variant="secondary"
-                          >
-                            Contact Us
-                          </Button>
-                        </div>
+            {services?.map((service, index) => {
+              // Get the icon components from the map, fallback to Code icon
+              const IconComponent = iconMap[service.icon] || Code;
+              const SecondaryIconComponent = iconMap[service.secondary_icon] || Code;
+
+              return (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  onClick={() => setExpandedCard(expandedCard === index ? null : index)}
+                  className="cursor-pointer"
+                >
+                  <Card className={`bg-black/40 backdrop-blur-sm border-primary/10 hover:border-primary/20 transition-all duration-300 ${
+                    expandedCard === index ? 'scale-105' : ''
+                  }`}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <IconComponent className="w-12 h-12 text-primary mb-4" />
+                        <SecondaryIconComponent className="w-8 h-8 text-secondary/60" />
                       </div>
-                    </motion.div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                      <CardTitle className="text-xl font-semibold">{service.title}</CardTitle>
+                      <CardDescription className="text-muted-foreground text-base">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ 
+                          height: expandedCard === index ? 'auto' : 0,
+                          opacity: expandedCard === index ? 1 : 0
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pt-4 space-y-6">
+                          <div>
+                            <h4 className="text-sm font-semibold text-primary mb-2">What we offer:</h4>
+                            <ul className="space-y-2">
+                              {service.details.map((detail, idx) => (
+                                <li key={idx} className="flex items-center text-sm text-muted-foreground">
+                                  <ArrowRight className="w-4 h-4 mr-2 text-primary" />
+                                  {detail}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-primary mb-2">Key Features:</h4>
+                            <ul className="space-y-2">
+                              {service.features.map((feature, idx) => (
+                                <li key={idx} className="flex items-center text-sm text-muted-foreground">
+                                  <CheckCircle2 className="w-4 h-4 mr-2 text-secondary" />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toast({
+                                  title: "Service Request Received",
+                                  description: `Thank you for your interest in our ${service.title} service. We'll contact you soon!`,
+                                });
+                              }}
+                              className="w-full"
+                              variant="default"
+                            >
+                              Request Service
+                            </Button>
+                            <Button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const contactSection = document.getElementById('contact');
+                                if (contactSection) {
+                                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                              }}
+                              className="w-full"
+                              variant="secondary"
+                            >
+                              Contact Us
+                            </Button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </div>
