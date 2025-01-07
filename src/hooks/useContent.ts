@@ -7,7 +7,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
     queryKey: ['content', type, locale],
     queryFn: async () => {
       try {
-        console.log(`Fetching ${type} content with locale:`, locale);
+        console.log(`Fetching ${type} content from Supabase `);
         const { data, error } = await supabase
           .from(type)
           .select()
@@ -23,7 +23,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
           throw error;
         }
 
-        console.log(`Successfully fetched ${type} content:`, data?.length, 'items');
+        console.log(`Successfully fetched ${type}:`, data?.length, 'items');
         return data || [];
       } catch (error: any) {
         console.error(`${type} fetch error:`, {
@@ -48,53 +48,43 @@ export const useContentMutation = () => {
         
         if (id) {
           console.log('Updating existing content:', id);
-          const { data, error } = await supabase
+          const response = await supabase
             .from('expertise')
             .update(content)
             .eq('id', id)
             .select()
             .maybeSingle();
 
-          if (error) {
+          if (response.error) {
             console.error('Update error:', {
-              message: error.message,
-              details: error.details,
-              hint: error.hint,
-              code: error.code
+              message: response.error.message,
+              details: response.error.details,
+              hint: response.error.hint,
+              code: response.error.code
             });
-            throw error;
+            throw response.error;
           }
 
-          if (!data) {
-            throw new Error('Record not found after update');
-          }
-
-          console.log('Update successful:', data);
-          return data;
+          return response.data;
         } else {
           console.log('Creating new content');
-          const { data, error } = await supabase
+          const response = await supabase
             .from('expertise')
             .insert([content])
             .select()
             .maybeSingle();
 
-          if (error) {
+          if (response.error) {
             console.error('Insert error:', {
-              message: error.message,
-              details: error.details,
-              hint: error.hint,
-              code: error.code
+              message: response.error.message,
+              details: response.error.details,
+              hint: response.error.hint,
+              code: response.error.code
             });
-            throw error;
+            throw response.error;
           }
 
-          if (!data) {
-            throw new Error('Record not found after insert');
-          }
-
-          console.log('Insert successful:', data);
-          return data;
+          return response.data;
         }
       } catch (error: any) {
         console.error('Mutation error:', {

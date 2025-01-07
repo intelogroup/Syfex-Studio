@@ -67,6 +67,8 @@ export const useExpertiseHandlers = () => {
           title: "Success",
           description: "Expertise card has been deleted",
         });
+      } else {
+        throw new Error("Failed to delete expertise card");
       }
     } catch (error: any) {
       console.error('Delete error:', {
