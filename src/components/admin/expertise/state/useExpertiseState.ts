@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchExpertise } from "../../expertiseService";
+import { fetchExpertise } from "@/services/expertise";
+import { ExpertiseItem } from "@/components/expertise/types";
 
 export const useExpertiseState = () => {
   const [newCard, setNewCard] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
   
-  const { data: content, isLoading, error } = useQuery({
+  const { data: content, isLoading, error } = useQuery<ExpertiseItem[]>({
     queryKey: ['expertise'],
     queryFn: fetchExpertise
   });
