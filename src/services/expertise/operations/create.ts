@@ -54,8 +54,8 @@ export const createExpertise = async (): Promise<ExpertiseItem> => {
     const { data, error } = await supabase
       .from('expertise')
       .insert([newExpertise])
-      .select()
-      .maybeSingle();
+      .select('*')
+      .single();
 
     if (error) {
       logError('Create expertise', error);

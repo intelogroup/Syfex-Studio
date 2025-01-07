@@ -10,7 +10,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
         console.log(`Fetching ${type} content from Supabase`);
         const { data, error } = await supabase
           .from(type)
-          .select()
+          .select('*')
           .eq('locale', locale);
 
         if (error) {
@@ -47,32 +47,24 @@ export const useContentMutation = () => {
         console.log('Starting content mutation with:', { id, content });
         
         if (id) {
-          console.log('Updating existing content:', id);
           const { data, error } = await supabase
             .from('expertise')
             .update(content)
             .eq('id', id)
-            .select('*');
+            .select('*')
+            .single();
 
-          if (error) {
-            console.error('Update error:', error);
-            throw error;
-          }
-
-          return data?.[0] || null;
+          if (error) throw error;
+          return data;
         } else {
-          console.log('Creating new content');
           const { data, error } = await supabase
             .from('expertise')
             .insert([content])
-            .select('*');
+            .select('*')
+            .single();
 
-          if (error) {
-            console.error('Insert error:', error);
-            throw error;
-          }
-
-          return data?.[0] || null;
+          if (error) throw error;
+          return data;
         }
       } catch (error: any) {
         console.error('Mutation error:', {
