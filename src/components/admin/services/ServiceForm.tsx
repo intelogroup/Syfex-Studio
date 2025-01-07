@@ -7,7 +7,6 @@ import { FormActions } from "../expertise/form/FormActions";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { IconFields } from "./form/IconFields";
 import { FeaturesFields } from "./form/FeaturesFields";
-import { ServicePreview } from "./ServicePreview";
 import { ServiceFormProps } from "./types";
 
 export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormProps) => {
@@ -77,14 +76,11 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
           <BasicInfoFields />
           <IconFields />
           <FeaturesFields />
-          <div className="flex flex-col gap-4">
-            <ServicePreview service={form.watch()} />
-            <FormActions 
-              isLoading={isLoading} 
-              onDelete={() => onDelete(item.id)}
-              isValid={form.formState.isValid}
-            />
-          </div>
+          <FormActions 
+            isLoading={isLoading} 
+            onDelete={() => onDelete(item.id)}
+            isValid={form.formState.isValid}
+          />
         </form>
       </Form>
     </FormProvider>

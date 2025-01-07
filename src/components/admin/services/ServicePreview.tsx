@@ -26,12 +26,9 @@ export const ServicePreview = ({ service }: ServicePreviewProps) => {
               icon: service.icon || 'code',
               features: service.features || [],
               details: service.details || [],
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
               published: service.published || false,
               key: service.key || 'preview',
-              locale: service.locale || 'en',
-              created_by: null
+              locale: service.locale || 'en'
             }}
             index={0}
             isExpanded={false}
