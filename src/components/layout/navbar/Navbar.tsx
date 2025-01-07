@@ -26,7 +26,7 @@ export const Navbar = () => {
   const [session, setSession] = useState<any>(null);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const lightSize = 250; // Increased light size
+  const lightSize = 250;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -83,16 +83,15 @@ export const Navbar = () => {
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
       variants={navVariants}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-4 transition-transform duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
         !isVisible ? '-translate-y-full' : 'translate-y-0'
       }`}
       style={{
         '--light-size': `${lightSize}px`,
         background: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), rgba(255,255,255,0.15), transparent)',
-        backdropFilter: 'blur(8px)',
       } as React.CSSProperties}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 bg-background/80 backdrop-blur-md border-b border-border/40">
         <Button
           variant="ghost"
           size="icon"
