@@ -7,9 +7,10 @@ import { FormActions } from "../expertise/form/FormActions";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { IconFields } from "./form/IconFields";
 import { FeaturesFields } from "./form/FeaturesFields";
+import { Tables } from "@/integrations/supabase/types";
 
 interface ServiceFormProps {
-  item: any;
+  item: Tables<"services">;
   onSave: (id: string, data: any) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   isLoading?: boolean;
@@ -32,14 +33,18 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
     }
   });
 
+  console.log('[ServiceForm] Rendering form with data:', item);
+
   const handleSubmit = async (data: any) => {
     try {
+      console.log('[ServiceForm] Submitting form data:', data);
       await onSave(item.id, data);
       toast({
         title: "Success",
         description: "Service card has been updated",
       });
     } catch (error: any) {
+      console.error('[ServiceForm] Error saving form:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -58,6 +63,7 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
+            isValid={form.formState.isValid}
           />
         </form>
       </Form>

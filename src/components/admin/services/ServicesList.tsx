@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { ServiceForm } from "./ServiceForm";
 import { Card } from "@/components/ui/card";
+import { Tables } from "@/integrations/supabase/types";
 
 interface ServicesListProps {
-  content: any[];
+  content: Tables<"services">[];
   onSave: (id: string, data: any) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   isLoading?: boolean;
 }
 
 export const ServicesList = ({ content, onSave, onDelete, isLoading }: ServicesListProps) => {
+  console.log('[ServicesList] Rendering services:', content);
+  
   return (
     <div className="space-y-4">
       {Array.isArray(content) && content.map((item) => (
@@ -22,6 +25,12 @@ export const ServicesList = ({ content, onSave, onDelete, isLoading }: ServicesL
           />
         </Card>
       ))}
+      
+      {content.length === 0 && (
+        <div className="text-center text-muted-foreground py-8">
+          No services found. Create one using the button above.
+        </div>
+      )}
     </div>
   );
 };
