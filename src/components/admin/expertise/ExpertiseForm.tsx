@@ -1,13 +1,13 @@
 import { useForm, FormProvider } from "react-hook-form";
-import { ExpertiseItem } from "../expertise/types";
-import { BasicInfoFields } from "./expertise/form/BasicInfoFields";
-import { TechnicalFields } from "./expertise/form/TechnicalFields";
-import { MediaFields } from "./expertise/form/MediaFields";
+import { ExpertiseItem } from "../../expertise/types";
+import { BasicInfoFields } from "./form/BasicInfoFields";
+import { TechnicalFields } from "./form/TechnicalFields";
+import { MediaFields } from "./form/MediaFields";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { expertiseSchema } from "./expertise/schema";
+import { expertiseSchema } from "./schema";
 import { useToast } from "@/hooks/use-toast";
-import { FormActions } from "./expertise/form/FormActions";
+import { FormActions } from "./form/FormActions";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
