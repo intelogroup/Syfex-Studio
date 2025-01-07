@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ContentTableWithLocale, ContentQueryParams, LocalizedContent } from "@/types/content";
+import { PostgrestFilterBuilder } from "@supabase/supabase-js";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
@@ -21,7 +22,9 @@ export const useContent = <T extends ContentTableWithLocale>(
 
       while (retries < MAX_RETRIES) {
         try {
-          let query = supabase.from(type);
+          let query = supabase
+            .from(type)
+            .select('*') as PostgrestFilterBuilder<Database['public']['Tables'][T]>;
           
           if (params?.locale) {
             query = query.eq('locale', params.locale);
@@ -31,7 +34,7 @@ export const useContent = <T extends ContentTableWithLocale>(
             query = query.eq('published', params.published);
           }
 
-          const { data, error } = await query.select('*');
+          const { data, error } = await query;
 
           if (error) throw error;
 
