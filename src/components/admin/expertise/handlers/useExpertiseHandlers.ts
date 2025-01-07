@@ -25,42 +25,39 @@ export const useExpertiseHandlers = () => {
         return false;
       }
 
-      // Create the expertise payload
+      // Create expertise payload from form data
       const expertisePayload = {
         key: formData.key,
         title: formData.title,
-        description: formData.description || null,
+        description: formData.description,
         locale: formData.locale || 'en',
         published: formData.published || false,
         tech: Array.isArray(formData.tech) ? formData.tech : [],
         icon: formData.icon || 'code',
-        long_description: formData.long_description || null,
+        long_description: formData.long_description,
         benefits: Array.isArray(formData.benefits) ? formData.benefits : [],
         image_url: formData.image_url || '/placeholder.svg',
         created_by: session.user.id
       };
-
+      
       console.log('[useExpertiseHandlers] Prepared expertise payload:', expertisePayload);
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('expertise')
-        .insert([expertisePayload])
-        .select()
-        .maybeSingle();
+        .insert([expertisePayload]);
 
       if (error) {
         console.error('[useExpertiseHandlers] Database error:', error);
-        throw error;
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message || "Failed to create expertise card",
+        });
+        return false;
       }
 
-      if (!data) {
-        throw new Error('Failed to create expertise record');
-      }
-
-      console.log('[useExpertiseHandlers] Expertise created successfully:', data);
-      
       // Invalidate queries after successful creation
-      mutate({ ...data });
+      await mutate();
       
       toast({
         title: "Success",
