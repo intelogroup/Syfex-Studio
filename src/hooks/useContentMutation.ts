@@ -15,30 +15,22 @@ export const useContentMutation = <T extends ContentTable>() => {
 
       if (id) {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
-        const { data: result, error } = await (supabase
+        const { data: result, error } = await supabase
           .from(type)
-          .update(data as any)
-          .eq('id', id as string)
-          .select()
-          .maybeSingle() as PostgrestFilterBuilder<
-            Database,
-            Database['public']['Tables'][T]['Row'],
-            Database['public']['Tables'][T]['Row']
-          >);
+          .update(data)
+          .eq('id', id)
+          .select('*')
+          .maybeSingle();
 
         if (error) throw error;
         return result;
       } else {
         console.log(`[useContentMutation] Creating new ${type}`);
-        const { data: result, error } = await (supabase
+        const { data: result, error } = await supabase
           .from(type)
-          .insert(data as any)
-          .select()
-          .maybeSingle() as PostgrestFilterBuilder<
-            Database,
-            Database['public']['Tables'][T]['Row'],
-            Database['public']['Tables'][T]['Row']
-          >);
+          .insert(data)
+          .select('*')
+          .maybeSingle();
 
         if (error) throw error;
         return result;
