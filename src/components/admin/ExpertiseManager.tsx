@@ -24,14 +24,27 @@ export const ExpertiseManager = () => {
     isPending
   } = useExpertiseHandlers();
 
-  const onCreateSuccess = async (formData: ExpertiseFormData) => {
-    console.log('[ExpertiseManager] Attempting to create new expertise with data:', formData);
-    const success = await handleCreate(formData);
-    if (success) {
-      console.log('[ExpertiseManager] Creation successful, hiding new card form');
-      setNewCard(false);
-    } else {
-      console.log('[ExpertiseManager] Creation failed or was cancelled');
+  const onCreateSuccess = async (formData: ExpertiseFormData): Promise<boolean> => {
+    try {
+      console.log('[ExpertiseManager] Attempting to create new expertise with data:', formData);
+      const success = await handleCreate(formData);
+      if (success) {
+        console.log('[ExpertiseManager] Creation successful, hiding new card form');
+        setNewCard(false);
+        return true;
+      } else {
+        console.log('[ExpertiseManager] Creation failed or was cancelled');
+        return false;
+      }
+    } catch (error: any) {
+      console.error('[ExpertiseManager] Create operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      throw error;
     }
   };
 
