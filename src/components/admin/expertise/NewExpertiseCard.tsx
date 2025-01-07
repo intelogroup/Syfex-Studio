@@ -11,7 +11,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
 
 interface NewExpertiseCardProps {
-  onCreate: () => void;
+  onCreate: (data: any) => Promise<boolean>;
   onCancel: () => void;
   isLoading?: boolean;
 }
@@ -36,15 +36,20 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
   const handleCreate = async () => {
     try {
       console.log('[NewExpertiseCard] Starting create operation');
-      console.log('[NewExpertiseCard] Form state:', form.getValues());
+      const formData = form.getValues();
+      console.log('[NewExpertiseCard] Form state:', formData);
       
-      await onCreate();
+      const success = await onCreate(formData);
       
-      console.log('[NewExpertiseCard] Create operation completed successfully');
-      toast({
-        title: "Success",
-        description: "New expertise card created successfully",
-      });
+      if (success) {
+        console.log('[NewExpertiseCard] Create operation completed successfully');
+        toast({
+          title: "Success",
+          description: "New expertise card created successfully",
+        });
+      } else {
+        console.log('[NewExpertiseCard] Create operation was cancelled or failed');
+      }
     } catch (error: any) {
       console.error('[NewExpertiseCard] Create operation failed:', {
         message: error.message,
@@ -75,14 +80,17 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
       <CardContent>
         <FormProvider {...form}>
           <Form {...form}>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={(e) => {
+              e.preventDefault();
+              handleCreate();
+            }}>
               <BasicInfoFields id="new" />
               <TechnicalFields id="new" />
               <MediaFields id="new" />
 
               <div className="flex gap-4">
                 <Button 
-                  onClick={handleCreate}
+                  type="submit"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -95,6 +103,7 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
                   )}
                 </Button>
                 <Button 
+                  type="button"
                   variant="outline" 
                   onClick={handleCancel}
                   disabled={isLoading}

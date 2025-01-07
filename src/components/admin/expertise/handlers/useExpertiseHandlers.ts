@@ -2,12 +2,13 @@ import { useContentMutation } from "@/hooks/useContent";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { createExpertise } from "@/services/expertise/operations/create";
+import { ExpertiseItem } from "@/components/expertise/types";
 
 export const useExpertiseHandlers = () => {
   const { mutate, isPending } = useContentMutation();
   const { toast } = useToast();
 
-  const handleCreate = async () => {
+  const handleCreate = async (formData: Partial<ExpertiseItem>) => {
     try {
       console.log('[useExpertiseHandlers] Starting expertise creation');
       
@@ -16,13 +17,25 @@ export const useExpertiseHandlers = () => {
 
       if (!session) {
         console.error('[useExpertiseHandlers] Authentication required');
-        throw new Error('Authentication required');
+        toast({
+          variant: "destructive",
+          title: "Authentication Required",
+          description: "Please sign in to create expertise cards",
+        });
+        return false;
       }
 
-      const newExpertise = await createExpertise();
+      const newExpertise = await createExpertise(formData);
       console.log('[useExpertiseHandlers] Expertise created successfully:', newExpertise);
 
+      // Invalidate queries after successful creation
       mutate({ ...newExpertise });
+      
+      toast({
+        title: "Success",
+        description: "New expertise card created successfully",
+      });
+      
       return true;
     } catch (error: any) {
       console.error('[useExpertiseHandlers] Create operation failed:', {
@@ -35,8 +48,8 @@ export const useExpertiseHandlers = () => {
       
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to create expertise card",
+        title: "Error Creating Card",
+        description: error.hint || error.message || "Failed to create expertise card",
       });
       return false;
     }
