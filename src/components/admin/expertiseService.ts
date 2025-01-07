@@ -26,7 +26,7 @@ export const createExpertise = async () => {
     const key = 'expertise-' + Date.now();
     const { data, error } = await supabase
       .from('expertise')
-      .insert({
+      .insert([{
         key,
         title: 'New Expertise',
         description: null,
@@ -37,7 +37,7 @@ export const createExpertise = async () => {
         long_description: null,
         benefits: [],
         image_url: '/placeholder.svg'
-      })
+      }])
       .select()
       .single();
 
@@ -52,29 +52,37 @@ export const createExpertise = async () => {
   }
 };
 
-export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) => {
+export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem>) => {
   try {
-    console.log('Updating expertise:', id, data);
-    const { error } = await supabase
+    console.log('Updating expertise:', id, updates);
+    
+    // Ensure we're only sending valid columns
+    const validUpdates = {
+      title: updates.title,
+      description: updates.description,
+      key: updates.key,
+      locale: updates.locale,
+      published: updates.published,
+      tech: updates.tech || [],
+      icon: updates.icon,
+      long_description: updates.long_description,
+      benefits: updates.benefits || [],
+      image_url: updates.image_url
+    };
+
+    const { data, error } = await supabase
       .from('expertise')
-      .update({
-        title: data.title,
-        description: data.description,
-        key: data.key,
-        locale: data.locale,
-        published: data.published,
-        tech: data.tech || [],
-        icon: data.icon,
-        long_description: data.long_description,
-        benefits: data.benefits || [],
-        image_url: data.image_url
-      })
-      .eq('id', id);
+      .update(validUpdates)
+      .eq('id', id)
+      .select()
+      .single();
 
     if (error) {
       console.error('Update expertise error:', error);
       throw error;
     }
+    
+    return data;
   } catch (error) {
     console.error('Update expertise error:', error);
     throw error;
