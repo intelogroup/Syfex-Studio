@@ -10,6 +10,7 @@ import { FeaturesFields } from "./form/FeaturesFields";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
 import { ServiceFormData } from "./schema";
+import { ServicePreview } from "./ServicePreview";
 
 interface NewServiceCardProps {
   onCreate: (data: ServiceFormData) => Promise<boolean>;
@@ -69,28 +70,32 @@ export const NewServiceCard = ({ onCreate, onCancel, isLoading }: NewServiceCard
               <IconFields />
               <FeaturesFields />
 
-              <div className="flex gap-4">
-                <Button 
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <div className="flex items-center">
-                      <LoadingSpinner className="h-4 w-4 mr-2" />
-                      <span>Creating...</span>
-                    </div>
-                  ) : (
-                    'Create Card'
-                  )}
-                </Button>
-                <Button 
-                  type="button"
-                  variant="outline" 
-                  onClick={onCancel}
-                  disabled={isLoading}
-                >
-                  Cancel
-                </Button>
+              <div className="space-y-4">
+                <ServicePreview service={form.watch()} />
+                
+                <div className="flex gap-4">
+                  <Button 
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center">
+                        <LoadingSpinner className="h-4 w-4 mr-2" />
+                        <span>Creating...</span>
+                      </div>
+                    ) : (
+                      'Create Card'
+                    )}
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    onClick={onCancel}
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

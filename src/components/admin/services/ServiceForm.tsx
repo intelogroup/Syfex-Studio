@@ -8,6 +8,7 @@ import { BasicInfoFields } from "./form/BasicInfoFields";
 import { IconFields } from "./form/IconFields";
 import { FeaturesFields } from "./form/FeaturesFields";
 import { Tables } from "@/integrations/supabase/types";
+import { ServicePreview } from "./ServicePreview";
 
 interface ServiceFormProps {
   item: Tables<"services">;
@@ -83,11 +84,14 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
           <BasicInfoFields />
           <IconFields />
           <FeaturesFields />
-          <FormActions 
-            isLoading={isLoading} 
-            onDelete={() => onDelete(item.id)}
-            isValid={form.formState.isValid}
-          />
+          <div className="flex flex-col gap-4">
+            <ServicePreview service={form.watch()} />
+            <FormActions 
+              isLoading={isLoading} 
+              onDelete={() => onDelete(item.id)}
+              isValid={form.formState.isValid}
+            />
+          </div>
         </form>
       </Form>
     </FormProvider>
