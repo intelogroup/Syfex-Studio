@@ -1,4 +1,15 @@
-import { Code2, Database, Globe, Laptop, Smartphone, Palette } from "lucide-react";
+import { 
+  Code2, 
+  Database, 
+  Globe, 
+  Laptop, 
+  Smartphone, 
+  Palette,
+  Cpu,
+  ShieldCheck,
+  Headphones,
+  Users
+} from "lucide-react";
 
 export const Icons = {
   code: Code2,
@@ -7,4 +18,8 @@ export const Icons = {
   laptop: Laptop,
   smartphone: Smartphone,
   palette: Palette,
+  cpu: Cpu,
+  'shield-check': ShieldCheck,
+  headphones: Headphones,
+  users: Users,
 };

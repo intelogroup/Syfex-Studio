@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ServiceForm } from "./ServiceForm";
 import { Card } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
@@ -26,7 +25,7 @@ export const ServicesList = ({ content, onSave, onDelete, isLoading }: ServicesL
         </Card>
       ))}
       
-      {content.length === 0 && (
+      {(!content || content.length === 0) && (
         <div className="text-center text-muted-foreground py-8">
           No services found. Create one using the button above.
         </div>

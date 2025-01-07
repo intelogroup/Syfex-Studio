@@ -21,14 +21,14 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
   const form = useForm({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
-      title: item.title,
-      description: item.description,
+      title: item.title || '',
+      description: item.description || '',
       icon: item.icon || 'code',
       secondary_icon: item.secondary_icon || 'code',
       features: item.features || [],
       details: item.details || [],
       published: item.published || false,
-      key: item.key,
+      key: item.key || '',
       locale: item.locale || 'en'
     }
   });

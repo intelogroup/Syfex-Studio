@@ -1,17 +1,12 @@
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
+import { Icons } from "@/components/icons";
 
-const ICON_OPTIONS = [
-  { value: 'code', label: 'Code' },
-  { value: 'laptop', label: 'Laptop' },
-  { value: 'smartphone', label: 'Smartphone' },
-  { value: 'palette', label: 'Palette' },
-  { value: 'cpu', label: 'CPU' },
-  { value: 'shield-check', label: 'Shield Check' },
-  { value: 'headphones', label: 'Headphones' },
-  { value: 'users', label: 'Users' },
-];
+const ICON_OPTIONS = Object.keys(Icons).map(key => ({
+  value: key,
+  label: key.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}));
 
 export const IconFields = () => {
   const form = useFormContext();
