@@ -10,7 +10,7 @@ export interface ContentQueryParams {
 export interface ContentMutationParams<T extends ContentTable> {
   id?: string;
   type: T;
-  data: Partial<TableInsert<T>> | Partial<TableUpdate<T>>;
+  data: Partial<Tables[T]["Insert"]> | Partial<Tables[T]["Update"]>;
 }
 
 export type LocalizedContent<T extends ContentTable> = TableRow<T>;
