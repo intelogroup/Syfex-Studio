@@ -15,7 +15,7 @@ export interface ContentQueryParams {
 export interface ContentMutationParams<T extends ContentTableWithLocale> {
   id?: string;
   type: T;
-  data: UpdateContent<T>;
+  data: UpdateContent<T> | InsertContent<T>;
 }
 
 export type ContentError = {
