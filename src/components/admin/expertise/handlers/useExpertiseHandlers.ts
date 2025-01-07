@@ -12,7 +12,7 @@ export const useExpertiseHandlers = () => {
     try {
       console.log('[useExpertiseHandlers] Starting expertise creation with data:', formData);
       
-      const { data: session } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       console.log('[useExpertiseHandlers] Auth session:', session ? 'Present' : 'Missing');
 
       if (!session) {
@@ -27,7 +27,7 @@ export const useExpertiseHandlers = () => {
 
       // Create the expertise payload
       const expertisePayload = {
-        key: formData.key || `expertise-${Date.now()}`,
+        key: formData.key,
         title: formData.title,
         description: formData.description || null,
         locale: formData.locale || 'en',
@@ -46,11 +46,15 @@ export const useExpertiseHandlers = () => {
         .from('expertise')
         .insert([expertisePayload])
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('[useExpertiseHandlers] Database error:', error);
         throw error;
+      }
+
+      if (!data) {
+        throw new Error('Failed to create expertise record');
       }
 
       console.log('[useExpertiseHandlers] Expertise created successfully:', data);
@@ -75,8 +79,8 @@ export const useExpertiseHandlers = () => {
       
       toast({
         variant: "destructive",
-        title: "Error Creating Card",
-        description: error.hint || error.message || "Failed to create expertise card",
+        title: "Error",
+        description: error.message || "Failed to create expertise card",
       });
       return false;
     }
@@ -94,7 +98,7 @@ export const useExpertiseHandlers = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      console.log('[handleDelete] Starting expertise deletion:', id);
+      console.log('[handleDelete] Starting delete operation for expertise:', id);
       console.log('[handleDelete] Checking authentication...');
       
       const { data: { session } } = await supabase.auth.getSession();

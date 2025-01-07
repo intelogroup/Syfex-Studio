@@ -48,7 +48,7 @@ export const ExpertiseManager = () => {
         code: error.code,
         stack: error.stack
       });
-      throw error; // Re-throw to be handled by error boundary
+      throw error;
     }
   };
 
