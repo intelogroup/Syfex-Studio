@@ -101,7 +101,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
-            isValid={Object.keys(form.formState.dirtyFields).length > 0 && form.formState.isValid}
+            isValid={true} // Make button always clickable
           />
         </form>
       </Form>

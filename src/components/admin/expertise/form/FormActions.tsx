@@ -10,7 +10,7 @@ interface FormActionsProps {
   isValid?: boolean;
 }
 
-export const FormActions = ({ isLoading, onDelete, isValid }: FormActionsProps) => {
+export const FormActions = ({ isLoading, onDelete, isValid = true }: FormActionsProps) => {
   return (
     <div className="flex justify-end gap-2">
       <TooltipProvider>
@@ -20,7 +20,7 @@ export const FormActions = ({ isLoading, onDelete, isValid }: FormActionsProps) 
               <Button 
                 type="submit" 
                 size="sm"
-                disabled={isLoading || !isValid}
+                disabled={isLoading}
                 className="relative"
               >
                 {isLoading ? (
@@ -31,14 +31,11 @@ export const FormActions = ({ isLoading, onDelete, isValid }: FormActionsProps) 
                 ) : (
                   'Save Changes'
                 )}
-                {!isValid && !isLoading && (
-                  <AlertCircle className="h-4 w-4 ml-2 text-destructive" />
-                )}
               </Button>
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            {!isValid && "Make changes and ensure all fields are valid"}
+            {isLoading ? "Saving changes..." : "Click to save changes"}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
