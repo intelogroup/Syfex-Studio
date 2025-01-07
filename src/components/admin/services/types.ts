@@ -1,4 +1,5 @@
 import { Tables } from "@/integrations/supabase/types";
+import { ReactNode } from "react";
 
 export type ServicePreviewData = Pick<
   Tables<"services">,
@@ -14,4 +15,5 @@ export type ServiceFormProps = {
 
 export type ServicePreviewProps = {
   service: ServicePreviewData;
+  trigger?: ReactNode;
 };

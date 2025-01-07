@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { ServicePreviewProps } from "./types";
 
-export const ServicePreview = ({ service }: ServicePreviewProps) => {
+export const ServicePreview = ({ service, trigger }: ServicePreviewProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full">
-          <Eye className="w-4 h-4 mr-2" />
-          Preview
-        </Button>
+        {trigger || (
+          <Button variant="outline" className="w-full">
+            <Eye className="w-4 h-4 mr-2" />
+            Preview
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader>
@@ -25,10 +27,7 @@ export const ServicePreview = ({ service }: ServicePreviewProps) => {
               description: service.description || 'No description provided',
               icon: service.icon || 'code',
               features: service.features || [],
-              details: service.details || [],
-              published: service.published || false,
-              key: service.key || 'preview',
-              locale: service.locale || 'en'
+              details: service.details || []
             }}
             index={0}
             isExpanded={false}

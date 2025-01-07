@@ -7,6 +7,8 @@ import { ServiceError } from "./services/error/ServiceError";
 import { useServiceState } from "./services/state/useServiceState";
 import { useServiceHandlers } from "./services/handlers/useServiceHandlers";
 import { ServiceFormData } from "./services/schema";
+import { ServicePreview } from "./services/ServicePreview";
+import { useState } from "react";
 
 export const ServicesManager = () => {
   const {
@@ -23,6 +25,8 @@ export const ServicesManager = () => {
     handleDelete,
     isPending
   } = useServiceHandlers();
+
+  const [showPreview, setShowPreview] = useState(false);
 
   const onCreateSuccess = async (formData: ServiceFormData): Promise<boolean> => {
     try {
@@ -55,11 +59,23 @@ export const ServicesManager = () => {
     return <ServiceError error={error} />;
   }
 
+  const previewService = content?.[0] || {
+    title: 'Example Service',
+    description: 'This is an example service description',
+    icon: 'code',
+    features: ['Feature 1', 'Feature 2'],
+    details: ['Detail 1', 'Detail 2'],
+    published: false,
+    key: 'example',
+    locale: 'en'
+  };
+
   return (
     <ErrorBoundary>
       <div className="space-y-4">
         <ServicesHeader 
           onNewCard={() => setNewCard(true)} 
+          onPreview={() => setShowPreview(true)}
           isNewCardDisabled={newCard || isPending} 
         />
 
@@ -81,6 +97,13 @@ export const ServicesManager = () => {
             onSave={handleSave}
             onDelete={onDelete}
             isLoading={isPending}
+          />
+        )}
+
+        {showPreview && (
+          <ServicePreview 
+            service={previewService}
+            trigger={null}
           />
         )}
       </div>
