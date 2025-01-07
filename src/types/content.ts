@@ -1,20 +1,16 @@
 import { Tables } from "@/integrations/supabase/types";
 
-export type ContentTableWithLocale = keyof Pick<Tables<any>, 'expertise' | 'services'>;
+export type ContentTableWithLocale = keyof Pick<Tables, 'expertise' | 'services'>;
 
-export type LocalizedContent<T extends ContentTableWithLocale> = Tables<T>;
+export type LocalizedContent<T extends ContentTableWithLocale> = Tables[T]['Row'];
 
-export type ContentQueryParams = {
+export interface ContentQueryParams {
   locale?: string;
   published?: boolean;
-};
+}
 
-export type ContentMutationParams<T extends ContentTableWithLocale> = {
+export interface ContentMutationParams<T extends ContentTableWithLocale> {
   id?: string;
   type: T;
-} & Partial<Tables<T>>;
-
-export type ContentTableSchema = {
-  expertise: Tables<'expertise'>;
-  services: Tables<'services'>;
-};
+  [key: string]: any;
+}
