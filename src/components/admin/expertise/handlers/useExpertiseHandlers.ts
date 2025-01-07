@@ -1,7 +1,7 @@
 import { useContentMutation } from "@/hooks/useContent";
 import { ExpertiseItem } from "@/components/expertise/types";
 import { useToast } from "@/hooks/use-toast";
-import { createExpertise, deleteExpertise } from "../../expertiseService";
+import { createExpertise, deleteExpertise } from "@/services/expertise";
 
 export const useExpertiseHandlers = () => {
   const { mutate, isPending } = useContentMutation();
