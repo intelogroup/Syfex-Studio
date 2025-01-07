@@ -69,8 +69,7 @@ export const updateExpertise = async (id: string, data: Partial<ExpertiseItem>) 
         benefits: data.benefits || [],
         image_url: data.image_url
       })
-      .eq('id', id)
-      .maybeSingle();
+      .eq('id', id);
 
     if (error) {
       console.error('Update expertise error:', error);
@@ -88,8 +87,7 @@ export const deleteExpertise = async (id: string) => {
     const { error } = await supabase
       .from('expertise')
       .delete()
-      .eq('id', id)
-      .maybeSingle();
+      .eq('id', id);
 
     if (error) {
       console.error('Delete expertise error:', error);

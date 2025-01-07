@@ -25,7 +25,7 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     resolver: zodResolver(expertiseSchema),
     defaultValues: {
       title: item.title,
-      description: item.description,
+      description: item.description || '',
       tech: item.tech || [],
       icon: item.icon || 'code',
       long_description: item.long_description || '',
@@ -39,12 +39,23 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
 
   const handleSubmit = async (data: any) => {
     try {
-      await onSave(item.id, data);
+      await onSave(item.id, {
+        title: data.title,
+        description: data.description,
+        tech: data.tech,
+        icon: data.icon,
+        long_description: data.long_description,
+        benefits: data.benefits,
+        image_url: data.image_url,
+        published: data.published,
+        key: data.key,
+        locale: data.locale
+      });
       toast({
         title: "Success",
         description: "Expertise card has been updated",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",

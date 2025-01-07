@@ -42,6 +42,7 @@ export const useExpertiseHandlers = () => {
         title: "Error",
         description: error.message || "Failed to update expertise card",
       });
+      throw error;
     }
   };
 
@@ -60,6 +61,7 @@ export const useExpertiseHandlers = () => {
         title: "Error",
         description: error.message || "Failed to delete expertise card",
       });
+      throw error;
     }
   };
 
