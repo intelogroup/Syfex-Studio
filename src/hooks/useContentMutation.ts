@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
@@ -25,7 +26,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             console.log(`[useContentMutation] Updating ${type} with id:`, id);
             const { data: result, error } = await supabase
               .from(type)
-              .update(data)
+              .update(data as any)
               .eq('id', id)
               .select()
               .maybeSingle();
@@ -36,7 +37,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             console.log(`[useContentMutation] Creating new ${type}`);
             const { data: result, error } = await supabase
               .from(type)
-              .insert(data)
+              .insert(data as any)
               .select()
               .maybeSingle();
 
