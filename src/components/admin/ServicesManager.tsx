@@ -68,7 +68,7 @@ export const ServicesManager = () => {
           isNewCardDisabled={newCard || isPending} 
         />
 
-        {newCard && (
+        {!showPreview && newCard && (
           <NewServiceCard
             onCreate={onCreateSuccess}
             onCancel={() => setNewCard(false)}
@@ -76,21 +76,21 @@ export const ServicesManager = () => {
           />
         )}
 
-        {showPreview && content && (
+        {showPreview && content ? (
           <ServicePreview services={content} />
-        )}
-
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[200px]">
-            <LoadingSpinner className="h-8 w-8" />
-          </div>
-        ) : (
-          <ServicesList
-            content={content || []}
-            onSave={handleSave}
-            onDelete={onDelete}
-            isLoading={isPending}
-          />
+        ) : !showPreview && !newCard && (
+          isLoading ? (
+            <div className="flex justify-center items-center min-h-[200px]">
+              <LoadingSpinner className="h-8 w-8" />
+            </div>
+          ) : (
+            <ServicesList
+              content={content || []}
+              onSave={handleSave}
+              onDelete={onDelete}
+              isLoading={isPending}
+            />
+          )
         )}
       </div>
     </ErrorBoundary>
