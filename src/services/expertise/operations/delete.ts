@@ -5,12 +5,12 @@ export const deleteExpertise = async (id: string): Promise<boolean> => {
   try {
     logOperation('Attempting to delete expertise with ID', id);
     
-    const { error, count } = await supabase
+    const { error, data } = await supabase
       .from('expertise')
       .delete()
       .eq('id', id)
       .select('id')
-      .single();
+      .maybeSingle();
 
     if (error) {
       logError('Delete expertise', error);
@@ -18,7 +18,7 @@ export const deleteExpertise = async (id: string): Promise<boolean> => {
     }
 
     // Verify that a row was actually deleted
-    const success = count === 1;
+    const success = !!data;
     
     if (success) {
       logSuccess('deleted expertise with ID', id);
