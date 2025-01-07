@@ -8,6 +8,7 @@ import { BasicInfoFields } from "./form/BasicInfoFields";
 import { TechnicalFields } from "./form/TechnicalFields";
 import { MediaFields } from "./form/MediaFields";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useToast } from "@/hooks/use-toast";
 
 interface NewExpertiseCardProps {
   onCreate: () => void;
@@ -16,6 +17,7 @@ interface NewExpertiseCardProps {
 }
 
 export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertiseCardProps) => {
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(expertiseSchema),
     defaultValues: {
@@ -30,6 +32,40 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
       }
     }
   });
+
+  const handleCreate = async () => {
+    try {
+      console.log('[NewExpertiseCard] Starting create operation');
+      console.log('[NewExpertiseCard] Form state:', form.getValues());
+      
+      await onCreate();
+      
+      console.log('[NewExpertiseCard] Create operation completed successfully');
+      toast({
+        title: "Success",
+        description: "New expertise card created successfully",
+      });
+    } catch (error: any) {
+      console.error('[NewExpertiseCard] Create operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to create expertise card",
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    console.log('[NewExpertiseCard] Cancelling create operation');
+    onCancel();
+  };
 
   return (
     <Card>
@@ -46,13 +82,13 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
 
               <div className="flex gap-4">
                 <Button 
-                  onClick={onCreate}
+                  onClick={handleCreate}
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <div className="flex items-center">
-                      <LoadingSpinner />
-                      <span className="ml-2">Creating...</span>
+                      <LoadingSpinner className="h-4 w-4 mr-2" />
+                      <span>Creating...</span>
                     </div>
                   ) : (
                     'Create Card'
@@ -60,7 +96,7 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
                 </Button>
                 <Button 
                   variant="outline" 
-                  onClick={onCancel}
+                  onClick={handleCancel}
                   disabled={isLoading}
                 >
                   Cancel

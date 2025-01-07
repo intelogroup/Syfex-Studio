@@ -51,6 +51,13 @@ export const createExpertise = async (): Promise<ExpertiseItem> => {
     const newExpertise = expertiseCards[Math.floor(Math.random() * expertiseCards.length)];
     logOperation('New expertise payload', newExpertise);
 
+    const { data: session } = await supabase.auth.getSession();
+    logOperation('Checking authentication for create operation', { authenticated: !!session });
+
+    if (!session) {
+      throw new Error('Authentication required to create expertise');
+    }
+
     const { data, error } = await supabase
       .from('expertise')
       .insert([newExpertise])
@@ -58,18 +65,20 @@ export const createExpertise = async (): Promise<ExpertiseItem> => {
       .single();
 
     if (error) {
-      logError('Create expertise', error);
+      logError('Create expertise database operation', error);
       throw error;
     }
 
     if (!data) {
-      throw new Error('Failed to create expertise record');
+      const noDataError = new Error('Failed to create expertise record');
+      logError('Create expertise', noDataError);
+      throw noDataError;
     }
 
-    logSuccess('created expertise', data);
+    logSuccess('Created expertise', data);
     return data;
   } catch (error) {
-    logError('Create expertise', error);
+    logError('Create expertise operation', error);
     throw error;
   }
 };

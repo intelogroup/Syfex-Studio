@@ -1,6 +1,7 @@
 import { useContentMutation } from "@/hooks/useContent";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { createExpertise } from "@/services/expertise/operations/create";
 
 export const useExpertiseHandlers = () => {
   const { mutate, isPending } = useContentMutation();
@@ -8,27 +9,30 @@ export const useExpertiseHandlers = () => {
 
   const handleCreate = async () => {
     try {
-      console.log('Starting expertise creation');
-      const { data: newExpertise, error } = await supabase
-        .from('expertise')
-        .insert([{
-          title: 'New Expertise',
-          description: '',
-          key: `expertise-${Date.now()}`,
-          locale: 'en'
-        }])
-        .select()
-        .maybeSingle();
-
-      if (error) throw error;
+      console.log('[useExpertiseHandlers] Starting expertise creation');
       
-      if (newExpertise) {
-        mutate({ ...newExpertise });
-        return true;
+      const { data: session } = await supabase.auth.getSession();
+      console.log('[useExpertiseHandlers] Auth session:', session ? 'Present' : 'Missing');
+
+      if (!session) {
+        console.error('[useExpertiseHandlers] Authentication required');
+        throw new Error('Authentication required');
       }
-      return false;
+
+      const newExpertise = await createExpertise();
+      console.log('[useExpertiseHandlers] Expertise created successfully:', newExpertise);
+
+      mutate({ ...newExpertise });
+      return true;
     } catch (error: any) {
-      console.error('Create error:', error);
+      console.error('[useExpertiseHandlers] Create operation failed:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+      
       toast({
         variant: "destructive",
         title: "Error",
