@@ -1,14 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Database } from "@/integrations/supabase/types";
-import { 
-  ContentTableWithLocale, 
-  ContentMutationParams, 
-  LocalizedContent,
-  InsertContent,
-  UpdateContent
-} from "@/types/content";
+import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
@@ -51,19 +44,14 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             return result;
           }
         } catch (error: any) {
-          lastError = {
-            message: error.message,
-            details: error.details,
-            code: error.code,
-            hint: error.hint
-          };
+          lastError = error;
           retries++;
 
           if (!error.message.includes('network') && 
               !error.message.includes('timeout') && 
               !error.message.includes('connection') &&
               !error.code?.includes('57P')) {
-            throw lastError;
+            throw error;
           }
 
           console.log(`[useContentMutation] Operation failed (attempt ${retries}/${MAX_RETRIES}):`, error);
