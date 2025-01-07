@@ -61,7 +61,7 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
         code: error.code,
         stack: error.stack
       });
-      throw error; // Re-throw to be handled by error boundary
+      throw error;
     }
   };
 
@@ -70,6 +70,14 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
     setPreviewMode(!previewMode);
   };
 
+  if (!items.length && !isLoading) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        No expertise cards found. Create one using the button above.
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex justify-end mb-4">
@@ -77,6 +85,7 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
           variant="outline"
           onClick={togglePreviewMode}
           className="flex items-center gap-2"
+          disabled={isLoading}
         >
           {previewMode ? (
             <>
@@ -92,7 +101,11 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
         </Button>
       </div>
 
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <DndContext 
+        sensors={sensors} 
+        onDragEnd={handleDragEnd}
+        disabled={isLoading}
+      >
         <SortableContext items={items.map(item => item.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-4">
             {Array.isArray(items) && items.map((item) => (

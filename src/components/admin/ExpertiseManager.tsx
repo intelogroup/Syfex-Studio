@@ -77,25 +77,30 @@ export const ExpertiseManager = () => {
           isNewCardDisabled={newCard || isPending} 
         />
 
-        {newCard && (
-          <NewExpertiseCard
-            onCreate={onCreateSuccess}
-            onCancel={() => setNewCard(false)}
-            isLoading={isPending}
-          />
-        )}
-
         {isLoading ? (
-          <div className="flex justify-center items-center min-h-[200px]">
-            <LoadingSpinner className="h-8 w-8" />
+          <div className="min-h-[400px] flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <LoadingSpinner className="h-8 w-8 mx-auto" />
+              <p className="text-muted-foreground">Loading expertise cards...</p>
+            </div>
           </div>
         ) : (
-          <ExpertiseList
-            content={content || []}
-            onSave={handleSave}
-            onDelete={onDelete}
-            isLoading={isPending}
-          />
+          <>
+            {newCard && (
+              <NewExpertiseCard
+                onCreate={onCreateSuccess}
+                onCancel={() => setNewCard(false)}
+                isLoading={isPending}
+              />
+            )}
+
+            <ExpertiseList
+              content={content || []}
+              onSave={handleSave}
+              onDelete={onDelete}
+              isLoading={isPending}
+            />
+          </>
         )}
       </div>
     </ErrorBoundary>

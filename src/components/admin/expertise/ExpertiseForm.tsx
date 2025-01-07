@@ -79,15 +79,6 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
     }
   };
 
-  // Debug form state
-  console.log('Form state:', {
-    isDirty: form.formState.isDirty,
-    isValid: form.formState.isValid,
-    errors: form.formState.errors,
-    dirtyFields: form.formState.dirtyFields,
-    touchedFields: form.formState.touchedFields
-  });
-
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -95,13 +86,15 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
           onSubmit={form.handleSubmit(handleSubmit)} 
           className="space-y-6"
         >
-          <BasicInfoFields id={item.id} />
-          <TechnicalFields id={item.id} />
-          <MediaFields id={item.id} />
+          <fieldset disabled={isLoading} className="space-y-6">
+            <BasicInfoFields id={item.id} />
+            <TechnicalFields id={item.id} />
+            <MediaFields id={item.id} />
+          </fieldset>
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
-            isValid={true} // Make button always clickable
+            isValid={form.formState.isValid}
           />
         </form>
       </Form>
