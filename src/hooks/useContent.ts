@@ -10,7 +10,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
         console.log(`Fetching ${type} content with locale:`, locale);
         const { data, error } = await supabase
           .from(type)
-          .select('*')
+          .select()
           .eq('locale', locale);
 
         if (error) {

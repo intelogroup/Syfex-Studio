@@ -6,7 +6,7 @@ export const fetchExpertise = async (): Promise<ExpertiseItem[]> => {
     console.log('Fetching expertise content from Supabase...');
     const { data, error } = await supabase
       .from('expertise')
-      .select('*')
+      .select()
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -62,6 +62,10 @@ export const createExpertise = async () => {
         code: error.code
       });
       throw error;
+    }
+
+    if (!data) {
+      throw new Error('Failed to create expertise record');
     }
 
     console.log('Successfully created expertise:', data);
