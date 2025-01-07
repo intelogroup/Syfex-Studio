@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ContentTableWithLocale, ContentQueryParams, LocalizedContent } from "@/types/content";
+import { ContentTableWithLocale, ContentQueryParams, LocalizedContent } from "@/integrations/supabase/types/content.types";
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY = 1000;
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -41,18 +41,17 @@ export const useContent = <T extends ContentTableWithLocale>(
           lastError = error;
           retries++;
 
-          // Only retry on network errors or specific database errors
           if (!error.message.includes('network') && 
               !error.message.includes('timeout') && 
               !error.message.includes('connection') &&
               !error.code?.includes('57P')) {
-            throw error; // Don't retry on validation or permission errors
+            throw error;
           }
 
           console.log(`[useContent] Fetch failed (attempt ${retries}/${MAX_RETRIES}):`, error);
           
           if (retries < MAX_RETRIES) {
-            const delay = RETRY_DELAY * Math.pow(2, retries - 1); // Exponential backoff
+            const delay = RETRY_DELAY * Math.pow(2, retries - 1);
             console.log(`[useContent] Retrying in ${delay}ms...`);
             await wait(delay);
           }
@@ -67,8 +66,8 @@ export const useContent = <T extends ContentTableWithLocale>(
       });
       throw lastError;
     },
-    retry: false, // We handle retries manually
+    retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 };

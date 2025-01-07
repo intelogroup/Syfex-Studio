@@ -104,7 +104,6 @@ export const ExpertiseList = ({ content, onSave, onDelete, isLoading }: Expertis
       <DndContext 
         sensors={sensors} 
         onDragEnd={handleDragEnd}
-        disabled={isLoading}
       >
         <SortableContext items={items.map(item => item.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-4">

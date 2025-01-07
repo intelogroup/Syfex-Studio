@@ -6,7 +6,7 @@ import {
   ContentMutationParams, 
   LocalizedContent,
   ContentError
-} from "@/integrations/supabase/types";
+} from "@/integrations/supabase/types/content.types";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
