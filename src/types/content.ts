@@ -1,4 +1,4 @@
-import { ContentTable, TableRow } from "./database";
+import { ContentTable, TableRow, TableInsert, TableUpdate } from "./database";
 
 export type { ContentTable };
 
@@ -10,7 +10,7 @@ export interface ContentQueryParams {
 export interface ContentMutationParams<T extends ContentTable> {
   id?: string;
   type: T;
-  data: Partial<TableRow<T>>;
+  data: Partial<TableInsert<T> | TableUpdate<T>>;
 }
 
 export type LocalizedContent<T extends ContentTable> = TableRow<T>;
