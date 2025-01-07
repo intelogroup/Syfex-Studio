@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ContentTableWithLocale } from "@/types/content";
 
 type MutationParams = {
@@ -11,6 +11,7 @@ type MutationParams = {
 
 export const useContentMutation = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   return useMutation({
     mutationFn: async ({ id, type, ...content }: MutationParams) => {
@@ -27,7 +28,8 @@ export const useContentMutation = () => {
             .from('expertise')
             .update(content)
             .eq('id', id)
-            .maybeSingle();
+            .select()
+            .single();
 
           if (error) {
             console.error('[useContentMutation] Update error:', error);

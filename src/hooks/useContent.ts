@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ContentTableWithLocale, LocalizedContent, ContentQueryParams } from "@/types/content";
+import { ContentTableWithLocale, ContentQueryParams, LocalizedContent } from "@/types/content";
 
 export const useContent = <T extends ContentTableWithLocale>(
   type: T,
@@ -20,7 +20,7 @@ export const useContent = <T extends ContentTableWithLocale>(
 
         // Add locale filter if specified
         if (locale) {
-          query = query.eq('locale', locale);
+          query = query.eq('locale', locale as string);
         }
 
         const { data, error } = await query;

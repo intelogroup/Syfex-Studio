@@ -8,3 +8,9 @@ export type ContentQueryParams = {
   locale?: string;
   published?: boolean;
 };
+
+export type ContentMutationParams = {
+  id?: string;
+  type?: ContentTableWithLocale;
+  [key: string]: any;
+};
