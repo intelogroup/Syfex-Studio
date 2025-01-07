@@ -25,11 +25,12 @@ export const NewExpertiseCard = ({ onCreate, onCancel, isLoading }: NewExpertise
       description: "",
       tech: [],
       icon: "code",
-      details: {
-        longDescription: "",
-        benefits: [],
-        image: "/placeholder.svg"
-      }
+      long_description: "", // Moved to root level
+      benefits: [],
+      image_url: "/placeholder.svg",
+      published: false,
+      key: "",
+      locale: "en"
     }
   });
 
