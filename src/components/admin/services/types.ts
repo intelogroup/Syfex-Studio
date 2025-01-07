@@ -14,6 +14,5 @@ export type ServiceFormProps = {
 };
 
 export type ServicePreviewProps = {
-  service: ServicePreviewData;
-  trigger?: ReactNode;
+  services: ServicePreviewData[];
 };
