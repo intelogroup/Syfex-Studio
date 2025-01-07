@@ -7,7 +7,8 @@ import { ServiceError } from "./services/error/ServiceError";
 import { useServiceState } from "./services/state/useServiceState";
 import { useServiceHandlers } from "./services/handlers/useServiceHandlers";
 import { ServiceFormData } from "./services/schema";
-import { ServicePreview } from "./services/ServicePreview";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ServiceCard } from "@/components/services/ServiceCard";
 import { useState } from "react";
 
 export const ServicesManager = () => {
@@ -64,10 +65,7 @@ export const ServicesManager = () => {
     description: 'This is an example service description',
     icon: 'code',
     features: ['Feature 1', 'Feature 2'],
-    details: ['Detail 1', 'Detail 2'],
-    published: false,
-    key: 'example',
-    locale: 'en'
+    details: ['Detail 1', 'Detail 2']
   };
 
   return (
@@ -100,12 +98,25 @@ export const ServicesManager = () => {
           />
         )}
 
-        {showPreview && (
-          <ServicePreview 
-            service={previewService}
-            trigger={null}
-          />
-        )}
+        <Dialog open={showPreview} onOpenChange={setShowPreview}>
+          <DialogContent className="max-w-4xl">
+            <div className="mt-4">
+              <ServiceCard 
+                service={{
+                  id: 'preview',
+                  title: previewService.title,
+                  description: previewService.description,
+                  icon: previewService.icon,
+                  features: previewService.features,
+                  details: previewService.details
+                }}
+                index={0}
+                isExpanded={false}
+                onToggle={() => {}}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </ErrorBoundary>
   );
