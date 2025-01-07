@@ -4,6 +4,7 @@ import { useAdmin } from "@/hooks/useAdmin";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ExpertiseManager } from "@/components/admin/ExpertiseManager";
+import { ServicesManager } from "@/components/admin/ServicesManager";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const Admin = () => {
@@ -32,20 +33,20 @@ const Admin = () => {
         <Tabs defaultValue="expertise">
           <TabsList>
             <TabsTrigger value="expertise">Expertise</TabsTrigger>
-            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
             <TabsTrigger value="services">Services</TabsTrigger>
+            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           </TabsList>
 
           <TabsContent value="expertise">
             <ExpertiseManager />
           </TabsContent>
 
-          <TabsContent value="portfolio">
-            Portfolio management coming soon...
+          <TabsContent value="services">
+            <ServicesManager />
           </TabsContent>
 
-          <TabsContent value="services">
-            Services management coming soon...
+          <TabsContent value="portfolio">
+            Portfolio management coming soon...
           </TabsContent>
         </Tabs>
       </div>
