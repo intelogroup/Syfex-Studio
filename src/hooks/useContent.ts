@@ -14,7 +14,7 @@ export const useContent = <T extends ContentType>(type: T, locale: string = 'en'
         const { data, error } = await supabase
           .from(type)
           .select('*')
-          .eq('locale', locale);
+          .eq('locale', locale as string);
 
         if (error) {
           console.error(`[useContent] ${type} fetch error:`, {
