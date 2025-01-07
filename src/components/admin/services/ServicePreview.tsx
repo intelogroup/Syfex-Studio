@@ -2,11 +2,7 @@ import { ServiceCard } from "@/components/services/ServiceCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
-import { Tables } from "@/integrations/supabase/types";
-
-interface ServicePreviewProps {
-  service: Partial<Tables<"services">>;
-}
+import { ServicePreviewProps } from "./types";
 
 export const ServicePreview = ({ service }: ServicePreviewProps) => {
   return (

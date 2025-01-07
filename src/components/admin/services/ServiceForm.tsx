@@ -7,15 +7,8 @@ import { FormActions } from "../expertise/form/FormActions";
 import { BasicInfoFields } from "./form/BasicInfoFields";
 import { IconFields } from "./form/IconFields";
 import { FeaturesFields } from "./form/FeaturesFields";
-import { Tables } from "@/integrations/supabase/types";
 import { ServicePreview } from "./ServicePreview";
-
-interface ServiceFormProps {
-  item: Tables<"services">;
-  onSave: (id: string, data: any) => Promise<void>;
-  onDelete: (id: string) => Promise<void>;
-  isLoading?: boolean;
-}
+import { ServiceFormProps } from "./types";
 
 export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormProps) => {
   const { toast } = useToast();
