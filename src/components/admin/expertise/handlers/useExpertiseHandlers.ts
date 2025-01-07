@@ -25,9 +25,12 @@ export const useExpertiseHandlers = () => {
         return false;
       }
 
+      // Generate a key if not provided
+      const key = formData.key || `expertise-${Date.now()}`;
+
       // Create expertise payload from form data
       const expertisePayload = {
-        key: formData.key,
+        key,
         title: formData.title,
         description: formData.description,
         locale: formData.locale || 'en',
@@ -57,7 +60,7 @@ export const useExpertiseHandlers = () => {
       }
 
       // Invalidate queries after successful creation
-      await mutate();
+      await mutate({ type: 'expertise' });
       
       toast({
         title: "Success",
