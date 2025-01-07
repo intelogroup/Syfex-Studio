@@ -58,18 +58,21 @@ export const useExpertiseHandlers = () => {
   const handleDelete = async (id: string) => {
     try {
       console.log('Starting expertise deletion:', id);
-      const success = await deleteExpertise(id);
+      const { error } = await supabase
+        .from('expertise')
+        .delete()
+        .eq('id', id);
       
-      if (success) {
-        // Only mutate state if deletion was successful
-        mutate({ id });
-        toast({
-          title: "Success",
-          description: "Expertise card has been deleted",
-        });
-      } else {
-        throw new Error("Failed to delete expertise card");
+      if (error) {
+        throw error;
       }
+
+      // Only mutate state if deletion was successful
+      mutate({ id });
+      toast({
+        title: "Success",
+        description: "Expertise card has been deleted",
+      });
     } catch (error: any) {
       console.error('Delete error:', {
         message: error.message,

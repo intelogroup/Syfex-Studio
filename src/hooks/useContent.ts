@@ -7,7 +7,7 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
     queryKey: ['content', type, locale],
     queryFn: async () => {
       try {
-        console.log(`Fetching ${type} content from Supabase `);
+        console.log(`Fetching ${type} content from Supabase`);
         const { data, error } = await supabase
           .from(type)
           .select()
@@ -48,43 +48,31 @@ export const useContentMutation = () => {
         
         if (id) {
           console.log('Updating existing content:', id);
-          const response = await supabase
+          const { data, error } = await supabase
             .from('expertise')
             .update(content)
             .eq('id', id)
-            .select()
-            .maybeSingle();
+            .select('*');
 
-          if (response.error) {
-            console.error('Update error:', {
-              message: response.error.message,
-              details: response.error.details,
-              hint: response.error.hint,
-              code: response.error.code
-            });
-            throw response.error;
+          if (error) {
+            console.error('Update error:', error);
+            throw error;
           }
 
-          return response.data;
+          return data?.[0] || null;
         } else {
           console.log('Creating new content');
-          const response = await supabase
+          const { data, error } = await supabase
             .from('expertise')
             .insert([content])
-            .select()
-            .maybeSingle();
+            .select('*');
 
-          if (response.error) {
-            console.error('Insert error:', {
-              message: response.error.message,
-              details: response.error.details,
-              hint: response.error.hint,
-              code: response.error.code
-            });
-            throw response.error;
+          if (error) {
+            console.error('Insert error:', error);
+            throw error;
           }
 
-          return response.data;
+          return data?.[0] || null;
         }
       } catch (error: any) {
         console.error('Mutation error:', {
