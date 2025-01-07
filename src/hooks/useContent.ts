@@ -3,9 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Tables } from "@/integrations/supabase/types";
 
-type ContentType = 'expertise' | 'services';
+// Define valid table names that have a locale column
+type ContentTableWithLocale = 'expertise' | 'services';
 
-export const useContent = <T extends ContentType>(type: T, locale: string = 'en') => {
+export const useContent = <T extends ContentTableWithLocale>(type: T, locale: string = 'en') => {
   return useQuery({
     queryKey: ['content', type, locale],
     queryFn: async () => {
@@ -14,7 +15,7 @@ export const useContent = <T extends ContentType>(type: T, locale: string = 'en'
         const { data, error } = await supabase
           .from(type)
           .select('*')
-          .eq('locale', locale as string);
+          .eq('locale', locale);
 
         if (error) {
           console.error(`[useContent] ${type} fetch error:`, {
