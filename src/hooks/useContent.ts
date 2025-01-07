@@ -6,16 +6,34 @@ export const useContent = (type: 'expertise', locale: string = 'en') => {
   return useQuery({
     queryKey: ['content', type, locale],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from(type)
-        .select('*')
-        .eq('locale', locale);
+      try {
+        console.log(`Fetching ${type} content with locale:`, locale);
+        const { data, error } = await supabase
+          .from(type)
+          .select('*')
+          .eq('locale', locale);
 
-      if (error) {
-        console.error('Content fetch error:', error);
+        if (error) {
+          console.error(`${type} fetch error:`, {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          });
+          throw error;
+        }
+
+        console.log(`Successfully fetched ${type} content:`, data?.length, 'items');
+        return data || [];
+      } catch (error: any) {
+        console.error(`${type} fetch error:`, {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
         throw error;
       }
-      return data || [];
     },
   });
 };
@@ -26,24 +44,48 @@ export const useContentMutation = () => {
   return useMutation({
     mutationFn: async ({ id, ...content }: any) => {
       try {
+        console.log('Starting content mutation with:', { id, content });
+        
         if (id) {
+          console.log('Updating existing content:', id);
           const { data, error } = await supabase
             .from('expertise')
             .update(content)
             .eq('id', id)
             .select('*')
-            .single();
+            .maybeSingle();
 
-          if (error) throw error;
+          if (error) {
+            console.error('Update error:', {
+              message: error.message,
+              details: error.details,
+              hint: error.hint,
+              code: error.code
+            });
+            throw error;
+          }
+
+          console.log('Update successful:', data);
           return data;
         } else {
+          console.log('Creating new content');
           const { data, error } = await supabase
             .from('expertise')
             .insert([content])
             .select('*')
-            .single();
+            .maybeSingle();
 
-          if (error) throw error;
+          if (error) {
+            console.error('Insert error:', {
+              message: error.message,
+              details: error.details,
+              hint: error.hint,
+              code: error.code
+            });
+            throw error;
+          }
+
+          console.log('Insert successful:', data);
           return data;
         }
       } catch (error: any) {
@@ -51,7 +93,8 @@ export const useContentMutation = () => {
           message: error.message,
           details: error.details,
           hint: error.hint,
-          code: error.code
+          code: error.code,
+          stack: error.stack
         });
         throw error;
       }
@@ -68,7 +111,8 @@ export const useContentMutation = () => {
         message: error.message,
         details: error.details,
         hint: error.hint,
-        code: error.code
+        code: error.code,
+        stack: error.stack
       });
       toast({
         variant: "destructive",

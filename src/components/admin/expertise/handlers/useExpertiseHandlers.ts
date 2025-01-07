@@ -1,7 +1,7 @@
 import { useContentMutation } from "@/hooks/useContent";
-import { useToast } from "@/hooks/use-toast";
 import { ExpertiseItem } from "@/components/expertise/types";
-import { createExpertise, updateExpertise, deleteExpertise } from "../../expertiseService";
+import { useToast } from "@/hooks/use-toast";
+import { createExpertise, deleteExpertise } from "../../expertiseService";
 
 export const useExpertiseHandlers = () => {
   const { mutate, isPending } = useContentMutation();
@@ -9,20 +9,26 @@ export const useExpertiseHandlers = () => {
 
   const handleCreate = async () => {
     try {
+      console.log('Starting expertise creation');
       const newExpertise = await createExpertise();
       console.log('Created new expertise:', newExpertise);
-      mutate({ ...newExpertise });
-      toast({
-        title: "Success",
-        description: "New expertise card has been created",
-      });
-      return true;
+      
+      if (newExpertise) {
+        mutate({ ...newExpertise });
+        toast({
+          title: "Success",
+          description: "New expertise card has been created",
+        });
+        return true;
+      }
+      return false;
     } catch (error: any) {
       console.error('Create error:', {
         message: error.message,
         details: error.details,
         hint: error.hint,
-        code: error.code
+        code: error.code,
+        stack: error.stack
       });
       toast({
         variant: "destructive",
@@ -35,14 +41,15 @@ export const useExpertiseHandlers = () => {
 
   const handleSave = async (id: string, data: Partial<ExpertiseItem>) => {
     try {
-      console.log('Saving expertise:', { id, data });
+      console.log('Starting expertise save:', { id, data });
       await mutate({ id, ...data });
     } catch (error: any) {
-      console.error('Update error:', {
+      console.error('Save error:', {
         message: error.message,
         details: error.details,
         hint: error.hint,
-        code: error.code
+        code: error.code,
+        stack: error.stack
       });
       throw error;
     }
@@ -50,7 +57,7 @@ export const useExpertiseHandlers = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      console.log('Deleting expertise:', id);
+      console.log('Starting expertise deletion:', id);
       await deleteExpertise(id);
       mutate({ id });
       toast({
@@ -62,7 +69,8 @@ export const useExpertiseHandlers = () => {
         message: error.message,
         details: error.details,
         hint: error.hint,
-        code: error.code
+        code: error.code,
+        stack: error.stack
       });
       throw error;
     }
