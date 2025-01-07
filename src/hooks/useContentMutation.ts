@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ContentTableWithLocale, ContentMutationParams } from "@/types/content";
+import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
+import { Tables } from "@/integrations/supabase/types";
 
 export const useContentMutation = <T extends ContentTableWithLocale>() => {
   const queryClient = useQueryClient();
@@ -16,10 +17,10 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
           console.log(`[useContentMutation] Updating ${type} with id:`, id);
           const { data, error } = await supabase
             .from(type)
-            .update(content)
+            .update(content as Tables<T>)
             .eq('id', id)
             .select()
-            .maybeSingle();
+            .single();
 
           if (error) {
             console.error('[useContentMutation] Update error:', error);
@@ -31,9 +32,9 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
           console.log(`[useContentMutation] Creating new ${type}`);
           const { data, error } = await supabase
             .from(type)
-            .insert(content)
+            .insert(content as Tables<T>)
             .select()
-            .maybeSingle();
+            .single();
 
           if (error) {
             console.error('[useContentMutation] Insert error:', error);
@@ -52,10 +53,52 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
         throw error;
       }
     },
-    onSuccess: (_, variables) => {
+    onMutate: async ({ id, type, ...content }) => {
+      // Cancel any outgoing refetches to avoid overwriting optimistic update
+      await queryClient.cancelQueries({ queryKey: ['content', type] });
+
+      // Snapshot the previous value
+      const previousData = queryClient.getQueryData<LocalizedContent<T>[]>(['content', type]);
+
+      // Optimistically update the UI
+      if (id) {
+        queryClient.setQueryData<LocalizedContent<T>[]>(['content', type], (old) => {
+          if (!old) return [];
+          return old.map((item) => 
+            item.id === id ? { ...item, ...content } : item
+          );
+        });
+      } else {
+        const optimisticItem = {
+          id: `temp-${Date.now()}`,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          ...content
+        } as LocalizedContent<T>;
+
+        queryClient.setQueryData<LocalizedContent<T>[]>(['content', type], (old) => {
+          return [...(old || []), optimisticItem];
+        });
+      }
+
+      return { previousData };
+    },
+    onError: (err, { type }, context) => {
+      console.error('[useContentMutation] Error occurred:', err);
+      // Revert to the previous state on error
+      if (context?.previousData) {
+        queryClient.setQueryData(['content', type], context.previousData);
+      }
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save changes. Changes have been reverted.",
+      });
+    },
+    onSuccess: (_, { type }) => {
       console.log('[useContentMutation] Operation successful, invalidating queries');
       queryClient.invalidateQueries({
-        queryKey: ['content', variables.type],
+        queryKey: ['content', type],
       });
       toast({
         title: "Success",

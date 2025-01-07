@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ContentTableWithLocale, ContentQueryParams, LocalizedContent } from "@/types/content";
+import { Tables } from "@/integrations/supabase/types";
 
 export const useContent = <T extends ContentTableWithLocale>(
   type: T,
@@ -36,7 +37,7 @@ export const useContent = <T extends ContentTableWithLocale>(
         }
 
         console.log(`[useContent] Successfully fetched ${type}:`, data?.length, 'items');
-        return data as LocalizedContent<T>[];
+        return data as Tables<T>[];
       } catch (error: any) {
         console.error(`[useContent] ${type} fetch error:`, {
           message: error.message,

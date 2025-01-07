@@ -1,6 +1,6 @@
 import { Tables } from "@/integrations/supabase/types";
 
-export type ContentTableWithLocale = 'expertise' | 'services';
+export type ContentTableWithLocale = keyof Pick<Tables<any>, 'expertise' | 'services'>;
 
 export type LocalizedContent<T extends ContentTableWithLocale> = Tables<T>;
 
