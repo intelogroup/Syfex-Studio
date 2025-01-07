@@ -23,7 +23,6 @@ interface ServiceCardProps {
 export const ServiceCard = ({ service, index, isExpanded, onToggle }: ServiceCardProps) => {
   const { toast } = useToast();
   const IconComponent = iconMap[service.icon] || Code;
-  const SecondaryIconComponent = iconMap[service.secondary_icon] || Code;
 
   return (
     <motion.div
@@ -38,10 +37,7 @@ export const ServiceCard = ({ service, index, isExpanded, onToggle }: ServiceCar
         isExpanded ? 'scale-105' : ''
       }`}>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <IconComponent className="w-12 h-12 text-primary mb-4" />
-            <SecondaryIconComponent className="w-8 h-8 text-secondary/60" />
-          </div>
+          <IconComponent className="w-12 h-12 text-primary mb-4" />
           <CardTitle className="text-xl font-semibold">{service.title}</CardTitle>
           <CardDescription className="text-muted-foreground text-base">
             {service.description}

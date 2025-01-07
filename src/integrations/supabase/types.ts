@@ -93,7 +93,6 @@ export type Database = {
           key: string
           locale: string
           published: boolean | null
-          secondary_icon: string
           title: string
           updated_at: string | null
         }
@@ -108,7 +107,6 @@ export type Database = {
           key: string
           locale?: string
           published?: boolean | null
-          secondary_icon?: string
           title: string
           updated_at?: string | null
         }
@@ -123,7 +121,6 @@ export type Database = {
           key?: string
           locale?: string
           published?: boolean | null
-          secondary_icon?: string
           title?: string
           updated_at?: string | null
         }
