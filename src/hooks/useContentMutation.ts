@@ -19,7 +19,7 @@ export const useContentMutation = <T extends ContentTable>() => {
         const { data: result, error } = await supabase
           .from(type)
           .update(data as TableUpdate<T>)
-          .eq('id', id)
+          .eq('id', id as string)
           .select()
           .single();
 
