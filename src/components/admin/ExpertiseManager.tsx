@@ -3,7 +3,6 @@ import { ExpertiseHeader } from "./expertise/ExpertiseHeader";
 import { NewExpertiseCard } from "./expertise/NewExpertiseCard";
 import { ExpertiseList } from "./expertise/ExpertiseList";
 import { ErrorBoundary } from "../error-boundary";
-import { ExpertiseFilterSection } from "./expertise/filters/ExpertiseFilterSection";
 import { ExpertiseError } from "./expertise/error/ExpertiseError";
 import { useExpertiseState } from "./expertise/state/useExpertiseState";
 import { useExpertiseHandlers } from "./expertise/handlers/useExpertiseHandlers";
@@ -12,14 +11,9 @@ export const ExpertiseManager = () => {
   const {
     newCard,
     setNewCard,
-    searchTerm,
-    setSearchTerm,
-    selectedTech,
-    setSelectedTech,
     content,
     isLoading,
     error,
-    availableTech
   } = useExpertiseState();
 
   const {
@@ -46,16 +40,6 @@ export const ExpertiseManager = () => {
         <ExpertiseHeader 
           onNewCard={() => setNewCard(true)} 
           isNewCardDisabled={newCard || isPending} 
-        />
-
-        <ExpertiseFilterSection
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          selectedTech={selectedTech}
-          availableTech={availableTech}
-          onTechSelect={(tech) => setSelectedTech([...selectedTech, tech])}
-          onTechRemove={(tech) => setSelectedTech(selectedTech.filter(t => t !== tech))}
-          isDisabled={isLoading || isPending}
         />
 
         {newCard && (
