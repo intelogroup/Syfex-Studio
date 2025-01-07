@@ -51,11 +51,11 @@ export const ServicesManager = () => {
       await handleDelete(id);
     } catch (error) {
       console.error('[ServicesManager] Delete operation failed:', error);
+      throw error;
     }
   };
 
   if (error) {
-    console.error('[ServicesManager] Error state:', error);
     return <ServiceError error={error} />;
   }
 

@@ -31,11 +31,9 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error("Error caught by boundary:", error);
     console.error("Component stack:", errorInfo.componentStack);
     
-    // Track error with additional context
     trackError(error, errorInfo.componentStack);
     this.setState({ errorInfo });
 
-    // Show error toast with more detailed message
     toast({
       variant: "destructive",
       title: "Something went wrong",
@@ -49,6 +47,12 @@ export class ErrorBoundary extends Component<Props, State> {
     }
     if (error.message.includes("network")) {
       return "Network error occurred. Please check your internet connection.";
+    }
+    if (error.message.includes("Failed to fetch")) {
+      return "Unable to connect to the server. Please check your internet connection.";
+    }
+    if (error.message.includes("PGRST")) {
+      return "Database error occurred. Please try again later.";
     }
     return error.message || "An unexpected error occurred while rendering the application.";
   }

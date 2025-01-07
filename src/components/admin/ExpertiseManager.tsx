@@ -66,7 +66,6 @@ export const ExpertiseManager = () => {
   };
 
   if (error) {
-    console.error('[ExpertiseManager] Error state:', error);
     return <ExpertiseError error={error} />;
   }
 
