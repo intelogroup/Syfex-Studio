@@ -1,40 +1,25 @@
 import { ServiceCard } from "@/components/services/ServiceCard";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { ServicePreviewProps } from "./types";
 
-export const ServicePreview = ({ service, trigger }: ServicePreviewProps) => {
+export const ServicePreview = ({ service }: ServicePreviewProps) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="outline" className="w-full">
-            <Eye className="w-4 h-4 mr-2" />
-            Preview
-          </Button>
-        )}
-      </DialogTrigger>
-      <DialogContent className="max-w-4xl">
-        <DialogHeader>
-          <DialogTitle>Service Preview</DialogTitle>
-        </DialogHeader>
-        <div className="mt-4">
-          <ServiceCard 
-            service={{
-              id: 'preview',
-              title: service.title || 'Untitled Service',
-              description: service.description || 'No description provided',
-              icon: service.icon || 'code',
-              features: service.features || [],
-              details: service.details || []
-            }}
-            index={0}
-            isExpanded={false}
-            onToggle={() => {}}
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+    <Card className="bg-card/50 backdrop-blur-sm">
+      <CardContent className="pt-6">
+        <ServiceCard 
+          service={{
+            id: 'preview',
+            title: service.title || 'Untitled Service',
+            description: service.description || 'No description provided',
+            icon: service.icon || 'code',
+            features: service.features || [],
+            details: service.details || []
+          }}
+          index={0}
+          isExpanded={false}
+          onToggle={() => {}}
+        />
+      </CardContent>
+    </Card>
   );
 };
