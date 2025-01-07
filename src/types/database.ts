@@ -1,13 +1,14 @@
 import { Database } from "@/integrations/supabase/types";
+import { Tables as SupabaseTables } from "@/integrations/supabase/types/helpers";
 
 export type Tables = Database["public"]["Tables"];
 export type ContentTable = keyof Pick<Tables, "expertise" | "services">;
 
-// Helper type to get the row type for a specific table
-export type TableRow<T extends ContentTable> = Tables[T]["Row"];
+export type TableRow<T extends ContentTable> = SupabaseTables[T]["Row"];
+export type TableInsert<T extends ContentTable> = SupabaseTables[T]["Insert"];
+export type TableUpdate<T extends ContentTable> = SupabaseTables[T]["Update"];
 
-// Helper type to get the insert type for a specific table
-export type TableInsert<T extends ContentTable> = Tables[T]["Insert"];
-
-// Helper type to get the update type for a specific table
-export type TableUpdate<T extends ContentTable> = Tables[T]["Update"];
+// Type guard to check if a table name is a valid content table
+export const isContentTable = (table: string): table is ContentTable => {
+  return ["expertise", "services"].includes(table);
+};

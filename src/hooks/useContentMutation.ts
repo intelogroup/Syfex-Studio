@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTable, ContentMutationParams, LocalizedContent } from "@/types/content";
-import { TableInsert, TableUpdate } from "@/types/database";
+import { TableInsert, TableUpdate, isContentTable } from "@/types/database";
 
 export const useContentMutation = <T extends ContentTable>() => {
   const queryClient = useQueryClient();
@@ -10,6 +10,10 @@ export const useContentMutation = <T extends ContentTable>() => {
 
   return useMutation({
     mutationFn: async ({ id, type, data }: ContentMutationParams<T>) => {
+      if (!isContentTable(type)) {
+        throw new Error(`Invalid content type: ${type}`);
+      }
+
       if (id) {
         console.log(`[useContentMutation] Updating ${type} with id:`, id);
         const { data: result, error } = await supabase
@@ -17,7 +21,7 @@ export const useContentMutation = <T extends ContentTable>() => {
           .update(data as TableUpdate<T>)
           .eq('id', id)
           .select()
-          .maybeSingle();
+          .single();
 
         if (error) throw error;
         return result;
@@ -27,7 +31,7 @@ export const useContentMutation = <T extends ContentTable>() => {
           .from(type)
           .insert(data as TableInsert<T>)
           .select()
-          .maybeSingle();
+          .single();
 
         if (error) throw error;
         return result;
