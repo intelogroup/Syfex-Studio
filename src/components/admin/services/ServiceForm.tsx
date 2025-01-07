@@ -37,17 +37,41 @@ export const ServiceForm = ({ item, onSave, onDelete, isLoading }: ServiceFormPr
   const handleSubmit = async (data: any) => {
     try {
       console.log('[ServiceForm] Submitting form data:', data);
-      await onSave(item.id, data);
+      
+      const toastId = toast({
+        title: "Saving changes...",
+        description: "Your changes are being saved",
+      });
+
+      await onSave(item.id, {
+        title: data.title,
+        description: data.description,
+        icon: data.icon,
+        features: data.features,
+        details: data.details,
+        published: data.published,
+        key: data.key,
+        locale: data.locale
+      });
+
       toast({
         title: "Success",
         description: "Service card has been updated",
+        variant: "default"
       });
     } catch (error: any) {
-      console.error('[ServiceForm] Error saving form:', error);
+      console.error('[ServiceForm] Form submission error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update service card",
+        title: "Error saving changes",
+        description: error.message || "Failed to update service card. Please try again.",
       });
     }
   };
