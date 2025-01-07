@@ -29,7 +29,6 @@ export const useServiceHandlers = () => {
         locale: formData.locale || 'en',
         published: formData.published || false,
         icon: formData.icon || 'code',
-        secondary_icon: formData.secondary_icon || 'code',
         features: formData.features || [],
         details: formData.details || [],
         created_by: session.user.id
