@@ -1,16 +1,13 @@
 import { useForm, FormProvider } from "react-hook-form";
-import { ExpertiseItem } from "../../expertise/types";
-import { Button } from "@/components/ui/button";
-import { BasicInfoFields } from "./form/BasicInfoFields";
-import { TechnicalFields } from "./form/TechnicalFields";
-import { MediaFields } from "./form/MediaFields";
+import { ExpertiseItem } from "../expertise/types";
+import { BasicInfoFields } from "./expertise/form/BasicInfoFields";
+import { TechnicalFields } from "./expertise/form/TechnicalFields";
+import { MediaFields } from "./expertise/form/MediaFields";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { expertiseSchema } from "./schema";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { expertiseSchema } from "./expertise/schema";
 import { useToast } from "@/hooks/use-toast";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { FormActions } from "./form/FormActions";
+import { FormActions } from "./expertise/form/FormActions";
 
 interface ExpertiseFormProps {
   item: ExpertiseItem;
@@ -34,11 +31,27 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
       published: item.published || false,
       key: item.key,
       locale: item.locale
-    }
+    },
+    mode: "onChange" // Enable real-time validation
   });
 
   const handleSubmit = async (data: any) => {
     try {
+      console.log('Form data before save:', data);
+      
+      // Optimistic update
+      const previousData = { ...item };
+      const optimisticData = {
+        ...item,
+        ...data
+      };
+
+      // Show optimistic toast
+      const toastId = toast({
+        title: "Saving changes...",
+        description: "Your changes are being saved",
+      });
+
       await onSave(item.id, {
         title: data.title,
         description: data.description,
@@ -51,15 +64,26 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
         key: data.key,
         locale: data.locale
       });
+
       toast({
         title: "Success",
         description: "Expertise card has been updated",
+        variant: "default"
       });
     } catch (error: any) {
+      console.error('Form submission error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        stack: error.stack
+      });
+
+      // Show detailed error message
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update expertise card",
+        title: "Error saving changes",
+        description: error.message || "Failed to update expertise card. Please try again.",
       });
     }
   };
@@ -67,13 +91,21 @@ export const ExpertiseForm = ({ item, onSave, onDelete, isLoading }: ExpertiseFo
   return (
     <FormProvider {...form}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form 
+          onSubmit={form.handleSubmit(handleSubmit)} 
+          className="space-y-6"
+          onChange={() => {
+            // Trigger validation on change
+            form.trigger();
+          }}
+        >
           <BasicInfoFields id={item.id} />
           <TechnicalFields id={item.id} />
           <MediaFields id={item.id} />
           <FormActions 
             isLoading={isLoading} 
             onDelete={() => onDelete(item.id)}
+            isValid={form.formState.isValid}
           />
         </form>
       </Form>

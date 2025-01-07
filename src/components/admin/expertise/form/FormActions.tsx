@@ -1,30 +1,47 @@
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { Trash, AlertCircle } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface FormActionsProps {
   isLoading?: boolean;
   onDelete: () => void;
+  isValid?: boolean;
 }
 
-export const FormActions = ({ isLoading, onDelete }: FormActionsProps) => {
+export const FormActions = ({ isLoading, onDelete, isValid }: FormActionsProps) => {
   return (
     <div className="flex justify-end gap-2">
-      <Button 
-        type="submit" 
-        size="sm"
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <div className="flex items-center">
-            <LoadingSpinner className="mr-2 h-4 w-4" />
-            <span>Saving...</span>
-          </div>
-        ) : (
-          'Save Changes'
-        )}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <Button 
+                type="submit" 
+                size="sm"
+                disabled={isLoading || !isValid}
+                className="relative"
+              >
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <LoadingSpinner className="mr-2 h-4 w-4" />
+                    <span>Saving...</span>
+                  </div>
+                ) : (
+                  'Save Changes'
+                )}
+                {!isValid && !isLoading && (
+                  <AlertCircle className="h-4 w-4 ml-2 text-destructive" />
+                )}
+              </Button>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            {!isValid && "Please fix form errors before saving"}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
