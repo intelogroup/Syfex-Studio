@@ -1,11 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ContentTableWithLocale, ContentMutationParams, LocalizedContent } from "@/types/content";
-import { Tables } from "@/integrations/supabase/types";
+import { 
+  ContentTableWithLocale, 
+  ContentMutationParams, 
+  LocalizedContent,
+  ContentError
+} from "@/integrations/supabase/types";
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY = 1000;
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -18,7 +22,7 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
       console.log('[useContentMutation] Starting mutation with:', { id, type, content });
 
       let retries = 0;
-      let lastError: any;
+      let lastError: ContentError | null = null;
 
       while (retries < MAX_RETRIES) {
         try {
@@ -45,21 +49,25 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
             return data;
           }
         } catch (error: any) {
-          lastError = error;
+          lastError = {
+            message: error.message,
+            details: error.details,
+            code: error.code,
+            hint: error.hint
+          };
           retries++;
 
-          // Only retry on network errors or specific database errors
           if (!error.message.includes('network') && 
               !error.message.includes('timeout') && 
               !error.message.includes('connection') &&
               !error.code?.includes('57P')) {
-            throw error; // Don't retry on validation or permission errors
+            throw lastError;
           }
 
           console.log(`[useContentMutation] Operation failed (attempt ${retries}/${MAX_RETRIES}):`, error);
           
           if (retries < MAX_RETRIES) {
-            const delay = RETRY_DELAY * Math.pow(2, retries - 1); // Exponential backoff
+            const delay = RETRY_DELAY * Math.pow(2, retries - 1);
             console.log(`[useContentMutation] Retrying in ${delay}ms...`);
             await wait(delay);
           }
@@ -96,14 +104,14 @@ export const useContentMutation = <T extends ContentTableWithLocale>() => {
       return { previousData };
     },
     onError: (err, { type }, context) => {
-      console.error('[useContentMutation] Error occurred after retries:', err);
+      console.error('[useContentMutation] Error occurred:', err);
       if (context?.previousData) {
         queryClient.setQueryData(['content', type], context.previousData);
       }
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to save changes after multiple attempts. Please try again.",
+        description: "Failed to save changes. Please try again.",
       });
     },
     onSuccess: (_, { type }) => {
