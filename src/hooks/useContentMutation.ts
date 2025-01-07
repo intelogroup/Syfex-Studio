@@ -3,17 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContentTableWithLocale, ContentMutationParams } from "@/types/content";
 
-export const useContentMutation = () => {
+export const useContentMutation = <T extends ContentTableWithLocale>() => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async ({ id, type, ...content }: ContentMutationParams) => {
+    mutationFn: async ({ id, type, ...content }: ContentMutationParams<T>) => {
       console.log('[useContentMutation] Starting mutation with:', { id, type, content });
-
-      if (!type) {
-        throw new Error('Content type is required for mutation');
-      }
 
       try {
         if (id) {

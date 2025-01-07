@@ -5,12 +5,11 @@ export type ContentTableWithLocale = 'expertise' | 'services';
 export type LocalizedContent<T extends ContentTableWithLocale> = Tables<T>;
 
 export type ContentQueryParams = {
-  locale?: 'en' | string;
+  locale?: string;
   published?: boolean;
 };
 
-export type ContentMutationParams = {
+export type ContentMutationParams<T extends ContentTableWithLocale = ContentTableWithLocale> = {
   id?: string;
-  type?: ContentTableWithLocale;
-  [key: string]: any;
-};
+  type: T;
+} & Partial<Tables<T>>;
