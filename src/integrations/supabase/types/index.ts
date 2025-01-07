@@ -1,2 +1,2 @@
 export type { Database } from './tables';
-export type { Tables, Row, Insert, Update, Enums } from './helpers';
+export type { Tables, TablesInsert, TablesUpdate, Enums } from './helpers';

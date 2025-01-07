@@ -6,38 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const navVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      duration: 0.3,
-      when: "beforeChildren",
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const linkVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.3 }
-  },
-  hover: { 
-    scale: 1.1,
-    transition: { duration: 0.2 }
-  }
-};
-
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [session, setSession] = useState<any>(null);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
   const lightSize = 150;
@@ -53,17 +25,6 @@ export const Navbar = () => {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 100);
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   useEffect(() => {
     const nav = navRef.current;
@@ -107,25 +68,24 @@ export const Navbar = () => {
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
     { href: "#expertise", label: "Expertise" },
+    { href: "#portfolio", label: "Portfolio" },
     { href: "#contact", label: "Contact" }
   ];
 
   return (
     <motion.div
       ref={navRef}
-      initial="hidden"
-      animate={isVisible ? "visible" : "hidden"}
-      variants={navVariants}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-4 transition-transform duration-300 ${
-        !isVisible ? '-translate-y-full' : 'translate-y-0'
-      }`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="fixed top-0 left-0 w-full z-50 px-6 py-4"
       style={{
         '--light-size': `${lightSize}px`,
         maskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
         WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
       } as React.CSSProperties}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between backdrop-blur-sm bg-background/80">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between backdrop-blur-sm">
         <Button
           variant="ghost"
           size="icon"
@@ -142,9 +102,8 @@ export const Navbar = () => {
             <motion.a
               key={link.label}
               href={link.href}
-              variants={linkVariants}
-              whileHover="hover"
               className="text-xl font-bold gradient-text transition-colors duration-200"
+              whileHover={{ scale: 1.1 }}
               onClick={(e) => {
                 if (link.href.startsWith('#')) {
                   e.preventDefault();
@@ -158,10 +117,7 @@ export const Navbar = () => {
         </div>
 
         {/* Auth Buttons */}
-        <motion.div 
-          variants={linkVariants}
-          className="flex items-center space-x-4"
-        >
+        <div className="flex items-center space-x-4">
           {session ? (
             <Button
               onClick={handleLogout}
@@ -181,7 +137,7 @@ export const Navbar = () => {
               <span>Login</span>
             </Button>
           )}
-        </motion.div>
+        </div>
 
         {/* Mobile Navigation */}
         <AnimatePresence>
@@ -190,7 +146,6 @@ export const Navbar = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
               className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-primary/10 md:hidden"
             >
               <div className="flex flex-col items-center py-4 space-y-4">
@@ -198,9 +153,8 @@ export const Navbar = () => {
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    variants={linkVariants}
-                    whileHover="hover"
                     className="text-xl font-bold gradient-text transition-colors duration-200 py-2"
+                    whileHover={{ scale: 1.1 }}
                     onClick={(e) => {
                       if (link.href.startsWith('#')) {
                         e.preventDefault();
