@@ -51,7 +51,7 @@ export const createExpertise = async () => {
       .from('expertise')
       .insert([newExpertise])
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Create expertise error:', error);
@@ -77,13 +77,11 @@ export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem
     console.log('Starting expertise update for ID:', id);
     console.log('Update payload received:', updates);
     
-    // Validate required fields
     if (!updates.title || !updates.key) {
       console.error('Update validation failed: Missing required fields');
       throw new Error('Title and key are required fields');
     }
 
-    // Ensure arrays are properly initialized
     const validUpdates = {
       title: updates.title,
       description: updates.description,
@@ -104,7 +102,7 @@ export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem
       .update(validUpdates)
       .eq('id', id)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Update expertise error:', error);
@@ -147,6 +145,8 @@ export const deleteExpertise = async (id: string) => {
     }
 
     console.log('Successfully deleted expertise with ID:', id);
+    // Return void since we don't need the deleted data
+    return;
   } catch (error) {
     console.error('Delete expertise error:', error);
     throw error;

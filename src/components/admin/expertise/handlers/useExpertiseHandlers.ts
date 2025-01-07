@@ -59,6 +59,7 @@ export const useExpertiseHandlers = () => {
     try {
       console.log('Starting expertise deletion:', id);
       await deleteExpertise(id);
+      // After successful deletion, update the UI state
       mutate({ id });
       toast({
         title: "Success",
@@ -71,6 +72,11 @@ export const useExpertiseHandlers = () => {
         hint: error.hint,
         code: error.code,
         stack: error.stack
+      });
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to delete expertise card",
       });
       throw error;
     }
