@@ -11,9 +11,15 @@ export const fetchExpertise = async (): Promise<ExpertiseItem[]> => {
 
     if (error) {
       console.error('Fetch expertise error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      });
       throw error;
     }
 
+    console.log('Successfully fetched expertise:', data?.length, 'items');
     return data || [];
   } catch (error) {
     console.error('Fetch expertise error:', error);
@@ -24,27 +30,41 @@ export const fetchExpertise = async (): Promise<ExpertiseItem[]> => {
 export const createExpertise = async () => {
   try {
     const key = 'expertise-' + Date.now();
+    console.log('Creating new expertise with key:', key);
+    
+    const newExpertise = {
+      key,
+      title: 'New Expertise',
+      description: null,
+      locale: 'en',
+      published: false,
+      tech: [],
+      icon: 'code',
+      long_description: null,
+      benefits: [],
+      image_url: '/placeholder.svg'
+    };
+
+    console.log('New expertise payload:', newExpertise);
+
     const { data, error } = await supabase
       .from('expertise')
-      .insert([{
-        key,
-        title: 'New Expertise',
-        description: null,
-        locale: 'en',
-        published: false,
-        tech: [],
-        icon: 'code',
-        long_description: null,
-        benefits: [],
-        image_url: '/placeholder.svg'
-      }])
+      .insert([newExpertise])
       .select()
       .single();
 
     if (error) {
       console.error('Create expertise error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       throw error;
     }
+
+    console.log('Successfully created expertise:', data);
     return data;
   } catch (error) {
     console.error('Create expertise error:', error);
@@ -54,21 +74,30 @@ export const createExpertise = async () => {
 
 export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem>) => {
   try {
-    console.log('Updating expertise:', id, updates);
+    console.log('Starting expertise update for ID:', id);
+    console.log('Update payload received:', updates);
     
-    // Ensure we're only sending valid columns
+    // Validate required fields
+    if (!updates.title || !updates.key) {
+      console.error('Update validation failed: Missing required fields');
+      throw new Error('Title and key are required fields');
+    }
+
+    // Ensure arrays are properly initialized
     const validUpdates = {
       title: updates.title,
       description: updates.description,
       key: updates.key,
-      locale: updates.locale,
+      locale: updates.locale || 'en',
       published: updates.published,
-      tech: updates.tech || [],
+      tech: Array.isArray(updates.tech) ? updates.tech : [],
       icon: updates.icon,
       long_description: updates.long_description,
-      benefits: updates.benefits || [],
+      benefits: Array.isArray(updates.benefits) ? updates.benefits : [],
       image_url: updates.image_url
     };
+
+    console.log('Sanitized update payload:', validUpdates);
 
     const { data, error } = await supabase
       .from('expertise')
@@ -79,19 +108,28 @@ export const updateExpertise = async (id: string, updates: Partial<ExpertiseItem
 
     if (error) {
       console.error('Update expertise error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       throw error;
     }
-    
+
+    console.log('Successfully updated expertise:', data);
     return data;
   } catch (error) {
     console.error('Update expertise error:', error);
+    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     throw error;
   }
 };
 
 export const deleteExpertise = async (id: string) => {
   try {
-    console.log('Deleting expertise:', id);
+    console.log('Attempting to delete expertise with ID:', id);
+    
     const { error } = await supabase
       .from('expertise')
       .delete()
@@ -99,8 +137,16 @@ export const deleteExpertise = async (id: string) => {
 
     if (error) {
       console.error('Delete expertise error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       throw error;
     }
+
+    console.log('Successfully deleted expertise with ID:', id);
   } catch (error) {
     console.error('Delete expertise error:', error);
     throw error;
