@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
-export const useContent = (type: 'expertise', locale: string = 'en') => {
+export const useContent = (type: 'expertise' | 'services', locale: string = 'en') => {
   return useQuery({
     queryKey: ['content', type, locale],
     queryFn: async () => {

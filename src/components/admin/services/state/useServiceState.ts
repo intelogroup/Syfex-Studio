@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useContent } from "@/hooks/useContent";
 
 export const useServiceState = () => {

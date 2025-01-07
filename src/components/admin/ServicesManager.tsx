@@ -42,6 +42,14 @@ export const ServicesManager = () => {
     }
   };
 
+  const onDelete = async (id: string) => {
+    try {
+      await handleDelete(id);
+    } catch (error) {
+      console.error('[ServicesManager] Delete operation failed:', error);
+    }
+  };
+
   if (error) {
     console.error('[ServicesManager] Error state:', error);
     return <ServiceError error={error} />;
@@ -71,7 +79,7 @@ export const ServicesManager = () => {
           <ServicesList
             content={content || []}
             onSave={handleSave}
-            onDelete={handleDelete}
+            onDelete={onDelete}
             isLoading={isPending}
           />
         )}
