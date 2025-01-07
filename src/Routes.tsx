@@ -1,9 +1,9 @@
 import { Route, Routes as RouterRoutes } from "react-router-dom";
-import { Index } from "./pages/Index";
-import { About } from "./pages/About";
-import { Services } from "./pages/Services";
-import { Admin } from "./pages/Admin";
-import { Auth } from "./pages/Auth";
+import Index from "./pages/Index";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Admin from "./pages/Admin";
+import Auth from "./pages/Auth";
 
 export const Routes = () => {
   return (
