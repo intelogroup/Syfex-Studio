@@ -137,7 +137,7 @@
   }
 }
 
-/* Add class for the navbar links container with flashlight effect */
+/* Add class for the navbar links container with automatic flashlight effect */
 .navbar-links {
   position: relative;
   overflow: hidden;
@@ -163,7 +163,7 @@
   mask-image: linear-gradient(to right, transparent, black, transparent);
 }
 
-/* Pause the animation when links are being hovered */
+/* When hovering, pause the animation but keep the effect visible */
 .navbar-links:hover::before {
   animation-play-state: paused;
 }
