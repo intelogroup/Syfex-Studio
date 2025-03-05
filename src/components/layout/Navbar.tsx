@@ -71,7 +71,7 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation with automatic light effect */}
+        {/* Desktop Navigation with flashlight effect */}
         <div className="hidden md:flex items-center space-x-12 navbar-links py-2 px-6 rounded-full">
           {navLinks.map((link) => (
             <motion.a
