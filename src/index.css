@@ -127,6 +127,54 @@
   }
 }
 
+/* Add flashlight animation keyframes */
+@keyframes navbarFlashlight {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Add class for the navbar links container with flashlight effect */
+.navbar-links {
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-links::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    rgba(var(--primary), 0) 0%, 
+    rgba(var(--primary), 0.2) 25%,
+    rgba(var(--secondary), 0.3) 50%, 
+    rgba(var(--primary), 0.2) 75%, 
+    rgba(var(--primary), 0) 100%);
+  background-size: 200% 100%;
+  animation: navbarFlashlight 5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+  mask-image: linear-gradient(to right, transparent, black, transparent);
+}
+
+/* Pause the animation when links are being hovered */
+.navbar-links:hover::before {
+  animation-play-state: paused;
+}
+
+/* Make the links appear above the flashlight effect */
+.navbar-link {
+  position: relative;
+  z-index: 2;
+}
+
 :root {
   animation: colorChange 21s infinite;
 }
+

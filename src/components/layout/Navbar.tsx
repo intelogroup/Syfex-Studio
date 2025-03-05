@@ -71,13 +71,13 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-12">
+        {/* Desktop Navigation with flashlight effect */}
+        <div className="hidden md:flex items-center space-x-12 navbar-links py-2 px-6 rounded-full">
           {navLinks.map((link) => (
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-xl font-bold gradient-text transition-colors duration-200"
+              className="text-xl font-bold gradient-text transition-colors duration-200 navbar-link"
               whileHover={{ scale: 1.1 }}
               onClick={(e) => {
                 if (link.href.startsWith('#')) {
@@ -105,12 +105,12 @@ export const Navbar = () => {
               exit={{ opacity: 0, y: -20 }}
               className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-primary/10 md:hidden"
             >
-              <div className="flex flex-col items-center py-4 space-y-4">
+              <div className="flex flex-col items-center py-4 space-y-4 navbar-links">
                 {navLinks.map((link) => (
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    className="text-xl font-bold gradient-text transition-colors duration-200 py-2"
+                    className="text-xl font-bold gradient-text transition-colors duration-200 py-2 navbar-link"
                     whileHover={{ scale: 1.1 }}
                     onClick={(e) => {
                       if (link.href.startsWith('#')) {
