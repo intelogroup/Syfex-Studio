@@ -141,6 +141,7 @@
 .navbar-links {
   position: relative;
   overflow: hidden;
+  background-color: transparent;
 }
 
 .navbar-links::before {
