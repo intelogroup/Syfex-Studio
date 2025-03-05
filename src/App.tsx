@@ -1,15 +1,14 @@
+
 import { StrictMode, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ErrorBoundary } from "./components/error-boundary";
-import { supabase } from "./integrations/supabase/client";
+import { ThemeProvider } from "./contexts/theme-context";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
-import Auth from "./pages/Auth";
-import Admin from "./pages/Admin";
 import { sendToAnalytics } from "./utils/analytics";
 import { onCLS, onFID, onLCP } from 'web-vitals';
 import "./i18n/config";
@@ -24,29 +23,14 @@ const queryClient = new QueryClient({
   },
 });
 
-// Route change tracker and auth protection
+// Route change tracker
 const RouteChangeTracker = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Track page view
     console.log(`Page view: ${location.pathname}`);
-
-    // Check auth status for protected routes
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const isAuthPage = location.pathname === "/auth";
-
-      if (!session && !isAuthPage && location.pathname !== "/") {
-        navigate("/auth");
-      } else if (session && isAuthPage) {
-        navigate("/");
-      }
-    };
-
-    checkAuth();
-  }, [location, navigate]);
+  }, [location]);
 
   return null;
 };
@@ -63,19 +47,19 @@ const App = () => {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
-          <TooltipProvider>
-            <BrowserRouter>
-              <RouteChangeTracker />
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/admin" element={<Admin />} />
-              </Routes>
-              <Toaster />
-              <Sonner />
-            </BrowserRouter>
-          </TooltipProvider>
+          <ThemeProvider defaultTheme="dark">
+            <TooltipProvider>
+              <BrowserRouter>
+                <RouteChangeTracker />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/services" element={<Services />} />
+                </Routes>
+                <Toaster />
+                <Sonner />
+              </BrowserRouter>
+            </TooltipProvider>
+          </ThemeProvider>
         </ErrorBoundary>
       </QueryClientProvider>
     </StrictMode>

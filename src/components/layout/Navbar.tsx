@@ -1,30 +1,14 @@
+
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn, LogOut } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [session, setSession] = useState<any>(null);
-  const navigate = useNavigate();
-  const { toast } = useToast();
   const lightSize = 150;
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   useEffect(() => {
     const nav = navRef.current;
@@ -53,15 +37,6 @@ export const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    });
-    navigate("/");
-  };
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -116,27 +91,9 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Auth Buttons */}
+        {/* Theme Toggle */}
         <div className="flex items-center space-x-4">
-          {session ? (
-            <Button
-              onClick={handleLogout}
-              variant="ghost"
-              className="flex items-center space-x-2"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </Button>
-          ) : (
-            <Button
-              onClick={() => navigate("/auth")}
-              variant="ghost"
-              className="flex items-center space-x-2"
-            >
-              <LogIn className="w-4 h-4" />
-              <span>Login</span>
-            </Button>
-          )}
+          <ThemeToggle />
         </div>
 
         {/* Mobile Navigation */}
