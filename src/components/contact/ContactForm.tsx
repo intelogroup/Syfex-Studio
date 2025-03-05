@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Form } from "../ui/form";
@@ -5,6 +6,7 @@ import { ContactFormFields } from "./ContactFormFields";
 import { ContactSubmitButton } from "./ContactSubmitButton";
 import { useContactForm } from "@/hooks/useContactForm";
 import type { ContactFormSchema } from "./schema";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ContactForm = () => {
   const { toast } = useToast();
@@ -19,25 +21,36 @@ export const ContactForm = () => {
 
     setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Prepare the files data (just file names for now)
+      const fileNames = files ? Array.from(files).map(f => f.name) : [];
       
-      console.log("Form submitted:", {
-        ...data,
-        files: files ? Array.from(files).map(f => f.name) : [],
+      // Send the form data to our edge function
+      const { data: emailResponse, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          ...data,
+          files: fileNames
+        },
       });
+      
+      if (error) {
+        throw new Error(`Failed to send email: ${error.message}`);
+      }
+
+      console.log("Form submitted with email response:", emailResponse);
 
       toast({
-        title: "Success!",
-        description: "Your message has been sent. We'll get back to you soon!",
+        title: "Message Sent!",
+        description: "Thank you for reaching out. We'll get back to you soon!",
       });
 
       form.reset();
       setFiles(null);
       
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again later.",
+        description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
     } finally {
