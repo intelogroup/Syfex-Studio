@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -126,17 +127,17 @@
   }
 }
 
-/* Add flashlight animation keyframes */
-@keyframes navbarFlashlight {
-  0%, 100% {
-    background-position: 0% 50%;
+/* Automatic navbar animation keyframes */
+@keyframes navbarLight {
+  0% {
+    background-position: -100% 0;
   }
-  50% {
-    background-position: 100% 50%;
+  100% {
+    background-position: 200% 0;
   }
 }
 
-/* Add class for the navbar links container with flashlight effect */
+/* Class for the navbar links container with automatic light effect */
 .navbar-links {
   position: relative;
   overflow: hidden;
@@ -151,15 +152,14 @@
   bottom: 0;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.05) 20%,
     rgba(255, 255, 255, 0.2) 50%, 
-    rgba(255, 255, 255, 0.1) 75%, 
+    rgba(255, 255, 255, 0.05) 80%, 
     transparent 100%);
   background-size: 200% 100%;
-  animation: navbarFlashlight 3s linear infinite;
+  animation: navbarLight 4s linear infinite;
   pointer-events: none;
   z-index: 1;
-  mask-image: linear-gradient(to right, transparent, black, transparent);
 }
 
 /* Pause the animation when links are being hovered */
@@ -167,7 +167,7 @@
   animation-play-state: paused;
 }
 
-/* Make the links appear above the flashlight effect */
+/* Make the links appear above the light effect */
 .navbar-link {
   position: relative;
   z-index: 2;
