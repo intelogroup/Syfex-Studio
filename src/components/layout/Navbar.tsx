@@ -46,7 +46,6 @@ export const Navbar = () => {
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
     { href: "#expertise", label: "Expertise" },
-    { href: "#portfolio", label: "Portfolio" },
     { href: "#contact", label: "Contact" }
   ];
 
@@ -123,13 +122,12 @@ export const Navbar = () => {
               exit={{ opacity: 0, y: -20 }}
               className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-primary/10 md:hidden"
             >
-              <div className="flex flex-col items-center py-4 space-y-4 navbar-links">
+              <div className="flex flex-col items-center py-4 space-y-4">
                 {navLinks.map((link) => (
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    className="text-xl font-bold gradient-text transition-colors duration-200 py-2 navbar-link"
-                    whileHover={{ scale: 1.1 }}
+                    className="text-foreground font-medium text-lg py-2"
                     onClick={(e) => {
                       if (link.href.startsWith('#')) {
                         e.preventDefault();
