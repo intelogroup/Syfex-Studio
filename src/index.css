@@ -5,26 +5,26 @@
 
 @layer base {
   :root {
-    /* Light theme (default variables kept as light) */
+    /* Light theme (improved for visual appeal) */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 210 20% 98%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
+    --primary: 224 76% 48%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
+    --secondary: 220 60% 60%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 210 20% 96%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
+    --accent: 210 30% 96%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 76% 48%;
     --radius: 0.75rem;
     --light-x: -999px;
     --light-y: -999px;
@@ -66,10 +66,18 @@
   }
 }
 
+/* Updated gradient text for better light theme visibility */
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
+  text-shadow: 0 0 1px rgba(0,0,0,0.05);
 }
 
+.light .gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
+  filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.1));
+}
+
+/* Keep existing gradient border styling */
 .gradient-border-new {
   position: relative;
   box-shadow: 0 0 15px -2px hsl(var(--primary) / 0.3);
@@ -101,6 +109,20 @@
   z-index: -1;
 }
 
+/* Enhanced light theme card styles */
+.light .card {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  background: linear-gradient(to bottom right, hsl(var(--card)), hsl(var(--background)));
+}
+
+/* Improved button styles for light theme */
+.light .button-primary {
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
+  box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
+}
+
+/* Keyframes and animations */
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -127,7 +149,27 @@
   }
 }
 
-/* Add flashlight animation keyframes */
+/* Improved light theme color changes */
+.light {
+  animation: lightColorChange 21s infinite;
+}
+
+@keyframes lightColorChange {
+  0%, 100% {
+    --primary: 224 76% 48%;
+    --secondary: 220 60% 60%;
+  }
+  33% {
+    --primary: 210 70% 50%;
+    --secondary: 200 65% 55%;
+  }
+  66% {
+    --primary: 245 65% 55%;
+    --secondary: 235 60% 60%;
+  }
+}
+
+/* Navbar flashlight animation */
 @keyframes navbarFlashlight {
   0%, 100% {
     background-position: 0% 50%;
@@ -137,7 +179,7 @@
   }
 }
 
-/* Add class for the navbar links container with automatic flashlight effect */
+/* Navbar links container styling */
 .navbar-links {
   position: relative;
   overflow: hidden;
@@ -163,18 +205,25 @@
   mask-image: linear-gradient(to right, transparent, black, transparent);
 }
 
-/* When hovering, pause the animation but keep the effect visible */
 .navbar-links:hover::before {
   animation-play-state: paused;
 }
 
-/* Make the links appear above the flashlight effect */
 .navbar-link {
   position: relative;
   z-index: 2;
 }
 
+/* Enhanced light theme animations */
+.light .navbar-links::before {
+  background: linear-gradient(90deg, 
+    rgba(15, 82, 186, 0) 0%, 
+    rgba(15, 82, 186, 0.1) 25%,
+    rgba(41, 121, 255, 0.2) 50%, 
+    rgba(15, 82, 186, 0.1) 75%, 
+    rgba(15, 82, 186, 0) 100%);
+}
+
 :root {
   animation: colorChange 21s infinite;
 }
-
