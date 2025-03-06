@@ -1,34 +1,13 @@
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme/ThemeToggle";
 
 export const Navbar = () => {
-  const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showThemeToggle] = useState(true); // Always show theme toggle
-
-  useEffect(() => {
-    // Mouse tracking for interactive light effect
-    const nav = navRef.current;
-    if (!nav) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = nav.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      nav.style.setProperty('--light-x', `${x}px`);
-      nav.style.setProperty('--light-y', `${y}px`);
-    };
-
-    nav.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      nav.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -42,16 +21,10 @@ export const Navbar = () => {
 
   return (
     <motion.div
-      ref={navRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 w-full z-50 px-6 py-4"
-      style={{
-        '--light-size': `${150}px`,
-        maskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
-        WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
-      } as React.CSSProperties}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between relative backdrop-blur-sm">
         {/* Mobile menu button */}
@@ -65,8 +38,11 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
+        {/* Logo or brand placeholder - can be added if needed */}
+        <div className="hidden md:flex"></div>
+
         {/* Desktop Navigation with centered links */}
-        <div className="hidden md:flex flex-1 items-center justify-center space-x-12 navbar-links py-2 px-6 rounded-full mx-auto">
+        <div className="hidden md:flex items-center justify-center space-x-12 navbar-links py-2 px-6 rounded-full mx-auto">
           {navLinks.map((link) => (
             <motion.a
               key={link.label}

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,9 +26,6 @@
     --input: 220 13% 91%;
     --ring: 224 76% 48%;
     --radius: 0.75rem;
-    --light-x: -999px;
-    --light-y: -999px;
-    --light-size: 150px;
   }
   
   .dark {
@@ -50,9 +48,6 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --light-x: -999px;
-    --light-y: -999px;
-    --light-size: 150px;
   }
 }
 
@@ -133,7 +128,7 @@
   animation: gradient 8s linear infinite;
 }
 
-/* Navbar flashlight animation */
+/* Updated navbar flashlight animation with exact 2s duration */
 @keyframes navbarFlashlight {
   0% {
     background-position: -100% 50%;
@@ -146,7 +141,7 @@
   }
 }
 
-/* Navbar links container styling */
+/* Updated navbar links container styling for automatic animation */
 .navbar-links {
   position: relative;
   overflow: hidden;
@@ -168,11 +163,9 @@
     rgba(var(--primary), 0.2) 75%, 
     rgba(var(--primary), 0) 100%);
   background-size: 200% 100%;
-  animation: navbarFlashlight 4s linear infinite; /* 2s in each direction = 4s total */
+  animation: navbarFlashlight 4s linear infinite; /* Updated to 4s total (2s in each direction) */
   pointer-events: none;
   z-index: 1;
-  transform: translateX(-50%); /* Center the gradient */
-  mask-image: linear-gradient(to right, black, black, black); /* Make mask full width */
 }
 
 /* Navbar link styling */
@@ -230,3 +223,4 @@
     --secondary: 235 60% 60%;
   }
 }
+
