@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -59,7 +60,7 @@
   }
 }
 
-/* Updated gradient text for better light theme visibility */
+/* Gradient text styling */
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
   text-shadow: 0 0 1px rgba(0,0,0,0.05);
@@ -70,7 +71,7 @@
   filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.1));
 }
 
-/* Keep existing gradient border styling */
+/* Gradient border styling */
 .gradient-border-new {
   position: relative;
   box-shadow: 0 0 15px -2px hsl(var(--primary) / 0.3);
@@ -102,20 +103,19 @@
   z-index: -1;
 }
 
-/* Enhanced light theme card styles */
+/* Card and button styles */
 .light .card {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.03);
   background: linear-gradient(to bottom right, hsl(var(--card)), hsl(var(--background)));
 }
 
-/* Improved button styles for light theme */
 .light .button-primary {
   background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
   box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
 }
 
-/* Keyframes and animations */
+/* Animation keyframes */
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -127,7 +127,7 @@
   animation: gradient 8s linear infinite;
 }
 
-/* Updated navbar flashlight animation for consistent 2s cycle */
+/* Navbar flashlight animation - optimized for 2s cycle */
 @keyframes navbarFlashlight {
   0% {
     background-position: -100% 50%;
@@ -147,10 +147,7 @@
 .navbar-links::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   width: 200%;
   background: linear-gradient(90deg, 
     transparent 0%,
@@ -176,11 +173,11 @@
   );
 }
 
+/* Color change animations */
 :root {
   animation: colorChange 21s infinite;
 }
 
-/* Color change animation */
 @keyframes colorChange {
   0%, 100% {
     --primary: 252 87% 74%;
@@ -196,7 +193,6 @@
   }
 }
 
-/* Light theme color changes */
 .light {
   animation: lightColorChange 21s infinite;
 }

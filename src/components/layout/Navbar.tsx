@@ -5,19 +5,30 @@ import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme/ThemeToggle";
 
+type NavLink = {
+  href: string;
+  label: string;
+};
+
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showThemeToggle] = useState(true);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { href: "/", label: "Home" },
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
     { href: "#expertise", label: "Expertise" },
     { href: "#contact", label: "Contact" }
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
     <motion.div
@@ -32,7 +43,7 @@ export const Navbar = () => {
           variant="ghost"
           size="icon"
           className="md:hidden"
-          onClick={toggleMenu}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -47,14 +58,9 @@ export const Navbar = () => {
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-xl font-bold gradient-text transition-colors duration-200 navbar-link"
+              className="text-xl font-bold gradient-text transition-colors duration-200"
               whileHover={{ scale: 1.1 }}
-              onClick={(e) => {
-                if (link.href.startsWith('#')) {
-                  e.preventDefault();
-                  document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={(e) => handleLinkClick(e, link.href)}
             >
               {link.label}
             </motion.a>
@@ -95,13 +101,7 @@ export const Navbar = () => {
                     key={link.label}
                     href={link.href}
                     className="text-foreground font-medium text-lg py-2"
-                    onClick={(e) => {
-                      if (link.href.startsWith('#')) {
-                        e.preventDefault();
-                        document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
-                        setIsMenuOpen(false);
-                      }
-                    }}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                   >
                     {link.label}
                   </motion.a>
