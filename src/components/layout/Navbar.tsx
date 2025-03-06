@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -7,11 +8,10 @@ import { ThemeToggle } from "../theme/ThemeToggle";
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showThemeToggle, setShowThemeToggle] = useState(true); // Always show theme toggle
+  const [showThemeToggle] = useState(true); // Always show theme toggle
 
   useEffect(() => {
-    // We'll keep the mouse tracking for added interactivity,
-    // but the animation will now run automatically regardless
+    // Mouse tracking for interactive light effect
     const nav = navRef.current;
     if (!nav) return;
 
@@ -53,19 +53,20 @@ export const Navbar = () => {
         WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
       } as React.CSSProperties}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-center relative backdrop-blur-sm">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between relative backdrop-blur-sm">
+        {/* Mobile menu button */}
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden absolute left-0"
+          className="md:hidden"
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation with continuous flashlight effect */}
-        <div className="hidden md:flex items-center space-x-12 navbar-links py-2 px-6 rounded-full">
+        {/* Desktop Navigation with centered links */}
+        <div className="hidden md:flex flex-1 items-center justify-center space-x-12 navbar-links py-2 px-6 rounded-full mx-auto">
           {navLinks.map((link) => (
             <motion.a
               key={link.label}
@@ -84,11 +85,11 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Theme Toggle - now always visible */}
+        {/* Theme Toggle - always visible */}
         <AnimatePresence>
           {showThemeToggle && (
             <motion.div 
-              className="hidden md:flex items-center absolute right-0"
+              className="hidden md:flex items-center"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
@@ -99,7 +100,7 @@ export const Navbar = () => {
         </AnimatePresence>
 
         {/* Always visible theme toggle on mobile */}
-        <div className="md:hidden flex items-center absolute right-0">
+        <div className="md:hidden flex items-center">
           <ThemeToggle />
         </div>
 

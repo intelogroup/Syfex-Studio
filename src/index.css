@@ -133,41 +133,6 @@
   animation: gradient 8s linear infinite;
 }
 
-@keyframes colorChange {
-  0%, 100% {
-    --primary: 252 87% 74%;
-    --secondary: 253 55% 54%;
-  }
-  33% {
-    --primary: 190 90% 70%;
-    --secondary: 200 70% 50%;
-  }
-  66% {
-    --primary: 280 85% 75%;
-    --secondary: 290 60% 55%;
-  }
-}
-
-/* Improved light theme color changes */
-.light {
-  animation: lightColorChange 21s infinite;
-}
-
-@keyframes lightColorChange {
-  0%, 100% {
-    --primary: 224 76% 48%;
-    --secondary: 220 60% 60%;
-  }
-  33% {
-    --primary: 210 70% 50%;
-    --secondary: 200 65% 55%;
-  }
-  66% {
-    --primary: 245 65% 55%;
-    --secondary: 235 60% 60%;
-  }
-}
-
 /* Navbar flashlight animation */
 @keyframes navbarFlashlight {
   0% {
@@ -210,7 +175,7 @@
   mask-image: linear-gradient(to right, black, black, black); /* Make mask full width */
 }
 
-/* Remove the hover pause */
+/* Navbar link styling */
 .navbar-link {
   position: relative;
   z-index: 2;
@@ -228,4 +193,40 @@
 
 :root {
   animation: colorChange 21s infinite;
+}
+
+/* Color change animation */
+@keyframes colorChange {
+  0%, 100% {
+    --primary: 252 87% 74%;
+    --secondary: 253 55% 54%;
+  }
+  33% {
+    --primary: 190 90% 70%;
+    --secondary: 200 70% 50%;
+  }
+  66% {
+    --primary: 280 85% 75%;
+    --secondary: 290 60% 55%;
+  }
+}
+
+/* Light theme color changes */
+.light {
+  animation: lightColorChange 21s infinite;
+}
+
+@keyframes lightColorChange {
+  0%, 100% {
+    --primary: 224 76% 48%;
+    --secondary: 220 60% 60%;
+  }
+  33% {
+    --primary: 210 70% 50%;
+    --secondary: 200 65% 55%;
+  }
+  66% {
+    --primary: 245 65% 55%;
+    --secondary: 235 60% 60%;
+  }
 }
