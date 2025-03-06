@@ -1,0 +1,6 @@
+
+/* Improved button styles for light theme */
+.light .button-primary {
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
+  box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
+}
