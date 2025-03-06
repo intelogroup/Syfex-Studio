@@ -5,26 +5,26 @@
 
 @layer base {
   :root {
-    /* Light theme (improved for visual appeal) */
+    /* Light theme (improved for visual appeal and contrast) */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    --card: 210 20% 98%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 210 40% 96.1%;
+    --card-foreground: 222 47% 11.2%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 224 76% 48%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 220 60% 60%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 210 30% 96%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 222 47% 11.2%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11.2%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 76% 48%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
     --radius: 0.75rem;
   }
   
@@ -60,7 +60,7 @@
   }
 }
 
-/* Gradient text styling */
+/* Gradient text styling - improved contrast for light theme */
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
   text-shadow: 0 0 1px rgba(0,0,0,0.05);
@@ -68,13 +68,14 @@
 
 .light .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
-  filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+  -webkit-text-fill-color: transparent;
 }
 
-/* Gradient border styling */
+/* Gradient border styling - enhanced for light theme */
 .gradient-border-new {
   position: relative;
-  box-shadow: 0 0 15px -2px hsl(var(--primary) / 0.3);
+  box-shadow: 0 0 15px -2px hsl(var(--primary) / 0.4);
 }
 
 .gradient-border-new::before {
@@ -103,16 +104,16 @@
   z-index: -1;
 }
 
-/* Card and button styles */
+/* Card and button styles - improved for light theme */
 .light .card {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   background: linear-gradient(to bottom right, hsl(var(--card)), hsl(var(--background)));
 }
 
 .light .button-primary {
   background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
-  box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
+  box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.4);
 }
 
 /* Animation keyframes */
@@ -158,17 +159,17 @@
   animation: navbarFlashlight 2s linear infinite;
 }
 
-/* Light theme enhancement */
+/* Light theme enhancement for navbar */
 .light .navbar-links::before {
   background: linear-gradient(90deg,
     transparent,
-    hsla(var(--primary), 0.2) 50%,
+    hsla(var(--primary), 0.3) 50%,
     transparent 100%
   );
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
-/* Color change animations */
+/* Color change animations - enhanced for light theme */
 :root {
   animation: colorChange 21s infinite;
 }
@@ -194,15 +195,15 @@
 
 @keyframes lightColorChange {
   0%, 100% {
-    --primary: 224 76% 48%;
-    --secondary: 220 60% 60%;
+    --primary: 221 83% 53%;
+    --secondary: 217 91% 60%;
   }
   33% {
-    --primary: 210 70% 50%;
-    --secondary: 200 65% 55%;
+    --primary: 210 80% 56%;
+    --secondary: 200 75% 60%;
   }
   66% {
-    --primary: 245 65% 55%;
-    --secondary: 235 60% 60%;
+    --primary: 245 75% 60%;
+    --secondary: 235 70% 65%;
   }
 }

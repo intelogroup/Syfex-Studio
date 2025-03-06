@@ -11,7 +11,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 gradient-text tracking-tight overflow-visible"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 gradient-text tracking-tight leading-[1.15] overflow-visible"
         >
           Syfex Studio
         </motion.h1>

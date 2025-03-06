@@ -75,7 +75,7 @@ export const Navbar = () => {
         {/* Logo placeholder */}
         <div className="hidden md:flex"></div>
 
-        {/* Desktop Navigation with centered links */}
+        {/* Desktop Navigation with centered links and flashlight effect */}
         <div className="hidden md:flex items-center justify-center space-x-12 navbar-links py-2 px-6 rounded-full mx-auto">
           {navLinks.map((link) => (
             <motion.a
