@@ -17,7 +17,7 @@
     opacity: 0.5; /* Increased contrast */
   }
   50% {
-    background-position: 200% 50%;
+    background-position: 300% 50%; /* Increased to cover full width */
     opacity: 1;
   }
 }

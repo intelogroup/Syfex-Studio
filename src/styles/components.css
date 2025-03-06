@@ -2,6 +2,7 @@
 .navbar-links {
   position: relative;
   overflow: hidden;
+  width: 100%; /* Ensure the container takes full width */
 }
 
 .navbar-links::before {
@@ -11,6 +12,7 @@
   left: -100%;
   right: -100%;
   bottom: 0;
+  width: 300%; /* Make the gradient wider */
   background: linear-gradient(90deg, 
     rgba(var(--primary), 0) 0%, 
     rgba(var(--primary), 0.2) 25%,
@@ -18,7 +20,7 @@
     rgba(var(--primary), 0.2) 75%, 
     rgba(var(--primary), 0) 100%);
   background-size: 300% 100%;
-  animation: navbarFlashlight 2s ease-in-out infinite; /* Reduced to 2s */
+  animation: navbarFlashlight 2s ease-in-out infinite; /* Kept at 2s */
   pointer-events: none;
   z-index: 1;
   mask-image: linear-gradient(to right, transparent, black, transparent);
@@ -38,7 +40,7 @@
     rgba(41, 121, 255, 0.2) 50%, 
     rgba(15, 82, 186, 0.1) 75%, 
     rgba(15, 82, 186, 0) 100%);
-  animation: navbarFlashlight 2s ease-in-out infinite; /* Reduced to 2s */
+  animation: navbarFlashlight 2s ease-in-out infinite; /* Kept at 2s */
 }
 
 /* Gradient border styling */
