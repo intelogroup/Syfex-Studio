@@ -19,7 +19,7 @@
     rgba(var(--primary), 0.2) 75%, 
     rgba(var(--primary), 0) 100%);
   background-size: 300% 100%;
-  animation: navbarFlashlight 3s ease-in-out infinite;
+  animation: navbarFlashlight 2s ease-in-out infinite; /* Reduced to 2s */
   pointer-events: none;
   z-index: 1;
   mask-image: linear-gradient(to right, transparent, black, transparent);
@@ -39,7 +39,7 @@
     rgba(41, 121, 255, 0.2) 50%, 
     rgba(15, 82, 186, 0.1) 75%, 
     rgba(15, 82, 186, 0) 100%);
-  animation: navbarFlashlight 3s ease-in-out infinite;
+  animation: navbarFlashlight 2s ease-in-out infinite; /* Reduced to 2s */
 }
 
 /* Gradient border styling */
