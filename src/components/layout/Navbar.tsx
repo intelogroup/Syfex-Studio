@@ -8,53 +8,34 @@ import { ThemeToggle } from "../theme/ThemeToggle";
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showThemeToggle, setShowThemeToggle] = useState(true); // Show theme toggle by default
+  const [showThemeToggle, setShowThemeToggle] = useState(false);
   const lightSize = 150;
 
   useEffect(() => {
-    // Initialize the light position in the center of the navbar
     const nav = navRef.current;
     if (!nav) return;
 
-    // Set initial values for the light position
-    const rect = nav.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    nav.style.setProperty('--light-x', `${centerX}px`);
-    nav.style.setProperty('--light-y', `${centerY}px`);
-
-    // Automatic animation of the light position
-    let animationFrameId: number;
-    let angle = 0;
-    const radius = 30; // Radius of circular movement
-    
-    const animateLight = () => {
-      angle += 0.01;
-      const x = centerX + Math.cos(angle) * radius;
-      const y = centerY + Math.sin(angle) * radius;
-      
-      nav.style.setProperty('--light-x', `${x}px`);
-      nav.style.setProperty('--light-y', `${y}px`);
-      
-      animationFrameId = requestAnimationFrame(animateLight);
-    };
-    
-    animateLight();
-    
-    // Optional: Still allow manual control when user moves mouse
     const handleMouseMove = (e: MouseEvent) => {
       const rect = nav.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       nav.style.setProperty('--light-x', `${x}px`);
       nav.style.setProperty('--light-y', `${y}px`);
+      setShowThemeToggle(true);
+    };
+
+    const handleMouseLeave = () => {
+      nav.style.setProperty('--light-x', '-999px');
+      nav.style.setProperty('--light-y', '-999px');
+      setShowThemeToggle(false);
     };
 
     nav.addEventListener('mousemove', handleMouseMove);
+    nav.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
       nav.removeEventListener('mousemove', handleMouseMove);
+      nav.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
@@ -92,7 +73,7 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation with auto-animated effect - now centered */}
+        {/* Desktop Navigation with flashlight effect - now centered */}
         <div className="hidden md:flex items-center space-x-12 navbar-links py-2 px-6 rounded-full">
           {navLinks.map((link) => (
             <motion.a
@@ -112,10 +93,20 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Theme Toggle - now always visible */}
-        <div className="hidden md:flex items-center absolute right-0">
-          <ThemeToggle />
-        </div>
+        {/* Theme Toggle - now appears on hover */}
+        <AnimatePresence>
+          {showThemeToggle && (
+            <motion.div 
+              className="hidden md:flex items-center absolute right-0"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ThemeToggle />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Always visible theme toggle on mobile */}
         <div className="md:hidden flex items-center absolute right-0">
