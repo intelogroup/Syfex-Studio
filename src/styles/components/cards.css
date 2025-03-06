@@ -1,7 +1,0 @@
-
-/* Enhanced light theme card styles */
-.light .card {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  background: linear-gradient(to bottom right, hsl(var(--card)), hsl(var(--background)));
-}
