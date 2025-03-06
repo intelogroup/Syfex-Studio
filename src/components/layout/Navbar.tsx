@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -8,10 +7,11 @@ import { ThemeToggle } from "../theme/ThemeToggle";
 export const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showThemeToggle, setShowThemeToggle] = useState(false);
-  const lightSize = 150;
+  const [showThemeToggle, setShowThemeToggle] = useState(true); // Always show theme toggle
 
   useEffect(() => {
+    // We'll keep the mouse tracking for added interactivity,
+    // but the animation will now run automatically regardless
     const nav = navRef.current;
     if (!nav) return;
 
@@ -21,21 +21,12 @@ export const Navbar = () => {
       const y = e.clientY - rect.top;
       nav.style.setProperty('--light-x', `${x}px`);
       nav.style.setProperty('--light-y', `${y}px`);
-      setShowThemeToggle(true);
-    };
-
-    const handleMouseLeave = () => {
-      nav.style.setProperty('--light-x', '-999px');
-      nav.style.setProperty('--light-y', '-999px');
-      setShowThemeToggle(false);
     };
 
     nav.addEventListener('mousemove', handleMouseMove);
-    nav.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       nav.removeEventListener('mousemove', handleMouseMove);
-      nav.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
@@ -57,7 +48,7 @@ export const Navbar = () => {
       transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 w-full z-50 px-6 py-4"
       style={{
-        '--light-size': `${lightSize}px`,
+        '--light-size': `${150}px`,
         maskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
         WebkitMaskImage: 'radial-gradient(circle var(--light-size) at var(--light-x) var(--light-y), black, transparent)',
       } as React.CSSProperties}
@@ -73,7 +64,7 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation with flashlight effect - now centered */}
+        {/* Desktop Navigation with continuous flashlight effect */}
         <div className="hidden md:flex items-center space-x-12 navbar-links py-2 px-6 rounded-full">
           {navLinks.map((link) => (
             <motion.a
@@ -93,14 +84,13 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Theme Toggle - now appears on hover */}
+        {/* Theme Toggle - now always visible */}
         <AnimatePresence>
           {showThemeToggle && (
             <motion.div 
               className="hidden md:flex items-center absolute right-0"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.2 }}
             >
               <ThemeToggle />

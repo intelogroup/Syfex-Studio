@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -171,11 +170,14 @@
 
 /* Navbar flashlight animation */
 @keyframes navbarFlashlight {
-  0%, 100% {
-    background-position: 0% 50%;
+  0% {
+    background-position: -100% 50%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 200% 50%;
+  }
+  100% {
+    background-position: -100% 50%;
   }
 }
 
@@ -183,6 +185,7 @@
 .navbar-links {
   position: relative;
   overflow: hidden;
+  width: 100%; /* Ensure full width container */
 }
 
 .navbar-links::before {
@@ -192,23 +195,22 @@
   left: 0;
   right: 0;
   bottom: 0;
+  width: 300%; /* Make gradient wider than container */
   background: linear-gradient(90deg, 
     rgba(var(--primary), 0) 0%, 
     rgba(var(--primary), 0.2) 25%,
-    rgba(var(--secondary), 0.3) 50%, 
+    rgba(var(--secondary), 0.4) 50%, 
     rgba(var(--primary), 0.2) 75%, 
     rgba(var(--primary), 0) 100%);
   background-size: 200% 100%;
-  animation: navbarFlashlight 5s linear infinite;
+  animation: navbarFlashlight 4s linear infinite; /* 2s in each direction = 4s total */
   pointer-events: none;
   z-index: 1;
-  mask-image: linear-gradient(to right, transparent, black, transparent);
+  transform: translateX(-50%); /* Center the gradient */
+  mask-image: linear-gradient(to right, black, black, black); /* Make mask full width */
 }
 
-.navbar-links:hover::before {
-  animation-play-state: paused;
-}
-
+/* Remove the hover pause */
 .navbar-link {
   position: relative;
   z-index: 2;
