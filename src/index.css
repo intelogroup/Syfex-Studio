@@ -149,33 +149,15 @@
   }
 }
 
-/* Improved light theme color changes */
-.light {
-  animation: lightColorChange 21s infinite;
-}
-
-@keyframes lightColorChange {
-  0%, 100% {
-    --primary: 224 76% 48%;
-    --secondary: 220 60% 60%;
-  }
-  33% {
-    --primary: 210 70% 50%;
-    --secondary: 200 65% 55%;
-  }
-  66% {
-    --primary: 245 65% 55%;
-    --secondary: 235 60% 60%;
-  }
-}
-
-/* Navbar flashlight animation */
+/* Enhanced animated navbar flashlight effect */
 @keyframes navbarFlashlight {
   0%, 100% {
     background-position: 0% 50%;
+    opacity: 0.7;
   }
   50% {
     background-position: 100% 50%;
+    opacity: 1;
   }
 }
 
@@ -199,16 +181,13 @@
     rgba(var(--primary), 0.2) 75%, 
     rgba(var(--primary), 0) 100%);
   background-size: 200% 100%;
-  animation: navbarFlashlight 5s linear infinite;
+  animation: navbarFlashlight 5s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
   mask-image: linear-gradient(to right, transparent, black, transparent);
 }
 
-.navbar-links:hover::before {
-  animation-play-state: paused;
-}
-
+/* Force the animation to run regardless of hover */
 .navbar-link {
   position: relative;
   z-index: 2;
@@ -222,8 +201,29 @@
     rgba(41, 121, 255, 0.2) 50%, 
     rgba(15, 82, 186, 0.1) 75%, 
     rgba(15, 82, 186, 0) 100%);
+  animation: navbarFlashlight 5s ease-in-out infinite;
 }
 
+/* Rest of the existing animations */
 :root {
   animation: colorChange 21s infinite;
+}
+
+.light {
+  animation: lightColorChange 21s infinite;
+}
+
+@keyframes lightColorChange {
+  0%, 100% {
+    --primary: 224 76% 48%;
+    --secondary: 220 60% 60%;
+  }
+  33% {
+    --primary: 210 70% 50%;
+    --secondary: 200 65% 55%;
+  }
+  66% {
+    --primary: 245 65% 55%;
+    --secondary: 235 60% 60%;
+  }
 }
