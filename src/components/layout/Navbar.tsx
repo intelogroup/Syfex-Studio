@@ -7,7 +7,7 @@ import { ThemeToggle } from "../theme/ThemeToggle";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showThemeToggle] = useState(true); // Always show theme toggle
+  const [showThemeToggle] = useState(true);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -38,7 +38,7 @@ export const Navbar = () => {
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Logo or brand placeholder - can be added if needed */}
+        {/* Logo placeholder */}
         <div className="hidden md:flex"></div>
 
         {/* Desktop Navigation with centered links */}
@@ -61,7 +61,7 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Theme Toggle - always visible */}
+        {/* Theme Toggle */}
         <AnimatePresence>
           {showThemeToggle && (
             <motion.div 
@@ -75,7 +75,7 @@ export const Navbar = () => {
           )}
         </AnimatePresence>
 
-        {/* Always visible theme toggle on mobile */}
+        {/* Mobile theme toggle */}
         <div className="md:hidden flex items-center">
           <ThemeToggle />
         </div>

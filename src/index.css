@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -128,24 +127,21 @@
   animation: gradient 8s linear infinite;
 }
 
-/* Updated navbar flashlight animation with exact 2s duration */
+/* Updated navbar flashlight animation for consistent 2s cycle */
 @keyframes navbarFlashlight {
   0% {
     background-position: -100% 50%;
   }
-  50% {
-    background-position: 200% 50%;
-  }
   100% {
-    background-position: -100% 50%;
+    background-position: 200% 50%;
   }
 }
 
-/* Updated navbar links container styling for automatic animation */
+/* Navbar links container styling */
 .navbar-links {
   position: relative;
   overflow: hidden;
-  width: 100%; /* Ensure full width container */
+  width: 100%;
 }
 
 .navbar-links::before {
@@ -155,33 +151,29 @@
   left: 0;
   right: 0;
   bottom: 0;
-  width: 300%; /* Make gradient wider than container */
+  width: 200%;
   background: linear-gradient(90deg, 
-    rgba(var(--primary), 0) 0%, 
-    rgba(var(--primary), 0.2) 25%,
-    rgba(var(--secondary), 0.4) 50%, 
-    rgba(var(--primary), 0.2) 75%, 
-    rgba(var(--primary), 0) 100%);
+    transparent 0%,
+    hsla(var(--primary), 0.15) 25%, 
+    hsla(var(--primary), 0.3) 50%,
+    hsla(var(--primary), 0.15) 75%,
+    transparent 100%
+  );
   background-size: 200% 100%;
-  animation: navbarFlashlight 4s linear infinite; /* Updated to 4s total (2s in each direction) */
+  animation: navbarFlashlight 2s linear infinite;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Navbar link styling */
-.navbar-link {
-  position: relative;
-  z-index: 2;
-}
-
-/* Enhanced light theme animations */
+/* Light theme enhancement */
 .light .navbar-links::before {
   background: linear-gradient(90deg, 
-    rgba(15, 82, 186, 0) 0%, 
-    rgba(15, 82, 186, 0.1) 25%,
-    rgba(41, 121, 255, 0.2) 50%, 
-    rgba(15, 82, 186, 0.1) 75%, 
-    rgba(15, 82, 186, 0) 100%);
+    transparent 0%,
+    hsla(224, 76%, 48%, 0.1) 25%,
+    hsla(224, 76%, 48%, 0.2) 50%,
+    hsla(224, 76%, 48%, 0.1) 75%,
+    transparent 100%
+  );
 }
 
 :root {
@@ -223,4 +215,3 @@
     --secondary: 235 60% 60%;
   }
 }
-
