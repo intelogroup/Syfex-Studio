@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { Calendar } from "lucide-react";
@@ -20,10 +21,10 @@ export const ContactHeader = () => {
         variant="secondary" 
         size="lg"
         className="mt-4"
-        onClick={() => window.open('https://calendly.com', '_blank')}
+        onClick={() => window.open('https://calendly.com/d/yg8-q7g-pmd/15-minute-discovery-call', '_blank')}
       >
         <Calendar className="mr-2 h-4 w-4" />
-        Book a Discovery Call
+        Book a 15-min Discovery Call
       </Button>
     </motion.div>
   );
