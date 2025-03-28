@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
 
@@ -36,7 +35,7 @@ export const HeroSection = () => {
             <span className="gradient-text">Start Your Project</span>
           </a>
           <button
-            onClick={() => window.open('https://calendly.com/d/yg8-q7g-pmd/15-minute-discovery-call', '_blank')}
+            onClick={() => window.open('https://calendly.com/syfexstudio/15-minute-discovery-call', '_blank')}
             className="inline-flex items-center px-6 md:px-8 py-3 rounded-full bg-secondary/80 text-secondary-foreground hover:bg-secondary/60 transition-colors text-lg font-medium"
           >
             <Calendar className="mr-2 h-5 w-5" />
