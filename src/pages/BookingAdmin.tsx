@@ -26,7 +26,7 @@ export const BookingAdmin = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="grid gap-8 mb-12"
       >
-        <Card className="border-primary/10 dark:bg-black/40 dark:backdrop-blur-sm light:bg-white/90 light:shadow-lg overflow-hidden">
+        <Card className="border-primary/10 dark:bg-black/40 dark:backdrop-blur-sm light:shadow-lg overflow-hidden">
           <CardHeader className="border-b border-primary/10 bg-muted/30">
             <CardTitle className="text-2xl">Email Notifications</CardTitle>
             <CardDescription>Test and manage your booking email notifications</CardDescription>
@@ -43,7 +43,7 @@ export const BookingAdmin = () => {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="grid gap-8"
       >
-        <Card className="border-primary/10 dark:bg-black/40 dark:backdrop-blur-sm light:bg-white/90 light:shadow-lg overflow-hidden">
+        <Card className="border-primary/10 dark:bg-black/40 dark:backdrop-blur-sm light:shadow-lg overflow-hidden">
           <CardHeader className="border-b border-primary/10 bg-muted/30">
             <CardTitle className="text-2xl">Manage Availability</CardTitle>
             <CardDescription>Block off times when you're not available for bookings</CardDescription>

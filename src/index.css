@@ -268,3 +268,47 @@
 .light .feature-icon {
   @apply text-blue-600 bg-blue-50 p-3 rounded-lg shadow-sm;
 }
+
+/* New - Dark cards with white text for light mode */
+.light .Card,
+.light [class*="Card-root"],
+.light .card {
+  @apply bg-gray-800 text-white border-gray-700;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.light .CardTitle,
+.light .CardDescription,
+.light [class*="Card-title"],
+.light [class*="Card-description"],
+.light .card-title,
+.light .card-description {
+  @apply text-white;
+}
+
+.light .CardHeader,
+.light [class*="Card-header"],
+.light .card-header {
+  @apply border-gray-700 bg-gray-900/50;
+}
+
+.light .CardContent,
+.light [class*="Card-content"],
+.light .card-content {
+  @apply text-gray-200;
+}
+
+.light .card .text-muted-foreground {
+  @apply text-gray-300;
+}
+
+/* Override for specific card components */
+.light .bg-card {
+  background: linear-gradient(to bottom right, #1e293b, #0f172a);
+}
+
+/* Apply styling to specific component cards */
+.light .border-primary\/10.dark\:bg-black\/40 {
+  @apply bg-gray-800 border-gray-700;
+}
+
