@@ -40,8 +40,8 @@ export const HeroSection = () => {
             buttonText="Book a 15-min Call"
             buttonIcon={<Calendar className="mr-2 h-5 w-5" />}
             buttonClassName="inline-flex items-center px-6 md:px-8 py-3 rounded-full bg-secondary/80 text-secondary-foreground hover:bg-secondary/60 transition-colors text-lg font-medium"
-            buttonVariant="custom"
-            buttonSize="custom"
+            buttonVariant="secondary"
+            buttonSize="lg"
           />
         </motion.div>
       </div>
