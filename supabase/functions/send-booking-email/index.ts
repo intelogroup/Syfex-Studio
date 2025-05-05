@@ -4,6 +4,7 @@ import { Resend } from "npm:resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const targetEmail = "jimkalinov@gmail.com";
+const webhookSecret = Deno.env.get("RESEND_WEBHOOK_SECRET") || "whsec_OQh5WOH9I9nvGA9SBUvYqc0GHZ2gDl8E";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,15 +22,54 @@ interface BookingNotificationRequest {
   comments: string;
 }
 
+interface WebhookEvent {
+  data: {
+    id: string;
+    object: string;
+    created_at: string;
+    type: string;
+    to: string;
+    status: string;
+  };
+  type: string;
+}
+
 const handler = async (req: Request): Promise<Response> => {
-  console.log("Booking notification function invoked");
-  
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
-
+  
+  // Handle webhook events from Resend
+  if (req.url.includes("/webhook")) {
+    try {
+      const payload = await req.json() as WebhookEvent;
+      console.log("Webhook event received:", JSON.stringify(payload));
+      
+      // Process the webhook event
+      if (payload.type === "email.delivered") {
+        console.log(`Email delivered to ${payload.data.to} with ID ${payload.data.id}`);
+      } else if (payload.type === "email.bounced") {
+        console.error(`Email bounced for ${payload.data.to} with ID ${payload.data.id}`);
+      }
+      
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error: any) {
+      console.error("Error processing webhook:", error);
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
+  
+  // Handle booking notifications
   try {
+    console.log("Booking notification function invoked");
+    
     const bookingData: BookingNotificationRequest = await req.json();
     console.log("Booking data received:", bookingData);
 
