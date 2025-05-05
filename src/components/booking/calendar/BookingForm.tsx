@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { BookingFormProps } from "../types";
 import { useBlockedTimes } from "@/hooks/useBlockedTimes";
+import { supabase } from "@/integrations/supabase/client";
 
 // Define available time slots
 const AVAILABLE_TIMES = [
@@ -78,15 +79,34 @@ export function BookingForm({ formData, onComplete, onCancel }: BookingFormCompo
     
     setIsSubmitting(true);
     
-    // Simulate API call with timeout
     try {
-      // In a real app, you would send this data to your API
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Format date for the email notification
+      const formattedDate = format(date, "MMMM d, yyyy");
+      
+      // Send email notification
+      const notificationResponse = await supabase.functions.invoke("send-booking-email", {
+        body: {
+          date: formattedDate,
+          time,
+          name,
+          email,
+          phone,
+          companyName,
+          comments
+        }
+      });
+      
+      if (notificationResponse.error) {
+        console.error("Email notification failed:", notificationResponse.error);
+        // Continue with booking even if email fails
+      } else {
+        console.log("Email notification sent successfully");
+      }
       
       // Show success message and pass data up
       toast({
         title: "Meeting scheduled!",
-        description: `Your 15-minute discovery call is scheduled for ${format(date, "MMMM d, yyyy")} at ${time}.`
+        description: `Your 15-minute discovery call is scheduled for ${formattedDate} at ${time}.`
       });
       
       onComplete({
@@ -99,6 +119,7 @@ export function BookingForm({ formData, onComplete, onCancel }: BookingFormCompo
         comments
       });
     } catch (error) {
+      console.error("Booking error:", error);
       toast({
         variant: "destructive",
         title: "Scheduling failed",
