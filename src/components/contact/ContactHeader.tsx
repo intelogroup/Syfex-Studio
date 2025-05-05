@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
 import { Calendar } from "lucide-react";
+import { BookingCalendar } from "../booking/BookingCalendar";
 
 export const ContactHeader = () => {
   return (
@@ -17,15 +17,13 @@ export const ContactHeader = () => {
         Ready to bring your vision to life? We're here to help transform your ideas into reality. 
         Tell us about your project, and let's create something amazing together.
       </p>
-      <Button 
-        variant="secondary" 
-        size="lg"
-        className="mt-4"
-        onClick={() => window.open('https://calendly.com/syfexstudio/15-minute-discovery-call', '_blank')}
-      >
-        <Calendar className="mr-2 h-4 w-4" />
-        Book a 15-min Discovery Call
-      </Button>
+      <BookingCalendar
+        buttonText="Book a 15-min Discovery Call"
+        buttonIcon={<Calendar className="mr-2 h-4 w-4" />}
+        buttonVariant="secondary"
+        buttonSize="lg"
+        buttonClassName="mt-4"
+      />
     </motion.div>
   );
 };
