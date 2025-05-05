@@ -1,10 +1,10 @@
 
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Mail } from "lucide-react";
+import { Loader2, Mail, Info } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ViewBookingsPanelProps {
   className?: string;
@@ -61,37 +61,57 @@ export function ViewBookingsPanel({ className }: ViewBookingsPanelProps) {
   };
   
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle>Email Notification Testing</CardTitle>
-        <CardDescription>
-          Test your booking notification email system
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground mb-4">
-          Send a test notification email to verify your email setup is working correctly.
-          The email will be sent to the configured target email address.
-        </p>
-      </CardContent>
-      <CardFooter>
-        <Button 
-          onClick={handleTestEmail} 
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Sending...
-            </>
-          ) : (
-            <>
-              <Mail className="mr-2 h-4 w-4" />
-              Send Test Email
-            </>
-          )}
-        </Button>
-      </CardFooter>
-    </Card>
+    <div className={`p-6 ${className}`}>
+      <div className="flex flex-col space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="space-y-2">
+            <h3 className="text-xl font-medium">Email Notification Testing</h3>
+            <p className="text-sm text-muted-foreground">
+              Send a test notification email to verify your email setup is working correctly.
+            </p>
+          </div>
+          
+          <Button 
+            onClick={handleTestEmail} 
+            disabled={isLoading}
+            className="self-start md:self-center relative overflow-hidden group"
+            size="lg"
+          >
+            <span className="absolute inset-0 w-full h-full light:bg-gradient-to-r light:from-blue-600/20 light:via-transparent light:to-blue-600/20 light:opacity-0 light:group-hover:opacity-100 light:transition-opacity light:duration-1000 light:group-hover:translate-x-full"></span>
+            {isLoading ? (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center"
+              >
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Sending...
+              </motion.div>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center"
+              >
+                <Mail className="mr-2 h-5 w-5" />
+                Send Test Email
+              </motion.div>
+            )}
+          </Button>
+        </div>
+        
+        <div className="text-sm p-4 rounded-md bg-muted/50 border border-primary/10 flex items-start space-x-3">
+          <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="mb-1">
+              <span className="font-medium">Note:</span> Test emails are sent to the configured target address.
+            </p>
+            <p className="text-muted-foreground">
+              If you don't receive the email, check your spam folder or verify your email configuration.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
