@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { BookingFormProps } from "../types";
+import { useBlockedTimes } from "@/hooks/useBlockedTimes";
 
 // Define available time slots
 const AVAILABLE_TIMES = [
@@ -39,6 +40,14 @@ export function BookingForm({ formData, onComplete, onCancel }: BookingFormCompo
   const [comments, setComments] = React.useState(formData.comments);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<string | null>(formData.time);
+  
+  // Fetch blocked time slots
+  const { data: blockedTimes = [], isLoading: isLoadingBlockedTimes } = useBlockedTimes(date);
+  
+  // Calculate which time slots are blocked
+  const blockedTimeSlots = React.useMemo(() => {
+    return new Set(blockedTimes.map(bt => bt.time_slot));
+  }, [blockedTimes]);
 
   // Calculate default date range (next 30 business days)
   const fromDate = startOfDay(new Date());
@@ -101,6 +110,16 @@ export function BookingForm({ formData, onComplete, onCancel }: BookingFormCompo
   };
 
   const handleTimeSelection = (selectedTime: string) => {
+    // Don't allow selection of blocked time slots
+    if (blockedTimeSlots.has(selectedTime)) {
+      toast({
+        variant: "destructive",
+        title: "Time slot unavailable",
+        description: "This time slot is not available for booking. Please select another time."
+      });
+      return;
+    }
+    
     setTime(selectedTime);
     setSelectedTimeSlot(selectedTime);
   };
@@ -178,22 +197,33 @@ export function BookingForm({ formData, onComplete, onCancel }: BookingFormCompo
         {date && (
           <div className="grid gap-2 animate-in fade-in-50 duration-300">
             <Label>Time ({format(date, "EEEE, MMMM d")}) <span className="text-destructive">*</span></Label>
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-              {AVAILABLE_TIMES.map((timeSlot) => (
-                <Button
-                  key={timeSlot}
-                  type="button"
-                  variant={time === timeSlot ? "default" : "outline"}
-                  onClick={() => handleTimeSelection(timeSlot)}
-                  className={cn(
-                    "text-center transition-all",
-                    selectedTimeSlot === timeSlot && "bg-primary text-primary-foreground ring-2 ring-primary/20 ring-offset-2"
-                  )}
-                >
-                  {timeSlot}
-                </Button>
-              ))}
-            </div>
+            {isLoadingBlockedTimes ? (
+              <div className="flex items-center justify-center py-4">
+                <div className="animate-spin h-6 w-6 border-2 border-primary rounded-full border-t-transparent"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                {AVAILABLE_TIMES.map((timeSlot) => {
+                  const isBlocked = blockedTimeSlots.has(timeSlot);
+                  return (
+                    <Button
+                      key={timeSlot}
+                      type="button"
+                      variant={time === timeSlot ? "default" : "outline"}
+                      onClick={() => handleTimeSelection(timeSlot)}
+                      disabled={isBlocked}
+                      className={cn(
+                        "text-center transition-all",
+                        selectedTimeSlot === timeSlot && "bg-primary text-primary-foreground ring-2 ring-primary/20 ring-offset-2",
+                        isBlocked && "bg-muted/60 text-muted-foreground line-through"
+                      )}
+                    >
+                      {timeSlot}
+                    </Button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
         <div className="grid gap-2">

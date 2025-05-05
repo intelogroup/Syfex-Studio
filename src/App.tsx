@@ -1,4 +1,3 @@
-
 import { StrictMode, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -9,6 +8,7 @@ import { ErrorBoundary } from "./components/error-boundary";
 import { ThemeProvider } from "./contexts/theme-context";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
+import BookingAdmin from "./pages/BookingAdmin";
 import { sendToAnalytics } from "./utils/analytics";
 import { onCLS, onFID, onLCP } from 'web-vitals';
 import "./i18n/config";
@@ -54,6 +54,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/services" element={<Services />} />
+                  <Route path="/admin/bookings" element={<BookingAdmin />} />
                 </Routes>
                 <Toaster />
                 <Sonner />
