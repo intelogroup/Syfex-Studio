@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -15,6 +15,7 @@ export const Navbar = () => {
   const [showThemeToggle] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const navLinksRef = useRef<HTMLDivElement>(null);
 
   const navLinks: NavLink[] = [
     { href: "/", label: "Home" },
@@ -75,19 +76,26 @@ export const Navbar = () => {
         {/* Logo placeholder */}
         <div className="hidden md:flex"></div>
 
-        {/* Desktop Navigation with centered links and flashlight effect */}
-        <div className="hidden md:flex items-center justify-center space-x-12 navbar-links py-2 px-6 rounded-full mx-auto">
-          {navLinks.map((link) => (
+        {/* Desktop Navigation with flashlight effect */}
+        <div 
+          ref={navLinksRef}
+          className="hidden md:flex items-center justify-center space-x-12 navbar-flashlight-container py-2 px-6 rounded-full mx-auto relative"
+        >
+          {navLinks.map((link, index) => (
             <motion.a
               key={link.label}
               href={link.href}
-              className="text-xl font-bold gradient-text transition-colors duration-200"
+              className="text-xl font-bold navbar-link-hidden transition-colors duration-200 relative z-10"
               whileHover={{ scale: 1.1 }}
               onClick={(e) => handleLinkClick(e, link.href)}
+              data-link-index={index}
             >
               {link.label}
             </motion.a>
           ))}
+          
+          {/* Flashlight reveal mask */}
+          <div className="navbar-flashlight-mask absolute inset-0 pointer-events-none" />
         </div>
 
         {/* Theme Toggle */}

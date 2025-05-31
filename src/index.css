@@ -153,44 +153,56 @@
   animation: gradient 8s linear infinite;
 }
 
-/* Enhanced fixed navbar flashlight animation - 2s cycle */
-@keyframes navbarFlashlight {
-  0% { left: -100%; }
-  100% { left: 200%; }
-}
-
-/* Enhanced navbar links container styling for light mode */
-.navbar-links {
+/* STEP 1: Flashlight Effect - Hidden Links by Default */
+.navbar-flashlight-container {
   position: relative;
   overflow: hidden;
-  width: 100%;
-  isolation: isolate;
 }
 
-.navbar-links::before {
-  content: '';
+/* Hide all navbar links initially */
+.navbar-link-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Flashlight mask preparation */
+.navbar-flashlight-mask {
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg,
-    transparent,
-    hsla(var(--primary), 0.3) 50%,
-    transparent 100%
-  );
-  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
   pointer-events: none;
-  animation: navbarFlashlight 2s linear infinite;
+  z-index: 5;
 }
 
-.light .navbar-links::before {
-  background: linear-gradient(90deg,
+/* Revealed state for links within flashlight */
+.navbar-link-revealed {
+  opacity: 1;
+  visibility: visible;
+  background: linear-gradient(90deg, 
     transparent,
-    rgba(79, 70, 229, 0.2) 50%,
+    hsl(var(--primary)) 50%,
     transparent 100%
   );
-  opacity: 0.7;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+}
+
+.light .navbar-link-revealed {
+  background: linear-gradient(90deg, 
+    transparent,
+    #4f46e5 50%,
+    transparent 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
 }
 
 /* Enhanced color change animations for light theme */
@@ -311,4 +323,3 @@
 .light .border-primary\/10.dark\:bg-black\/40 {
   @apply bg-gray-800 border-gray-700;
 }
-
