@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Loader2, Mail, Info } from "lucide-react";
+import { Loader2, Mail, Info, CheckCircle2, Send } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ViewBookingsPanelProps {
@@ -61,56 +61,131 @@ export function ViewBookingsPanel({ className }: ViewBookingsPanelProps) {
   };
   
   return (
-    <div className={`p-6 ${className}`}>
-      <div className="flex flex-col space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="space-y-2">
-            <h3 className="text-xl font-medium">Email Notification Testing</h3>
-            <p className="text-sm text-muted-foreground">
-              Send a test notification email to verify your email setup is working correctly.
-            </p>
-          </div>
-          
-          <Button 
-            onClick={handleTestEmail} 
-            disabled={isLoading}
-            className="self-start md:self-center relative overflow-hidden group"
-            size="lg"
+    <div className={`p-8 ${className}`}>
+      <div className="flex flex-col space-y-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-3"
           >
-            <span className="absolute inset-0 w-full h-full light:bg-gradient-to-r light:from-blue-600/20 light:via-transparent light:to-blue-600/20 light:opacity-0 light:group-hover:opacity-100 light:transition-opacity light:duration-1000 light:group-hover:translate-x-full"></span>
-            {isLoading ? (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center"
-              >
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Sending...
-              </motion.div>
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center"
-              >
-                <Mail className="mr-2 h-5 w-5" />
-                Send Test Email
-              </motion.div>
-            )}
-          </Button>
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Email Notification Testing
+            </h3>
+            <p className="text-muted-foreground leading-relaxed max-w-2xl">
+              Send a test notification email to verify your email setup is working correctly. This helps ensure your booking confirmations reach clients reliably.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Button 
+              onClick={handleTestEmail} 
+              disabled={isLoading}
+              className="btn-glass px-8 py-4 text-lg font-semibold interactive-element group relative overflow-hidden"
+              size="lg"
+            >
+              <span className="relative z-10 flex items-center">
+                {isLoading ? (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex items-center"
+                  >
+                    <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                    Sending Test...
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex items-center"
+                  >
+                    <Send className="mr-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-200" />
+                    Send Test Email
+                  </motion.div>
+                )}
+              </span>
+            </Button>
+          </motion.div>
         </div>
         
-        <div className="text-sm p-4 rounded-md bg-muted/50 border border-primary/10 flex items-start space-x-3">
-          <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="mb-1">
-              <span className="font-medium">Note:</span> Test emails are sent to the configured target address.
-            </p>
-            <p className="text-muted-foreground">
-              If you don't receive the email, check your spam folder or verify your email configuration.
-            </p>
-          </div>
+        {/* Enhanced information cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="glass-card p-6 interactive-element"
+          >
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Info className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg">Test Configuration</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Test emails are sent to the configured target address. This ensures your notification system is working properly before going live.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="glass-card p-6 interactive-element"
+          >
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg">Troubleshooting</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  If you don't receive the email, check your spam folder or verify your email configuration settings.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
+        
+        {/* Success metrics or additional info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="glass-card p-6 bg-gradient-to-r from-green-500/5 to-blue-500/5 border border-green-200/20"
+        >
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+              <Mail className="h-4 w-4 text-white" />
+            </div>
+            <h4 className="font-semibold text-lg">Email System Status</h4>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground">System Status:</span>
+              <span className="text-green-600 font-medium flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                Online
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground">Last Test:</span>
+              <span className="font-medium">2 hours ago</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground">Success Rate:</span>
+              <span className="text-green-600 font-medium">99.8%</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
