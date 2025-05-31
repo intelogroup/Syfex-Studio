@@ -153,7 +153,7 @@
   animation: gradient 8s linear infinite;
 }
 
-/* STEP 1, 2 & 3: Flashlight Effect - Hidden Links with Focused Radius & Auto Sweep */
+/* STEP 1, 2, 3 & 4: Complete Flashlight Effect - Hidden Links with Auto Sweep & Interactive Mode */
 .navbar-flashlight-container {
   position: relative;
   overflow: hidden;
@@ -184,7 +184,7 @@
   background: transparent;
 }
 
-/* Create the flashlight effect using CSS masks - Auto sweep mode */
+/* Auto-sweep mode (when not hovering) */
 .navbar-flashlight-container::before {
   content: '';
   position: absolute;
@@ -205,14 +205,8 @@
   transition: opacity 0.3s ease;
 }
 
-/* Reveal links within flashlight radius */
-.navbar-flashlight-container .navbar-link-hidden {
-  position: relative;
-  z-index: 3;
-}
-
-/* When hovering, show cursor-following flashlight */
-.navbar-flashlight-container:hover::after {
+/* Interactive cursor-following mode (when hovering) */
+.navbar-flashlight-container::after {
   content: '';
   position: absolute;
   top: 0;
@@ -230,6 +224,12 @@
   );
   opacity: var(--is-hovering);
   transition: opacity 0.3s ease;
+}
+
+/* Reveal links within flashlight radius */
+.navbar-flashlight-container .navbar-link-hidden {
+  position: relative;
+  z-index: 3;
 }
 
 /* Make links visible within the flashlight radius using clip-path */
@@ -265,6 +265,11 @@
 /* Auto-sweep animation for non-hover state */
 .navbar-flashlight-container:not(:hover) .navbar-link-hidden {
   clip-path: circle(var(--flashlight-size) at var(--sweep-position) 50%);
+}
+
+/* Interactive mode for hover state */
+.navbar-flashlight-container:hover .navbar-link-hidden {
+  clip-path: circle(var(--flashlight-size) at var(--flashlight-x) var(--flashlight-y));
 }
 
 /* Enhanced color change animations for light theme */
