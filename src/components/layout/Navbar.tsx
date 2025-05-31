@@ -16,6 +16,8 @@ export const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navLinksRef = useRef<HTMLDivElement>(null);
+  const [flashlightPosition, setFlashlightPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
   const navLinks: NavLink[] = [
     { href: "/", label: "Home" },
@@ -51,6 +53,23 @@ export const Navbar = () => {
     }
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (navLinksRef.current) {
+      const rect = navLinksRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setFlashlightPosition({ x, y });
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -80,6 +99,14 @@ export const Navbar = () => {
         <div 
           ref={navLinksRef}
           className="hidden md:flex items-center justify-center space-x-12 navbar-flashlight-container py-2 px-6 rounded-full mx-auto relative"
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            '--flashlight-x': `${flashlightPosition.x}px`,
+            '--flashlight-y': `${flashlightPosition.y}px`,
+            '--is-hovering': isHovering ? '1' : '0'
+          } as React.CSSProperties}
         >
           {navLinks.map((link, index) => (
             <motion.a
