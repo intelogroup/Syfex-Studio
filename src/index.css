@@ -26,15 +26,6 @@
     --input: 214 32% 91%;
     --ring: 221 83% 53%;
     --radius: 0.75rem;
-    
-    /* Enhanced light mode specific variables */
-    --glass-bg: rgba(255, 255, 255, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --backdrop-blur: blur(16px);
-    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   }
   
   .dark {
@@ -66,270 +57,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground;
   }
-}
-
-/* Enhanced Typography System */
-.light {
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-}
-
-/* Advanced Background System */
-.light body {
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
-/* Glassmorphism Card System */
-.light .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.light .glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  z-index: 1;
-}
-
-/* Enhanced Card System for Light Mode */
-.light .Card,
-.light [class*="Card-root"],
-.light .card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  border-radius: 24px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.light .Card:hover,
-.light [class*="Card-root"]:hover,
-.light .card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    0 32px 64px -12px rgba(0, 0, 0, 0.15),
-    0 20px 32px -8px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.light .CardTitle,
-.light .CardDescription,
-.light [class*="Card-title"],
-.light [class*="Card-description"],
-.light .card-title,
-.light .card-description {
-  color: #1a202c;
-}
-
-.light .CardHeader,
-.light [class*="Card-header"],
-.light .card-header {
-  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-}
-
-.light .CardContent,
-.light [class*="Card-content"],
-.light .card-content {
-  color: #2d3748;
-}
-
-/* Enhanced Button System */
-.light .btn-glass {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.light .btn-glass::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.5s;
-}
-
-.light .btn-glass:hover::before {
-  left: 100%;
-}
-
-.light .btn-glass:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
-}
-
-/* Enhanced Gradient Text */
-.light .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Enhanced Form Inputs */
-.light input,
-.light textarea,
-.light select {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 16px;
-  padding: 16px 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.04);
-}
-
-.light input:focus,
-.light textarea:focus,
-.light select:focus {
-  outline: none;
-  border-color: rgba(102, 126, 234, 0.6);
-  box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.06),
-    0 8px 16px rgba(102, 126, 234, 0.15),
-    0 0 0 4px rgba(102, 126, 234, 0.1);
-  transform: translateY(-2px);
-}
-
-/* Enhanced Section Backgrounds */
-.light .section-enhanced {
-  background: 
-    radial-gradient(circle at 30% 20%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(255, 119, 198, 0.1) 0%, transparent 50%);
-  position: relative;
-}
-
-.light .section-enhanced::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-}
-
-/* Floating Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-.light .floating {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Pulse Glow Effect */
-@keyframes pulseGlow {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 40px rgba(102, 126, 234, 0.6);
-  }
-}
-
-.light .pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-/* Enhanced Navbar */
-.light .navbar-enhanced {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-}
-
-/* Enhanced Footer */
-.light .footer-enhanced {
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Micro-interactions */
-.light .interactive-element {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.light .interactive-element:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
-}
-
-.light .interactive-element:active {
-  transform: translateY(0);
-  transition: all 0.1s;
-}
-
-/* Enhanced Loading States */
-.light .skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.2) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Enhanced Scroll Indicators */
-.light .scroll-indicator {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* Animation utilities */
@@ -345,6 +74,83 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Enhanced gradient text styling with improved contrast for light theme */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary animate-gradient;
+  text-shadow: 0 0 1px rgba(0,0,0,0.05);
+}
+
+.light .gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 animate-gradient;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+  -webkit-text-fill-color: transparent;
+}
+
+/* Improved gradient border styling for light theme */
+.gradient-border-new {
+  position: relative;
+  box-shadow: 0 0 15px -2px hsl(var(--primary) / 0.4);
+}
+
+.light .gradient-border-new {
+  box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+}
+
+.gradient-border-new::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
+  border-radius: 9999px;
+  z-index: -1;
+  opacity: 1;
+  animation: gradient 8s linear infinite;
+}
+
+.light .gradient-border-new::before {
+  background: linear-gradient(to right, #4f46e5, #3b82f6);
+  opacity: 0.8;
+}
+
+.gradient-border-new::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  background: hsl(var(--background));
+  border-radius: 9999px;
+  z-index: -1;
+}
+
+/* Enhanced card and button styles for light theme */
+.light .card {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+}
+
+.light .button-primary {
+  background: linear-gradient(to right, #4f46e5, #3b82f6);
+  box-shadow: 0 4px 12px -2px rgba(59, 130, 246, 0.4);
+}
+
+/* Animation keyframes */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 8s linear infinite;
 }
 
 /* Enhanced fixed navbar flashlight animation - 2s cycle */
@@ -426,13 +232,83 @@
   }
 }
 
-.animate-gradient {
-  background-size: 200% auto;
-  animation: gradient 8s linear infinite;
+/* Light mode specific enhancements */
+.light .bg-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.light .section-background {
+  background-image: radial-gradient(circle at 50% 50%, rgba(240, 249, 255, 0.8) 0%, rgba(224, 242, 254, 0.3) 50%, transparent 100%);
 }
+
+/* Enhanced form inputs for light mode */
+.light input, 
+.light textarea, 
+.light select {
+  @apply border-gray-200 bg-white/80 shadow-sm focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20;
+}
+
+/* Enhanced buttons for light mode */
+.light .btn-primary {
+  @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25;
+}
+
+/* Enhanced cards for light mode */
+.light .feature-card {
+  @apply bg-white/95 border border-gray-100 shadow-md hover:shadow-lg hover:border-blue-100 transition-all duration-300;
+}
+
+/* Card hover effects for light mode */
+.light .hover-lift {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
+
+/* Enhanced icons for light mode */
+.light .feature-icon {
+  @apply text-blue-600 bg-blue-50 p-3 rounded-lg shadow-sm;
+}
+
+/* New - Dark cards with white text for light mode */
+.light .Card,
+.light [class*="Card-root"],
+.light .card {
+  @apply bg-gray-800 text-white border-gray-700;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.light .CardTitle,
+.light .CardDescription,
+.light [class*="Card-title"],
+.light [class*="Card-description"],
+.light .card-title,
+.light .card-description {
+  @apply text-white;
+}
+
+.light .CardHeader,
+.light [class*="Card-header"],
+.light .card-header {
+  @apply border-gray-700 bg-gray-900/50;
+}
+
+.light .CardContent,
+.light [class*="Card-content"],
+.light .card-content {
+  @apply text-gray-200;
+}
+
+.light .card .text-muted-foreground {
+  @apply text-gray-300;
+}
+
+/* Override for specific card components */
+.light .bg-card {
+  background: linear-gradient(to bottom right, #1e293b, #0f172a);
+}
+
+/* Apply styling to specific component cards */
+.light .border-primary\/10.dark\:bg-black\/40 {
+  @apply bg-gray-800 border-gray-700;
+}
+
