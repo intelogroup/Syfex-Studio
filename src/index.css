@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -232,34 +231,73 @@
   z-index: 3;
 }
 
-/* Make links visible within the flashlight radius using clip-path */
+/* STEP 5: Enhanced Visual Effects for Revealed Links */
+/* Make links visible within the flashlight radius with stunning effects */
 .navbar-flashlight-container .navbar-link-hidden {
   clip-path: circle(var(--flashlight-size) at var(--flashlight-x) var(--flashlight-y));
   opacity: 1;
   visibility: visible;
-  background: linear-gradient(90deg, 
-    transparent,
-    hsl(var(--primary)) 50%,
-    transparent 100%
+  
+  /* Animated gradient text effect */
+  background: linear-gradient(
+    45deg, 
+    hsl(var(--primary)) 0%,
+    hsl(var(--secondary)) 25%,
+    #ffffff 50%,
+    hsl(var(--secondary)) 75%,
+    hsl(var(--primary)) 100%
   );
+  background-size: 200% 200%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
-  filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.3));
+  
+  /* Glowing text shadow effect */
+  text-shadow: 
+    0 0 10px hsl(var(--primary) / 0.6),
+    0 0 20px hsl(var(--primary) / 0.4),
+    0 0 30px hsl(var(--primary) / 0.2);
+  
+  /* Enhanced glow filter */
+  filter: 
+    drop-shadow(0 0 8px hsl(var(--primary) / 0.5))
+    drop-shadow(0 0 15px hsl(var(--secondary) / 0.3));
+  
+  /* Smooth animations */
+  animation: 
+    flashlightGradient 3s ease-in-out infinite alternate,
+    flashlightGlow 2s ease-in-out infinite alternate;
+  
+  /* Enhanced text styling */
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
+/* Light theme specific enhancements */
 .light .navbar-flashlight-container .navbar-link-hidden {
-  background: linear-gradient(90deg, 
-    transparent,
-    #4f46e5 50%,
-    transparent 100%
+  background: linear-gradient(
+    45deg, 
+    #4f46e5 0%,
+    #3b82f6 25%,
+    #1e40af 50%,
+    #3b82f6 75%,
+    #4f46e5 100%
   );
+  background-size: 200% 200%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
-  filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3));
+  
+  text-shadow: 
+    0 0 10px rgba(79, 70, 229, 0.6),
+    0 0 20px rgba(59, 130, 246, 0.4),
+    0 0 30px rgba(30, 64, 175, 0.2);
+  
+  filter: 
+    drop-shadow(0 0 8px rgba(79, 70, 229, 0.5))
+    drop-shadow(0 0 15px rgba(59, 130, 246, 0.3));
 }
 
 /* Auto-sweep animation for non-hover state */
@@ -270,6 +308,58 @@
 /* Interactive mode for hover state */
 .navbar-flashlight-container:hover .navbar-link-hidden {
   clip-path: circle(var(--flashlight-size) at var(--flashlight-x) var(--flashlight-y));
+}
+
+/* STEP 5: New Animation Keyframes for Enhanced Effects */
+@keyframes flashlightGradient {
+  0% {
+    background-position: 0% 0%;
+    transform: scale(1.05);
+  }
+  50% {
+    background-position: 100% 100%;
+    transform: scale(1.08);
+  }
+  100% {
+    background-position: 200% 200%;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flashlightGlow {
+  0% {
+    filter: 
+      drop-shadow(0 0 8px hsl(var(--primary) / 0.5))
+      drop-shadow(0 0 15px hsl(var(--secondary) / 0.3));
+  }
+  50% {
+    filter: 
+      drop-shadow(0 0 12px hsl(var(--primary) / 0.7))
+      drop-shadow(0 0 25px hsl(var(--secondary) / 0.5))
+      drop-shadow(0 0 35px hsl(var(--primary) / 0.2));
+  }
+  100% {
+    filter: 
+      drop-shadow(0 0 8px hsl(var(--primary) / 0.5))
+      drop-shadow(0 0 15px hsl(var(--secondary) / 0.3));
+  }
+}
+
+/* Enhanced hover effects for individual links */
+.navbar-flashlight-container .navbar-link-hidden:hover {
+  transform: scale(1.12);
+  animation-duration: 1.5s;
+  text-shadow: 
+    0 0 15px hsl(var(--primary) / 0.8),
+    0 0 25px hsl(var(--primary) / 0.6),
+    0 0 35px hsl(var(--primary) / 0.4);
+}
+
+.light .navbar-flashlight-container .navbar-link-hidden:hover {
+  text-shadow: 
+    0 0 15px rgba(79, 70, 229, 0.8),
+    0 0 25px rgba(59, 130, 246, 0.6),
+    0 0 35px rgba(30, 64, 175, 0.4);
 }
 
 /* Enhanced color change animations for light theme */
