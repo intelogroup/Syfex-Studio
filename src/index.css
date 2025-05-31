@@ -153,7 +153,7 @@
   animation: gradient 8s linear infinite;
 }
 
-/* STEP 1 & 2: Flashlight Effect - Hidden Links with Focused Radius */
+/* STEP 1, 2 & 3: Flashlight Effect - Hidden Links with Focused Radius & Auto Sweep */
 .navbar-flashlight-container {
   position: relative;
   overflow: hidden;
@@ -161,6 +161,7 @@
   --flashlight-x: 50%;
   --flashlight-y: 50%;
   --is-hovering: 0;
+  --sweep-position: 0px;
 }
 
 /* Hide all navbar links initially */
@@ -183,7 +184,7 @@
   background: transparent;
 }
 
-/* Create the flashlight effect using CSS masks */
+/* Create the flashlight effect using CSS masks - Auto sweep mode */
 .navbar-flashlight-container::before {
   content: '';
   position: absolute;
@@ -194,7 +195,7 @@
   z-index: 2;
   pointer-events: none;
   background: radial-gradient(
-    circle var(--flashlight-size) at var(--flashlight-x) var(--flashlight-y),
+    circle var(--flashlight-size) at var(--sweep-position) 50%,
     transparent 0%,
     transparent 40%,
     rgba(0, 0, 0, 0.9) 70%,
@@ -259,6 +260,11 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
   filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3));
+}
+
+/* Auto-sweep animation for non-hover state */
+.navbar-flashlight-container:not(:hover) .navbar-link-hidden {
+  clip-path: circle(var(--flashlight-size) at var(--sweep-position) 50%);
 }
 
 /* Enhanced color change animations for light theme */

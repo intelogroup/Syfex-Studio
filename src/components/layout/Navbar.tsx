@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -18,6 +17,8 @@ export const Navbar = () => {
   const navLinksRef = useRef<HTMLDivElement>(null);
   const [flashlightPosition, setFlashlightPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [sweepPosition, setSweepPosition] = useState(0);
+  const sweepAnimationRef = useRef<number>();
 
   const navLinks: NavLink[] = [
     { href: "/", label: "Home" },
@@ -44,6 +45,45 @@ export const Navbar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  // Automatic sweeping animation
+  useEffect(() => {
+    if (!isHovering && navLinksRef.current) {
+      const startSweep = () => {
+        const containerWidth = navLinksRef.current?.offsetWidth || 400;
+        const startTime = Date.now();
+        const duration = 4000; // 4 seconds for full sweep
+        
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = (elapsed % duration) / duration;
+          
+          // Smooth easing function
+          const easedProgress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+          const newPosition = easedProgress * containerWidth;
+          
+          setSweepPosition(newPosition);
+          
+          sweepAnimationRef.current = requestAnimationFrame(animate);
+        };
+        
+        sweepAnimationRef.current = requestAnimationFrame(animate);
+      };
+
+      startSweep();
+    } else {
+      // Cancel animation when hovering
+      if (sweepAnimationRef.current) {
+        cancelAnimationFrame(sweepAnimationRef.current);
+      }
+    }
+
+    return () => {
+      if (sweepAnimationRef.current) {
+        cancelAnimationFrame(sweepAnimationRef.current);
+      }
+    };
+  }, [isHovering]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {
@@ -103,9 +143,10 @@ export const Navbar = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           style={{
-            '--flashlight-x': `${flashlightPosition.x}px`,
+            '--flashlight-x': isHovering ? `${flashlightPosition.x}px` : `${sweepPosition}px`,
             '--flashlight-y': `${flashlightPosition.y}px`,
-            '--is-hovering': isHovering ? '1' : '0'
+            '--is-hovering': isHovering ? '1' : '0',
+            '--sweep-position': `${sweepPosition}px`
           } as React.CSSProperties}
         >
           {navLinks.map((link, index) => (
